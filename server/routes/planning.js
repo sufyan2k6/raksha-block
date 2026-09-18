@@ -102,7 +102,6 @@ router.post('/approve', (req, res) => {
         }
 
         db.addNotification('Block Plan Approved', `Plan ${activePlan.plan_id} authorized & signed by ${empName}. Timetable published.`);
-        db.saveStore();
 
         res.json({
             message: 'Block plan approved and signed successfully.',
@@ -146,7 +145,6 @@ router.post('/reject', (req, res) => {
         }
 
         db.addNotification('Block Plan Rejected', `Plan ${activePlan.plan_id} was rejected by ${empName}. Re-planning required.`);
-        db.saveStore();
 
         res.json({
             message: 'Block plan rejected.',
@@ -172,7 +170,7 @@ router.get('/suitable-blocks/:requestId', (req, res) => {
 });
 
 // POST /api/block-plans/assign
-router.post('/assign', (req, res) => {
+router.post('/assign', async (req, res) => {
     try {
         const { requestId, blockId } = req.body;
         if (!requestId || !blockId) {
@@ -265,7 +263,7 @@ router.post('/assign', (req, res) => {
         const empId = req.headers['x-employee-id'] || 'EMP001';
 
         // 11. Create persistent block assignment record in database
-        const assignment = db.createBlockAssignment({
+        const assignment = await db.createBlockAssignment({
             request_id: request.request_id,
             block_id: block.window_id,
             assigned_start_time,
@@ -276,7 +274,7 @@ router.post('/assign', (req, res) => {
         });
 
         // 12. Update maintenance request: Pending -> Scheduled
-        db.updateRequest(request.request_id, {
+        await db.updateRequest(request.request_id, {
             status: 'Scheduled',
             block_id: block.window_id,
             assigned_block_id: block.window_id,
@@ -308,14 +306,14 @@ router.post('/assign', (req, res) => {
 });
 
 // DELETE /api/block-plans/assign/:requestId
-router.delete('/assign/:requestId', (req, res) => {
+router.delete('/assign/:requestId', async (req, res) => {
     try {
         const { requestId } = req.params;
         const assignment = db.getBlockAssignmentByRequestId(requestId);
         if (assignment) {
-            db.deleteBlockAssignment(assignment.id);
+            await db.deleteBlockAssignment(assignment.id);
         }
-        db.updateRequest(requestId, {
+        await db.updateRequest(requestId, {
             status: 'Pending',
             block_id: null,
             assigned_block_id: null,

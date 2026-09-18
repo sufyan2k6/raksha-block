@@ -36,7 +36,6 @@ router.patch('/:id/resolve', (req, res) => {
 
         target.status = 'Resolved';
         db.conflicts = conflicts;
-        db.saveStore();
         db.addNotification('Conflict Resolved', `Conflict ${conflictId} marked as resolved by railway planner.`);
 
         res.json({

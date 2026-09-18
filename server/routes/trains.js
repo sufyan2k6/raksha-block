@@ -20,7 +20,7 @@ function parseMinutes(timeStr) {
 }
 
 // POST /api/trains
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { train_number, train_name, train_type, corridor, origin, destination, start_time, end_time } = req.body;
     
     if (!train_number || !train_type || !corridor || !start_time || !end_time) {
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     }
 
     try {
-        const created = db.createTrain({
+        const created = await db.createTrain({
             train_number,
             train_name: train_name || train_number,
             train_type,
@@ -55,13 +55,13 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/trains/:id
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     if (req.body.start_time && req.body.end_time) {
         if (parseMinutes(req.body.end_time) <= parseMinutes(req.body.start_time)) {
             return res.status(400).json({ error: 'Validation failed: Train arrival / end time must be after start time.' });
         }
     }
-    const updated = db.updateTrain(req.params.id, req.body);
+    const updated = await db.updateTrain(req.params.id, req.body);
     if (!updated) {
         return res.status(404).json({ error: 'Train movement not found.' });
     }
@@ -69,8 +69,8 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /api/trains/:id
-router.delete('/:id', (req, res) => {
-    const success = db.deleteTrain(req.params.id);
+router.delete('/:id', async (req, res) => {
+    const success = await db.deleteTrain(req.params.id);
     if (!success) {
         return res.status(404).json({ error: 'Train movement not found.' });
     }

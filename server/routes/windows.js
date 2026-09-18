@@ -35,11 +35,12 @@ router.get('/', (req, res) => {
 });
 
 // POST /api/block-windows
-router.post('/', (req, res) => {
-    const { corridor, date, start_time, end_time } = req.body;
+router.post('/', async (req, res) => {
+    const { corridor, start_time, end_time } = req.body;
+    const date = req.body.date || new Date().toISOString().split('T')[0];
 
-    if (!corridor || !date || !start_time || !end_time) {
-        return res.status(400).json({ error: 'Required fields missing: Corridor, date, start time, end time.' });
+    if (!corridor || !start_time || !end_time) {
+        return res.status(400).json({ error: 'Required fields missing: Corridor, start time, end time.' });
     }
 
     // Calculate duration automatically
@@ -55,9 +56,10 @@ router.post('/', (req, res) => {
     const duration = endMins - startMins;
 
     try {
-        const created = db.createWindow({
+        const created = await db.createWindow({
+            window_id: req.body.window_id,
             corridor,
-            date,
+            date: date || '2026-09-21',
             start_time,
             end_time,
             duration_minutes: duration,
@@ -71,8 +73,8 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/block-windows/:id
-router.put('/:id', (req, res) => {
-    const updated = db.updateWindow(req.params.id, req.body);
+router.put('/:id', async (req, res) => {
+    const updated = await db.updateWindow(req.params.id, req.body);
     if (!updated) {
         return res.status(404).json({ error: 'Block window not found.' });
     }
@@ -80,8 +82,8 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /api/block-windows/:id
-router.delete('/:id', (req, res) => {
-    const success = db.deleteWindow(req.params.id);
+router.delete('/:id', async (req, res) => {
+    const success = await db.deleteWindow(req.params.id);
     if (!success) {
         return res.status(404).json({ error: 'Block window not found.' });
     }

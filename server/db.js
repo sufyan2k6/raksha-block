@@ -1,390 +1,274 @@
 /* ==========================================================================
-   RAKSHA BLOCK — COMPLETE DATABASE LAYER (PostgreSQL + Persistent Storage)
+   RAKSHA BLOCK — SUPABASE POSTGRESQL DATABASE SERVICE
+   Direct Relational Integration with Supabase PostgreSQL
+   (Replaces temporary data_store.json runtime storage)
    ========================================================================== */
 
-const fs = require('fs');
-const path = require('path');
-
-const STORAGE_FILE = path.join(__dirname, '..', 'data_store.json');
-
-// Users Seed
-const SEED_USERS = [
-    { employeeId: 'EMP001', name: 'Rohan Gupta', role: 'Railway Planner', department: 'Operations', pass: 'planner123' },
-    { employeeId: 'EMP002', name: 'Amit Sharma', role: 'Senior Section Engineer', department: 'P-Way', pass: 'pway123' },
-    { employeeId: 'EMP003', name: 'Priya Verma', role: 'Signal Inspector', department: 'S&T', pass: 'st123' },
-    { employeeId: 'EMP004', name: 'Suresh Kumar', role: 'TRD Electrical Engineer', department: 'TRD', pass: 'trd123' },
-    { employeeId: 'EMP005', name: 'Ananya Roy', role: 'Traffic Controller', department: 'Operations', pass: 'traffic123' },
-    { employeeId: 'planner@rakshablock.local', name: 'Rohan Gupta', role: 'Railway Planner', department: 'Operations', pass: 'planner123' }
-];
-
-// Initial Seed Maintenance Requests
-const SEED_REQUESTS = [
-    {
-        id: 1,
-        request_id: 'M-101',
-        employee_id: 'EMP001',
-        submitted_by: 'Rohan Gupta',
-        department: 'P-Way',
-        asset: 'Track Rail',
-        maintenance_type: 'Rail Replacement',
-        location: 'KM 142/12 to 148/04',
-        corridor: 'Corridor C2',
-        duration_minutes: 150,
-        urgency: 'High',
-        asset_risk: 'High',
-        due_date: '2026-09-22',
-        traffic_impact: 'High',
-        description: 'Urgent rail replacement required on Down Main line.',
-        work_description: 'Rail Replacement on Down Main Line',
-        priority: 'High',
-        priority_reason: 'Assigned High priority due to elevated urgency, high asset risk, and significant traffic impact.',
-        reason: 'Assigned High priority due to elevated urgency, high asset risk, and significant traffic impact.',
-        status: 'Planned',
-        created_at: new Date(Date.now() - 86400000 * 2).toISOString()
-    },
-    {
-        id: 2,
-        request_id: 'M-102',
-        employee_id: 'EMP003',
-        submitted_by: 'Priya Verma',
-        department: 'S&T',
-        asset: 'Axle Counter',
-        maintenance_type: 'Calibration & Test',
-        location: 'Junction Section A2',
-        corridor: 'Corridor C1',
-        duration_minutes: 90,
-        urgency: 'Medium',
-        asset_risk: 'Medium',
-        due_date: '2026-09-25',
-        traffic_impact: 'Medium',
-        description: 'Routine quarterly calibration of digital axle counters.',
-        work_description: 'Digital Axle Counter Recalibration',
-        priority: 'Medium',
-        priority_reason: 'Assigned Medium priority based on moderate operational risk parameters.',
-        reason: 'Assigned Medium priority based on moderate operational risk parameters.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 1.5).toISOString()
-    },
-    {
-        id: 3,
-        request_id: 'M-103',
-        employee_id: 'EMP004',
-        submitted_by: 'Suresh Kumar',
-        department: 'TRD',
-        asset: 'OHE Cable',
-        maintenance_type: 'Cantilever Inspection',
-        location: 'Line 2 Chord Line',
-        corridor: 'Corridor C3',
-        duration_minutes: 120,
-        urgency: 'Low',
-        asset_risk: 'Low',
-        due_date: '2026-09-30',
-        traffic_impact: 'Low',
-        description: 'Visual inspection of overhead contact wire tensioners.',
-        work_description: 'Overhead Contact Wire Tensioner Inspection',
-        priority: 'Low',
-        priority_reason: 'Standard low priority based on routine maintenance risk parameters.',
-        reason: 'Standard low priority based on routine maintenance risk parameters.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 1).toISOString()
-    },
-    {
-        id: 4,
-        request_id: 'M-104',
-        employee_id: 'EMP002',
-        submitted_by: 'Amit Sharma',
-        department: 'P-Way',
-        asset: 'Track Bed & Ballast',
-        maintenance_type: 'Deep Screening & Tamping',
-        location: 'KM 88/04 to 92/10',
-        corridor: 'Corridor C2',
-        duration_minutes: 60,
-        urgency: 'Critical',
-        asset_risk: 'Critical',
-        due_date: '2026-09-20',
-        traffic_impact: 'High',
-        description: 'Critical track geometry correction to remove temporary speed restriction.',
-        work_description: 'Track Tamping & Geometry Realignment',
-        priority: 'Critical',
-        priority_reason: 'Assigned Critical priority due to elevated urgency, high asset risk, and approaching due date.',
-        reason: 'Assigned Critical priority due to elevated urgency, high asset risk, and approaching due date.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 3600000 * 4).toISOString()
-    },
-    {
-        id: 5,
-        request_id: 'M-105',
-        employee_id: 'EMP003',
-        submitted_by: 'Priya Verma',
-        department: 'S&T',
-        asset: 'Interlocking Panel',
-        maintenance_type: 'Relay Integrity Audit',
-        location: 'Junction Cabin Block A',
-        corridor: 'Corridor C2',
-        duration_minutes: 45,
-        urgency: 'High',
-        asset_risk: 'High',
-        due_date: '2026-09-21',
-        traffic_impact: 'Medium',
-        description: 'Joint testing of electronic interlocking panel communication lines.',
-        work_description: 'Electronic Interlocking Panel Audit',
-        priority: 'High',
-        priority_reason: 'Assigned High priority due to elevated urgency and high asset risk.',
-        reason: 'Assigned High priority due to elevated urgency and high asset risk.',
-        status: 'Planned',
-        created_at: new Date(Date.now() - 3600000 * 3).toISOString()
-    },
-    {
-        id: 6,
-        request_id: 'M-118',
-        employee_id: 'EMP003',
-        submitted_by: 'Priya Verma',
-        department: 'S&T',
-        asset: 'Signal Lamp Assembly',
-        maintenance_type: 'LED Aspect Replacement',
-        location: 'KM 90/02 Down Signal',
-        corridor: 'Corridor C2',
-        duration_minutes: 45,
-        urgency: 'High',
-        asset_risk: 'Medium',
-        due_date: '2026-09-21',
-        traffic_impact: 'Low',
-        description: 'Replacing LED signal aspect bulb on Down Main line.',
-        work_description: 'LED Signal Aspect Replacement',
-        priority: 'High',
-        priority_reason: 'Assigned High priority due to elevated urgency and signal reliability.',
-        reason: 'Assigned High priority due to elevated urgency and signal reliability.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 3600000 * 2).toISOString()
-    },
-    {
-        id: 7,
-        request_id: 'M-106',
-        employee_id: 'EMP004',
-        submitted_by: 'Suresh Kumar',
-        department: 'TRD',
-        asset: 'OHE Cantilever',
-        maintenance_type: 'Cantilever Height Adjustment',
-        location: 'KM 91/10 to 93/00',
-        corridor: 'Corridor C2',
-        duration_minutes: 60,
-        urgency: 'High',
-        asset_risk: 'High',
-        due_date: '2026-09-22',
-        traffic_impact: 'Medium',
-        description: 'Traction overhead line dropper adjustment and cantilever realignment.',
-        work_description: 'OHE Dropper & Cantilever Realignment',
-        priority: 'High',
-        priority_reason: 'Assigned High priority due to contact wire wear and speed restriction mitigation.',
-        reason: 'Assigned High priority due to contact wire wear and speed restriction mitigation.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 3600000 * 5).toISOString()
-    },
-    {
-        id: 8,
-        request_id: 'M-107',
-        employee_id: 'EMP002',
-        submitted_by: 'Amit Sharma',
-        department: 'P-Way',
-        asset: 'Fishplates & Joints',
-        maintenance_type: 'Joint Bolt Tightening & Greasing',
-        location: 'Section Yard KM 34/10',
-        corridor: 'Corridor C1',
-        duration_minutes: 60,
-        urgency: 'Medium',
-        asset_risk: 'Medium',
-        due_date: '2026-09-26',
-        traffic_impact: 'Low',
-        description: 'Tightening and lubrication of insulated rail joints.',
-        work_description: 'Insulated Rail Joint Lubrication',
-        priority: 'Medium',
-        priority_reason: 'Assigned Medium priority based on preventive maintenance scheduling.',
-        reason: 'Assigned Medium priority based on preventive maintenance scheduling.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 3).toISOString()
-    },
-    {
-        id: 9,
-        request_id: 'M-108',
-        employee_id: 'EMP003',
-        submitted_by: 'Priya Verma',
-        department: 'S&T',
-        asset: 'Point Machine',
-        maintenance_type: 'Obstruction Test & Motor Service',
-        location: 'Yard Crossover 14B',
-        corridor: 'Corridor C1',
-        duration_minutes: 45,
-        urgency: 'High',
-        asset_risk: 'High',
-        due_date: '2026-09-22',
-        traffic_impact: 'Medium',
-        description: 'Point machine motor cleaning, friction clutch testing and obstruction test.',
-        work_description: 'Crossover Point Machine Overhaul',
-        priority: 'High',
-        priority_reason: 'Assigned High priority to prevent switch failure on passenger loop.',
-        reason: 'Assigned High priority to prevent switch failure on passenger loop.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 3600000 * 6).toISOString()
-    },
-    {
-        id: 10,
-        request_id: 'M-109',
-        employee_id: 'EMP002',
-        submitted_by: 'Amit Sharma',
-        department: 'P-Way',
-        asset: 'Rail Welds',
-        maintenance_type: 'Ultrasonic Flaw Detection (USFD)',
-        location: 'KM 110/00 to 116/00',
-        corridor: 'Corridor C3',
-        duration_minutes: 90,
-        urgency: 'High',
-        asset_risk: 'High',
-        due_date: '2026-09-23',
-        traffic_impact: 'High',
-        description: 'USFD testing of thermit rail weld seams on UP Freight line.',
-        work_description: 'USFD Testing of Thermit Welds',
-        priority: 'High',
-        priority_reason: 'Assigned High priority to detect internal rail micro-fractures.',
-        reason: 'Assigned High priority to detect internal rail micro-fractures.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 1.2).toISOString()
-    },
-    {
-        id: 11,
-        request_id: 'M-110',
-        employee_id: 'EMP003',
-        submitted_by: 'Priya Verma',
-        department: 'S&T',
-        asset: 'Track Circuit',
-        maintenance_type: 'Shunt Sensitivity Test',
-        location: 'Section TC 45',
-        corridor: 'Corridor C3',
-        duration_minutes: 45,
-        urgency: 'Medium',
-        asset_risk: 'Medium',
-        due_date: '2026-09-28',
-        traffic_impact: 'Low',
-        description: 'Verify drop shunt resistance and battery bank charge for DC track circuits.',
-        work_description: 'DC Track Circuit Shunt Sensitivity Test',
-        priority: 'Medium',
-        priority_reason: 'Assigned Medium priority for quarterly signal compliance.',
-        reason: 'Assigned Medium priority for quarterly signal compliance.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 2.5).toISOString()
-    },
-    {
-        id: 12,
-        request_id: 'M-111',
-        employee_id: 'EMP004',
-        submitted_by: 'Suresh Kumar',
-        department: 'TRD',
-        asset: 'Traction Substation',
-        maintenance_type: 'Transformer Oil Filtration',
-        location: 'Substation TSS-02',
-        corridor: 'Corridor C1',
-        duration_minutes: 60,
-        urgency: 'Low',
-        asset_risk: 'Low',
-        due_date: '2026-10-02',
-        traffic_impact: 'Low',
-        description: 'Dielectric breakdown testing of 25kV traction transformer oil.',
-        work_description: 'Traction Transformer Oil Filtration',
-        priority: 'Low',
-        priority_reason: 'Assigned Low priority for planned scheduled maintenance.',
-        reason: 'Assigned Low priority for planned scheduled maintenance.',
-        status: 'Pending',
-        created_at: new Date(Date.now() - 86400000 * 4).toISOString()
-    }
-];
-
-// Initial Seed Trains
-const SEED_TRAINS = [
-    { id: 1, train_number: '12301', train_name: 'Howrah Rajdhani Express', train_type: 'Superfast Express', corridor: 'Corridor C2', origin: 'New Delhi', destination: 'Howrah', start_time: '06:30', end_time: '08:45', status: 'Running On Time' },
-    { id: 2, train_number: '12019', train_name: 'Shatabdi Express', train_type: 'Express', corridor: 'Corridor C2', origin: 'Howrah', destination: 'Ranchi', start_time: '11:15', end_time: '13:00', status: 'Running On Time' },
-    { id: 3, train_number: 'T310', train_name: 'BOXN Freight Rake', train_type: 'Freight', corridor: 'Corridor C2', origin: 'Andal Yard', destination: 'Howrah Goods', start_time: '14:30', end_time: '17:15', status: 'Scheduled' },
-    { id: 4, train_number: '22302', train_name: 'Vande Bharat Express', train_type: 'Superfast Express', corridor: 'Corridor C1', origin: 'Howrah', destination: 'New Jalpaiguri', start_time: '17:30', end_time: '20:15', status: 'Scheduled' },
-    { id: 5, train_number: 'T508', train_name: 'Coal Container Special', train_type: 'Freight', corridor: 'Corridor C3', origin: 'Dankuni DFC', destination: 'Haldia Port', start_time: '18:45', end_time: '22:00', status: 'Scheduled' },
-    { id: 6, train_number: '37211', train_name: 'Bandel Local EMU', train_type: 'Local EMU', corridor: 'Corridor C1', origin: 'Howrah', destination: 'Bandel', start_time: '07:00', end_time: '08:30', status: 'Running On Time' },
-    { id: 7, train_number: 'T703', train_name: 'Steel Coil Freight', train_type: 'Freight', corridor: 'Corridor C1', origin: 'Tata Yard', destination: 'Shalimar', start_time: '12:00', end_time: '14:30', status: 'Scheduled' },
-    { id: 8, train_number: '13105', train_name: 'Sealdah Express', train_type: 'Express', corridor: 'Corridor C3', origin: 'Sealdah', destination: 'Ballia', start_time: '08:00', end_time: '10:30', status: 'Running On Time' }
-];
-
-// Initial Seed Block Windows
-const SEED_WINDOWS = [
-    { id: 1, window_id: 'B-101', corridor: 'Corridor C1', date: '2026-09-21', start_time: '09:30', end_time: '11:00', duration_minutes: 90, status: 'Available' },
-    { id: 2, window_id: 'B-102', corridor: 'Corridor C2', date: '2026-09-21', start_time: '14:00', end_time: '16:30', duration_minutes: 150, status: 'Available' },
-    { id: 3, window_id: 'B-103', corridor: 'Corridor C3', date: '2026-09-21', start_time: '19:00', end_time: '21:30', duration_minutes: 150, status: 'Available' },
-    { id: 4, window_id: 'B-104', corridor: 'Corridor C2', date: '2026-09-21', start_time: '18:30', end_time: '21:00', duration_minutes: 150, status: 'Available' },
-    { id: 5, window_id: 'B-105', corridor: 'Corridor C1', date: '2026-09-21', start_time: '15:00', end_time: '17:00', duration_minutes: 120, status: 'Available' },
-    { id: 6, window_id: 'B-106', corridor: 'Corridor C3', date: '2026-09-21', start_time: '11:00', end_time: '13:00', duration_minutes: 120, status: 'Available' }
-];
+require('dotenv').config();
+const { supabase } = require('./supabaseClient');
 
 class DatabaseService {
     constructor() {
-        this.users = [...SEED_USERS];
-        this.requests = [...SEED_REQUESTS];
-        this.trains = [...SEED_TRAINS];
-        this.windows = [...SEED_WINDOWS];
-        this.conflicts = [];
-        this.blockPlans = [];
+        this.supabase = supabase;
+        this.departments = [];
+        this.corridors = [];
+        this.profiles = [];
+        this.assets = [];
+        this.requests = [];
+        this.trains = [];
+        this.windows = [];
         this.blockAssignments = [];
-        this.notifications = [
-            { id: 1, title: 'System Initialized', message: 'Raksha Block operational database connected.', time: 'Just now' },
-            { id: 2, title: 'New Conflict Detected', message: 'Train T310 overlaps with proposed window B-102.', time: '10 min ago' },
-            { id: 3, title: 'High Priority Work Order', message: 'M-104 track maintenance pending review.', time: '25 min ago' }
-        ];
+        this.blockPlans = [];
+        this.scheduledTasks = [];
+        this.conflicts = [];
+        this.coordinationBundles = [];
+        this.notifications = [];
+        this.userPreferences = {};
+        this.auditLogs = [];
 
-        this.nextReqId = 119;
-        this.nextTrainId = 6;
-        this.nextWindowId = 4;
+        this.deptMap = {};
+        this.corrMap = {};
+        this.profMap = {};
 
-        this.initStore();
+        this.isInitialized = false;
+        this.initPromise = this.reloadFromSupabase();
     }
 
-    initStore() {
-        if (fs.existsSync(STORAGE_FILE)) {
-            try {
-                const data = JSON.parse(fs.readFileSync(STORAGE_FILE, 'utf8'));
-                if (data.requests) this.requests = data.requests;
-                if (data.trains) this.trains = data.trains;
-                if (data.windows) this.windows = data.windows;
-                if (data.conflicts) this.conflicts = data.conflicts;
-                if (data.blockPlans) this.blockPlans = data.blockPlans;
-                if (data.blockAssignments) this.blockAssignments = data.blockAssignments;
-                if (data.notifications) this.notifications = data.notifications;
-                if (data.nextReqId) this.nextReqId = data.nextReqId;
-                return;
-            } catch (err) {
-                console.error('Storage parse error, fallback to defaults:', err);
-            }
+    /**
+     * Reloads all operational state directly from Supabase PostgreSQL tables.
+     */
+    async reloadFromSupabase() {
+        if (!this.supabase) {
+            console.error('⚠️ [SUPABASE DB] Supabase client is not available!');
+            return;
         }
-        this.saveStore();
+
+        try {
+            // 1. Departments
+            const { data: depts, error: deptErr } = await this.supabase.from('departments').select('*');
+            if (deptErr) throw deptErr;
+            this.departments = depts || [];
+            this.deptMap = {};
+            this.departments.forEach(d => {
+                this.deptMap[d.id] = d.code;
+                this.deptMap[d.code] = d.id;
+            });
+
+            // 2. Corridors
+            const { data: corrs, error: corrErr } = await this.supabase.from('corridors').select('*');
+            if (corrErr) throw corrErr;
+            this.corridors = corrs || [];
+            this.corrMap = {};
+            this.corridors.forEach(c => {
+                this.corrMap[c.id] = `Corridor ${c.code}`;
+                this.corrMap[c.code] = c.id;
+                this.corrMap[`Corridor ${c.code}`] = c.id;
+            });
+
+            // 3. Profiles
+            const { data: profs, error: profErr } = await this.supabase.from('profiles').select('*');
+            if (profErr) throw profErr;
+            this.profiles = (profs || []).map(p => ({
+                id: p.id,
+                employeeId: p.employee_id,
+                name: p.full_name,
+                email: p.email,
+                role: p.role,
+                department: this.deptMap[p.department_id] || 'Operations',
+                department_id: p.department_id,
+                division: p.division,
+                section: p.section,
+                pass: p.password_hash || 'planner123'
+            }));
+            this.profMap = {};
+            this.profiles.forEach(p => {
+                this.profMap[p.id] = p.employeeId;
+                this.profMap[p.employeeId] = p.id;
+            });
+
+            // 4. Assets
+            const { data: assets, error: assetErr } = await this.supabase.from('assets').select('*');
+            if (assetErr) throw assetErr;
+            this.assets = assets || [];
+
+            // 5. Trains
+            const { data: trains, error: trainErr } = await this.supabase.from('trains').select('*').order('start_time', { ascending: true });
+            if (trainErr) throw trainErr;
+            this.trains = (trains || []).map(t => ({
+                id: t.id,
+                train_id: t.train_id,
+                train_number: t.train_number,
+                train_name: t.train_name,
+                train_type: t.train_type,
+                corridor: this.corrMap[t.corridor_id] || 'Corridor C2',
+                corridor_id: t.corridor_id,
+                origin: t.origin,
+                destination: t.destination,
+                start_time: t.start_time ? t.start_time.slice(0, 5) : '08:00',
+                end_time: t.end_time ? t.end_time.slice(0, 5) : '10:00',
+                priority: t.priority || 'Normal',
+                status: t.status || 'Active',
+                delay_minutes: t.delay_minutes || 0
+            }));
+
+            // 6. Block Windows
+            const { data: windows, error: winErr } = await this.supabase.from('block_windows').select('*').order('start_time', { ascending: true });
+            if (winErr) throw winErr;
+            this.windows = (windows || []).map(w => ({
+                id: w.id,
+                window_id: w.block_code,
+                block_code: w.block_code,
+                corridor: this.corrMap[w.corridor_id] || 'Corridor C2',
+                corridor_id: w.corridor_id,
+                start_time: w.start_time ? w.start_time.slice(0, 5) : '09:00',
+                end_time: w.end_time ? w.end_time.slice(0, 5) : '11:00',
+                duration_minutes: w.duration_minutes,
+                status: w.status || 'Available',
+                occupied_minutes: w.occupied_minutes || 0,
+                assigned_tasks: []
+            }));
+
+            // 7. Maintenance Requests
+            const { data: reqs, error: reqErr } = await this.supabase.from('maintenance_requests').select('*').order('created_at', { ascending: false });
+            if (reqErr) throw reqErr;
+            this.requests = (reqs || []).map(r => ({
+                id: r.id,
+                request_id: r.request_code,
+                request_code: r.request_code,
+                employee_id: this.profMap[r.submitted_by] || 'EMP001',
+                submitted_by: r.submitted_by,
+                department: this.deptMap[r.department_id] || 'P-Way',
+                department_id: r.department_id,
+                corridor: this.corrMap[r.corridor_id] || 'Corridor C2',
+                corridor_id: r.corridor_id,
+                work_description: r.work_description,
+                description: r.work_description,
+                location: r.location,
+                duration_minutes: r.duration_minutes,
+                priority: r.priority_level,
+                priority_level: r.priority_level,
+                priority_score: Number(r.priority_score) || 70,
+                status: r.status || 'Pending',
+                reason: r.reason || 'Calculated operational priority.',
+                priority_reason: r.reason || 'Calculated operational priority.',
+                assigned_block_id: r.assigned_block_id || null,
+                block_id: r.assigned_block_id || null,
+                scheduled_slot: r.scheduled_slot || null,
+                created_at: r.created_at,
+                updated_at: r.updated_at
+            }));
+
+            // 8. Block Assignments
+            const { data: assigns, error: assignErr } = await this.supabase.from('block_assignments').select('*');
+            if (assignErr) throw assignErr;
+            this.blockAssignments = (assigns || []).map(a => {
+                const req = this.requests.find(r => r.id === a.request_id || r.request_id === a.request_id);
+                const win = this.windows.find(w => w.id === a.block_window_id || w.window_id === a.block_window_id);
+                return {
+                    id: a.id,
+                    request_id: req ? req.request_id : a.request_id,
+                    request_uuid: a.request_id,
+                    block_id: win ? win.window_id : a.block_window_id,
+                    block_uuid: a.block_window_id,
+                    assigned_start_time: a.assigned_start_time ? new Date(a.assigned_start_time).toISOString().slice(11, 16) : '09:00',
+                    assigned_end_time: a.assigned_end_time ? new Date(a.assigned_end_time).toISOString().slice(11, 16) : '11:00',
+                    status: a.status || 'Confirmed',
+                    assigned_by: a.assigned_by,
+                    employee_id: this.profMap[a.assigned_by] || 'EMP001',
+                    created_at: a.created_at
+                };
+            });
+
+            // Map assignments to window occupied minutes & assigned_tasks
+            this.windows.forEach(w => {
+                const assigned = this.blockAssignments.filter(a => a.block_id === w.window_id && a.status !== 'Cancelled');
+                w.assigned_tasks = assigned;
+                let occupied = 0;
+                assigned.forEach(a => {
+                    const r = this.requests.find(req => req.request_id === a.request_id);
+                    if (r) occupied += (r.duration_minutes || 0);
+                });
+                w.occupied_minutes = occupied;
+            });
+
+            // 9. Block Plans
+            const { data: plans, error: planErr } = await this.supabase.from('block_plans').select('*');
+            if (!planErr && plans) {
+                this.blockPlans = plans.map(p => ({
+                    id: p.id,
+                    plan_id: p.plan_code,
+                    name: p.name,
+                    corridor: this.corrMap[p.corridor_id] || 'Corridor C2',
+                    status: p.status,
+                    total_tasks: p.total_tasks,
+                    total_duration: p.total_duration_minutes,
+                    scheduled_tasks: [],
+                    created_at: p.created_at
+                }));
+            }
+
+            // 10. Conflicts
+            const { data: confs, error: confErr } = await this.supabase.from('conflicts').select('*');
+            if (!confErr && confs) {
+                this.conflicts = confs.map(c => ({
+                    id: c.id,
+                    conflict_id: c.conflict_code,
+                    conflict_code: c.conflict_code,
+                    type: c.conflict_type,
+                    severity: c.severity,
+                    corridor: this.corrMap[c.corridor_id] || 'Corridor C2',
+                    description: c.description,
+                    resolution: c.resolution,
+                    status: c.status,
+                    created_at: c.created_at
+                }));
+            }
+
+            // 11. Notifications
+            const { data: notifs, error: notifErr } = await this.supabase.from('notifications').select('*').order('created_at', { ascending: false });
+            if (!notifErr && notifs) {
+                this.notifications = notifs.map(n => ({
+                    id: n.id,
+                    title: n.title,
+                    message: n.message,
+                    type: n.notification_type,
+                    severity: n.severity,
+                    is_read: n.is_read,
+                    time: 'Recently'
+                }));
+            }
+
+            this.isInitialized = true;
+            console.log(`⚡ [SUPABASE DB] Synchronized with PostgreSQL: ${this.requests.length} requests, ${this.trains.length} trains, ${this.windows.length} windows, ${this.blockAssignments.length} assignments.`);
+        } catch (err) {
+            console.error('⚠️ [SUPABASE DB] Synchronization error:', err.message);
+        }
     }
 
     saveStore() {
-        try {
-            fs.writeFileSync(STORAGE_FILE, JSON.stringify({
-                requests: this.requests,
-                trains: this.trains,
-                windows: this.windows,
-                conflicts: this.conflicts,
-                blockPlans: this.blockPlans,
-                blockAssignments: this.blockAssignments,
-                notifications: this.notifications,
-                nextReqId: this.nextReqId
-            }, null, 2), 'utf8');
-        } catch (err) {
-            console.error('Save store error:', err);
-        }
+        // No-op: All operations persist directly into Supabase PostgreSQL tables
     }
 
-    // USERS
-    getUsers() { return this.users; }
+    // ==========================================
+    // USERS & AUTHENTICATION
+    // ==========================================
+    getUsers() {
+        return this.profiles;
+    }
+
     getUserById(empId) {
-        return this.users.find(u => u.employeeId.toLowerCase() === empId.toLowerCase());
+        if (!empId) return null;
+        return this.profiles.find(u => u.employeeId.toLowerCase() === empId.toLowerCase());
     }
 
-    // REQUESTS
+    getUserByEmail(email) {
+        if (!email) return null;
+        return this.profiles.find(u => u.email.toLowerCase() === email.toLowerCase());
+    }
+
+    // ==========================================
+    // MAINTENANCE REQUESTS
+    // ==========================================
     getAllRequests(filters = {}) {
         let res = [...this.requests];
         if (filters.corridor && filters.corridor !== 'All' && filters.corridor !== 'ALL') {
@@ -403,7 +287,7 @@ class DatabaseService {
             const q = filters.search.toLowerCase();
             res = res.filter(r =>
                 (r.request_id && r.request_id.toLowerCase().includes(q)) ||
-                (r.asset && r.asset.toLowerCase().includes(q)) ||
+                (r.work_description && r.work_description.toLowerCase().includes(q)) ||
                 (r.location && r.location.toLowerCase().includes(q)) ||
                 (r.department && r.department.toLowerCase().includes(q))
             );
@@ -412,10 +296,10 @@ class DatabaseService {
     }
 
     getRequestById(id) {
-        return this.requests.find(r => r.request_id === id || r.id == id);
+        return this.requests.find(r => r.request_id === id || r.request_code === id || r.id === id);
     }
 
-    createRequest(data) {
+    async createRequest(data) {
         let maxSuffix = 100;
         this.requests.forEach(r => {
             if (r.request_id && r.request_id.startsWith('M-')) {
@@ -423,52 +307,105 @@ class DatabaseService {
                 if (!isNaN(num) && num > maxSuffix) maxSuffix = num;
             }
         });
-        const newReqId = data.request_id || `M-${maxSuffix + 1}`;
+        const newReqCode = data.request_id || data.request_code || `M-${maxSuffix + 1}`;
 
-        if (this.requests.some(r => r.request_id === newReqId)) {
-            throw new Error(`Uniqueness constraint violation: Request ID ${newReqId} already exists.`);
-        }
+        // Map foreign keys
+        const deptId = this.deptMap[data.department] || this.deptMap['P-Way'];
+        let corrCode = 'C2';
+        if (data.corridor && data.corridor.includes('C1')) corrCode = 'C1';
+        else if (data.corridor && data.corridor.includes('C3')) corrCode = 'C3';
+        const corrId = this.corrMap[corrCode] || this.corrMap['C2'];
+        const profileId = this.profMap[data.employee_id] || this.profMap['EMP001'];
 
-        const maxId = this.requests.reduce((max, r) => Math.max(max, Number(r.id) || 0), 0);
-        const record = {
-            id: maxId + 1,
-            request_id: newReqId,
-            ...data,
+        const insertPayload = {
+            request_code: newReqCode,
+            department_id: deptId,
+            corridor_id: corrId,
+            submitted_by: profileId,
+            work_description: data.work_description || data.description || 'Railway Track Maintenance',
+            location: data.location || 'KM Section',
+            duration_minutes: parseInt(data.duration_minutes) || 120,
+            priority_level: data.priority || data.priority_level || 'Medium',
+            priority_score: data.priority_score || 70,
             status: data.status || 'Pending',
-            created_at: new Date().toISOString()
+            reason: data.reason || data.priority_reason || 'Operational priority based on track parameters.'
         };
+
+        const { data: inserted, error } = await this.supabase.from('maintenance_requests').insert([insertPayload]).select().single();
+        if (error) throw error;
+
+        const record = {
+            id: inserted.id,
+            request_id: inserted.request_code,
+            request_code: inserted.request_code,
+            employee_id: data.employee_id || 'EMP001',
+            submitted_by: inserted.submitted_by,
+            department: data.department || 'P-Way',
+            department_id: deptId,
+            corridor: `Corridor ${corrCode}`,
+            corridor_id: corrId,
+            work_description: inserted.work_description,
+            description: inserted.work_description,
+            location: inserted.location,
+            duration_minutes: inserted.duration_minutes,
+            priority: inserted.priority_level,
+            priority_level: inserted.priority_level,
+            priority_score: inserted.priority_score,
+            status: inserted.status,
+            reason: inserted.reason,
+            priority_reason: inserted.reason,
+            assigned_block_id: null,
+            created_at: inserted.created_at
+        };
+
         this.requests.unshift(record);
-        this.addNotification('New Maintenance Request', `${record.request_id} (${record.asset || record.work_description}) submitted by ${record.department}.`);
-        this.saveStore();
+        await this.addNotification('New Maintenance Request', `${record.request_id} submitted by ${record.department}.`, 'MAINTENANCE', 'Normal');
+        await this.logAudit(profileId, 'CREATE_REQUEST', 'maintenance_requests', inserted.id, null, insertPayload);
         return record;
     }
 
-    updateRequest(id, data) {
-        const idx = this.requests.findIndex(r => r.request_id === id || r.id == id);
-        if (idx === -1) return null;
-        this.requests[idx] = { ...this.requests[idx], ...data, updated_at: new Date().toISOString() };
-        this.saveStore();
-        return this.requests[idx];
+    async updateRequest(id, data) {
+        const req = this.getRequestById(id);
+        if (!req) return null;
+
+        const updatePayload = {
+            updated_at: new Date().toISOString()
+        };
+        if (data.work_description) updatePayload.work_description = data.work_description;
+        if (data.location) updatePayload.location = data.location;
+        if (data.duration_minutes) updatePayload.duration_minutes = data.duration_minutes;
+        if (data.priority || data.priority_level) updatePayload.priority_level = data.priority || data.priority_level;
+        if (data.status) updatePayload.status = data.status;
+        if (data.reason || data.priority_reason) updatePayload.reason = data.reason || data.priority_reason;
+        if (data.assigned_block_id !== undefined) updatePayload.assigned_block_id = data.assigned_block_id;
+        if (data.block_id !== undefined) updatePayload.assigned_block_id = data.block_id;
+
+        const { data: updated, error } = await this.supabase.from('maintenance_requests').update(updatePayload).eq('request_code', req.request_id).select().single();
+        if (error) throw error;
+
+        Object.assign(req, data, { updated_at: updated.updated_at });
+        return req;
     }
 
-    deleteRequest(id) {
-        const idx = this.requests.findIndex(r => r.request_id === id || r.id == id);
-        if (idx === -1) return false;
-        this.requests.splice(idx, 1);
-        this.saveStore();
+    async deleteRequest(id) {
+        const req = this.getRequestById(id);
+        if (!req) return false;
+
+        const { error } = await this.supabase.from('maintenance_requests').delete().eq('request_code', req.request_id);
+        if (error) throw error;
+
+        const idx = this.requests.findIndex(r => r.request_id === req.request_id);
+        if (idx !== -1) this.requests.splice(idx, 1);
         return true;
     }
 
-    updateStatus(id, status) {
-        const r = this.getRequestById(id);
-        if (!r) return null;
-        r.status = status;
-        r.updated_at = new Date().toISOString();
-        this.saveStore();
-        return r;
+    async updateStatus(id, status) {
+        return await this.updateRequest(id, { status });
     }
 
-    // TRAINS
+    // ==========================================
+    // TRAIN TIMETABLE
+    // ==========================================
     getAllTrains(filters = {}) {
         let res = [...this.trains];
         if (filters.corridor && filters.corridor !== 'All') {
@@ -481,34 +418,90 @@ class DatabaseService {
         return res;
     }
 
-    createTrain(data) {
-        if (data.train_number && this.trains.some(t => t.train_number.toLowerCase() === String(data.train_number).toLowerCase())) {
-            throw new Error(`Uniqueness constraint violation: Train number ${data.train_number} already exists in timetable.`);
-        }
-        const maxId = this.trains.reduce((max, t) => Math.max(max, Number(t.id) || 0), 0);
-        const record = { id: maxId + 1, ...data };
+    getTrainById(id) {
+        return this.trains.find(t => t.train_id === id || t.train_number === id || t.id === id);
+    }
+
+    async createTrain(data) {
+        let corrCode = 'C2';
+        if (data.corridor && data.corridor.includes('C1')) corrCode = 'C1';
+        else if (data.corridor && data.corridor.includes('C3')) corrCode = 'C3';
+        const corrId = this.corrMap[corrCode] || this.corrMap['C2'];
+
+        const trainId = data.train_id || `TRN-${data.train_number}`;
+        const insertPayload = {
+            train_id: trainId,
+            train_number: String(data.train_number),
+            train_name: data.train_name || 'Express Train',
+            train_type: data.train_type || 'Express',
+            corridor_id: corrId,
+            origin: data.origin || 'Origin',
+            destination: data.destination || 'Destination',
+            start_time: data.start_time,
+            end_time: data.end_time,
+            priority: data.priority || 'Normal',
+            status: data.status || 'Active',
+            delay_minutes: data.delay_minutes || 0
+        };
+
+        const { data: inserted, error } = await this.supabase.from('trains').insert([insertPayload]).select().single();
+        if (error) throw error;
+
+        const record = {
+            id: inserted.id,
+            train_id: inserted.train_id,
+            train_number: inserted.train_number,
+            train_name: inserted.train_name,
+            train_type: inserted.train_type,
+            corridor: `Corridor ${corrCode}`,
+            corridor_id: corrId,
+            origin: inserted.origin,
+            destination: inserted.destination,
+            start_time: inserted.start_time.slice(0, 5),
+            end_time: inserted.end_time.slice(0, 5),
+            priority: inserted.priority,
+            status: inserted.status,
+            delay_minutes: inserted.delay_minutes
+        };
+
         this.trains.unshift(record);
-        this.saveStore();
         return record;
     }
 
-    updateTrain(id, data) {
-        const idx = this.trains.findIndex(t => t.id == id || t.train_number === id);
-        if (idx === -1) return null;
-        this.trains[idx] = { ...this.trains[idx], ...data, updated_at: new Date().toISOString() };
-        this.saveStore();
-        return this.trains[idx];
+    async updateTrain(id, data) {
+        const train = this.getTrainById(id);
+        if (!train) return null;
+
+        const updatePayload = { updated_at: new Date().toISOString() };
+        if (data.train_name) updatePayload.train_name = data.train_name;
+        if (data.train_type) updatePayload.train_type = data.train_type;
+        if (data.start_time) updatePayload.start_time = data.start_time;
+        if (data.end_time) updatePayload.end_time = data.end_time;
+        if (data.status) updatePayload.status = data.status;
+        if (data.delay_minutes !== undefined) updatePayload.delay_minutes = data.delay_minutes;
+
+        const { data: updated, error } = await this.supabase.from('trains').update(updatePayload).eq('train_id', train.train_id).select().single();
+        if (error) throw error;
+
+        Object.assign(train, data);
+        return train;
     }
 
-    deleteTrain(id) {
-        const idx = this.trains.findIndex(t => t.id == id || t.train_number === id);
-        if (idx === -1) return false;
-        this.trains.splice(idx, 1);
-        this.saveStore();
+    async deleteTrain(id) {
+        const train = this.getTrainById(id);
+        if (!train) return false;
+
+        const { error } = await this.supabase.from('trains').delete().eq('train_id', train.train_id);
+        if (error) throw error;
+
+        const idx = this.trains.findIndex(t => t.train_id === train.train_id);
+        if (idx !== -1) this.trains.splice(idx, 1);
         return true;
     }
 
-    // WINDOWS
+    // ==========================================
+    // BLOCK WINDOWS
+    // ==========================================
     getAllWindows(filters = {}) {
         let res = [...this.windows];
         if (filters.corridor && filters.corridor !== 'All') {
@@ -517,7 +510,11 @@ class DatabaseService {
         return res;
     }
 
-    createWindow(data) {
+    getWindowById(id) {
+        return this.windows.find(w => w.window_id === id || w.block_code === id || w.id === id);
+    }
+
+    async createWindow(data) {
         let maxSuffix = 100;
         this.windows.forEach(w => {
             if (w.window_id && w.window_id.startsWith('B-')) {
@@ -525,36 +522,75 @@ class DatabaseService {
                 if (!isNaN(num) && num > maxSuffix) maxSuffix = num;
             }
         });
-        const newWindowId = data.window_id || `B-${maxSuffix + 1}`;
+        const newBlockCode = data.window_id || data.block_code || `B-${maxSuffix + 1}`;
 
-        if (this.windows.some(w => w.window_id === newWindowId)) {
-            throw new Error(`Uniqueness constraint violation: Block window ID ${newWindowId} already exists.`);
-        }
+        let corrCode = 'C2';
+        if (data.corridor && data.corridor.includes('C1')) corrCode = 'C1';
+        else if (data.corridor && data.corridor.includes('C3')) corrCode = 'C3';
+        const corrId = this.corrMap[corrCode] || this.corrMap['C2'];
 
-        const maxId = this.windows.reduce((max, w) => Math.max(max, Number(w.id) || 0), 0);
-        const record = { id: maxId + 1, window_id: newWindowId, ...data };
+        const insertPayload = {
+            block_code: newBlockCode,
+            corridor_id: corrId,
+            start_time: data.start_time,
+            end_time: data.end_time,
+            duration_minutes: parseInt(data.duration_minutes) || 120,
+            status: data.status || 'Available',
+            occupied_minutes: 0,
+            created_by: this.profMap['EMP001']
+        };
+
+        const { data: inserted, error } = await this.supabase.from('block_windows').insert([insertPayload]).select().single();
+        if (error) throw error;
+
+        const record = {
+            id: inserted.id,
+            window_id: inserted.block_code,
+            block_code: inserted.block_code,
+            corridor: `Corridor ${corrCode}`,
+            corridor_id: corrId,
+            start_time: inserted.start_time.slice(0, 5),
+            end_time: inserted.end_time.slice(0, 5),
+            duration_minutes: inserted.duration_minutes,
+            status: inserted.status,
+            occupied_minutes: 0,
+            assigned_tasks: []
+        };
+
         this.windows.unshift(record);
-        this.saveStore();
         return record;
     }
 
-    updateWindow(id, data) {
-        const idx = this.windows.findIndex(w => w.id == id || w.window_id === id);
-        if (idx === -1) return null;
-        this.windows[idx] = { ...this.windows[idx], ...data, updated_at: new Date().toISOString() };
-        this.saveStore();
-        return this.windows[idx];
+    async updateWindow(id, data) {
+        const win = this.getWindowById(id);
+        if (!win) return null;
+
+        const updatePayload = { updated_at: new Date().toISOString() };
+        if (data.status) updatePayload.status = data.status;
+        if (data.occupied_minutes !== undefined) updatePayload.occupied_minutes = data.occupied_minutes;
+
+        const { data: updated, error } = await this.supabase.from('block_windows').update(updatePayload).eq('block_code', win.window_id).select().single();
+        if (error) throw error;
+
+        Object.assign(win, data);
+        return win;
     }
 
-    deleteWindow(id) {
-        const idx = this.windows.findIndex(w => w.id == id || w.window_id === id);
-        if (idx === -1) return false;
-        this.windows.splice(idx, 1);
-        this.saveStore();
+    async deleteWindow(id) {
+        const win = this.getWindowById(id);
+        if (!win) return false;
+
+        const { error } = await this.supabase.from('block_windows').delete().eq('block_code', win.window_id);
+        if (error) throw error;
+
+        const idx = this.windows.findIndex(w => w.window_id === win.window_id);
+        if (idx !== -1) this.windows.splice(idx, 1);
         return true;
     }
 
-    // BLOCK ASSIGNMENTS (Relationship table)
+    // ==========================================
+    // BLOCK ASSIGNMENTS ("FIND BLOCK" FEATURE)
+    // ==========================================
     getAllBlockAssignments() {
         return [...this.blockAssignments];
     }
@@ -567,62 +603,239 @@ class DatabaseService {
         return this.blockAssignments.filter(a => a.block_id === blockId && a.status !== 'Cancelled');
     }
 
-    createBlockAssignment(data) {
+    async createBlockAssignment(data) {
         // Enforce uniqueness constraint: Prevent duplicate active assignment
-        const existing = this.blockAssignments.find(a => a.request_id === data.request_id && a.status !== 'Cancelled');
+        const existing = this.getBlockAssignmentByRequestId(data.request_id);
         if (existing) {
             throw new Error(`Duplicate assignment violation: Request ${data.request_id} is already assigned to block ${existing.block_id}.`);
         }
 
-        const maxId = this.blockAssignments.reduce((max, a) => Math.max(max, Number(a.id) || 0), 0);
-        const record = {
-            id: maxId + 1,
-            request_id: data.request_id,
-            block_id: data.block_id,
-            assigned_start_time: data.assigned_start_time,
-            assigned_end_time: data.assigned_end_time,
+        const req = this.getRequestById(data.request_id);
+        if (!req) throw new Error(`Request ${data.request_id} not found.`);
+        const win = this.getWindowById(data.block_id);
+        if (!win) throw new Error(`Block window ${data.block_id} not found.`);
+
+        const profileId = this.profMap[data.employee_id] || this.profMap['EMP001'];
+
+        const insertPayload = {
+            request_id: req.id,
+            block_window_id: win.id,
+            assigned_by: profileId,
+            assigned_start_time: new Date().toISOString(),
+            assigned_end_time: new Date(Date.now() + (req.duration_minutes || 60) * 60000).toISOString(),
             status: data.status || 'Confirmed',
+            assignment_reason: data.assignment_reason || 'Scheduled via Find Block optimization engine.',
+            suitability_score: data.suitability_score || 90
+        };
+
+        const { data: inserted, error } = await this.supabase.from('block_assignments').insert([insertPayload]).select().single();
+        if (error) throw error;
+
+        // Also create scheduled task in scheduled_tasks
+        const taskCode = `TSK-${req.request_id}-${win.window_id}`;
+        await this.supabase.from('scheduled_tasks').upsert([{
+            task_code: taskCode,
+            request_id: req.id,
+            block_assignment_id: inserted.id,
+            corridor_id: req.corridor_id,
+            department_id: req.department_id,
+            scheduled_start: insertPayload.assigned_start_time,
+            scheduled_end: insertPayload.assigned_end_time,
+            duration_minutes: req.duration_minutes || 60,
+            status: 'Scheduled'
+        }], { onConflict: 'task_code' });
+
+        // Update Request status to Scheduled
+        await this.updateRequest(req.request_id, {
+            status: 'Scheduled',
+            assigned_block_id: win.window_id,
+            block_id: win.window_id
+        });
+
+        // Update Block window occupancy
+        const newOccupied = (win.occupied_minutes || 0) + (req.duration_minutes || 0);
+        await this.updateWindow(win.window_id, { occupied_minutes: newOccupied });
+
+        const record = {
+            id: inserted.id,
+            request_id: req.request_id,
+            request_uuid: req.id,
+            block_id: win.window_id,
+            block_uuid: win.id,
+            assigned_start_time: data.assigned_start_time || win.start_time,
+            assigned_end_time: data.assigned_end_time || win.end_time,
+            status: inserted.status,
             assigned_by: data.assigned_by || 'Railway Planner',
             employee_id: data.employee_id || 'EMP001',
-            created_at: new Date().toISOString()
+            created_at: inserted.created_at
         };
 
         this.blockAssignments.push(record);
-        this.saveStore();
+        win.assigned_tasks.push(record);
+
+        await this.logAudit(profileId, 'ASSIGN_BLOCK', 'block_assignments', inserted.id, null, insertPayload);
         return record;
     }
 
-    deleteBlockAssignment(id) {
-        const idx = this.blockAssignments.findIndex(a => a.id == id || a.request_id === id);
-        if (idx === -1) return false;
-        this.blockAssignments.splice(idx, 1);
-        this.saveStore();
+    async deleteBlockAssignment(id) {
+        const assign = this.blockAssignments.find(a => a.id === id || a.request_id === id);
+        if (!assign) return false;
+
+        const { error } = await this.supabase.from('block_assignments').delete().eq('id', assign.id);
+        if (error) throw error;
+
+        // Reset Request status to Pending
+        await this.updateRequest(assign.request_id, {
+            status: 'Pending',
+            assigned_block_id: null,
+            block_id: null
+        });
+
+        // Decrement window occupied minutes
+        const win = this.getWindowById(assign.block_id);
+        if (win) {
+            const req = this.getRequestById(assign.request_id);
+            const dur = req ? req.duration_minutes : 0;
+            const newOccupied = Math.max(0, (win.occupied_minutes || 0) - dur);
+            await this.updateWindow(win.window_id, { occupied_minutes: newOccupied });
+            const taskIdx = win.assigned_tasks.findIndex(t => t.request_id === assign.request_id);
+            if (taskIdx !== -1) win.assigned_tasks.splice(taskIdx, 1);
+        }
+
+        const idx = this.blockAssignments.findIndex(a => a.id === assign.id);
+        if (idx !== -1) this.blockAssignments.splice(idx, 1);
         return true;
     }
 
-    // NOTIFICATIONS
-    addNotification(title, message) {
-        this.notifications.unshift({
-            id: this.notifications.length + 1,
-            title,
-            message,
-            time: 'Just now'
-        });
-        this.saveStore();
+    // ==========================================
+    // CONFLICTS
+    // ==========================================
+    getConflicts() {
+        return this.conflicts;
     }
 
+    async resolveConflict(id, resolution) {
+        const conf = this.conflicts.find(c => c.id === id || c.conflict_id === id || c.conflict_code === id);
+        if (!conf) return null;
+
+        const { data: updated, error } = await this.supabase.from('conflicts').update({
+            status: 'Resolved',
+            resolution: resolution || 'Resolved by human planner',
+            resolved_at: new Date().toISOString()
+        }).eq('conflict_code', conf.conflict_code).select().single();
+
+        if (error) throw error;
+        conf.status = 'Resolved';
+        conf.resolution = resolution;
+        return conf;
+    }
+
+    // ==========================================
+    // BLOCK PLANNING
+    // ==========================================
+    getBlockPlans() {
+        return this.blockPlans;
+    }
+
+    getBlockPlanById(id) {
+        return this.blockPlans.find(p => p.id === id || p.plan_id === id);
+    }
+
+    async createBlockPlan(plan) {
+        let corrCode = 'C2';
+        if (plan.corridor && plan.corridor.includes('C1')) corrCode = 'C1';
+        else if (plan.corridor && plan.corridor.includes('C3')) corrCode = 'C3';
+        const corrId = this.corrMap[corrCode] || this.corrMap['C2'];
+
+        const insertPayload = {
+            plan_code: plan.plan_id || `PLAN-${Date.now()}`,
+            name: plan.name || `Plan for Corridor ${corrCode}`,
+            corridor_id: corrId,
+            status: plan.status || 'Draft',
+            total_tasks: plan.total_tasks || 0,
+            total_duration_minutes: plan.total_duration_minutes || 0
+        };
+
+        const { data: inserted, error } = await this.supabase.from('block_plans').insert([insertPayload]).select().single();
+        if (error) throw error;
+
+        const record = {
+            id: inserted.id,
+            plan_id: inserted.plan_code,
+            name: inserted.name,
+            corridor: `Corridor ${corrCode}`,
+            status: inserted.status,
+            total_tasks: inserted.total_tasks,
+            total_duration: inserted.total_duration_minutes,
+            scheduled_tasks: plan.scheduled_tasks || [],
+            created_at: inserted.created_at
+        };
+
+        this.blockPlans.unshift(record);
+        return record;
+    }
+
+    // ==========================================
+    // NOTIFICATIONS
+    // ==========================================
     getNotifications() {
         return this.notifications;
     }
 
+    async addNotification(title, message, type = 'INFO', severity = 'Normal') {
+        const profileId = this.profMap['EMP001'];
+        const insertPayload = {
+            user_id: profileId,
+            notification_type: type,
+            title,
+            message,
+            severity,
+            is_read: false
+        };
+
+        const { data: inserted, error } = await this.supabase.from('notifications').insert([insertPayload]).select().single();
+        if (!error && inserted) {
+            this.notifications.unshift({
+                id: inserted.id,
+                title: inserted.title,
+                message: inserted.message,
+                type: inserted.notification_type,
+                severity: inserted.severity,
+                is_read: false,
+                time: 'Just now'
+            });
+        }
+    }
+
+    // ==========================================
+    // AUDIT LOGGING
+    // ==========================================
+    async logAudit(userId, action, entityType, entityId, oldValues, newValues) {
+        try {
+            await this.supabase.from('audit_logs').insert([{
+                user_id: userId || this.profMap['EMP001'],
+                action,
+                entity_type: entityType,
+                entity_id: entityId,
+                old_values: oldValues,
+                new_values: newValues
+            }]);
+        } catch (err) {
+            console.error('Failed to write audit log:', err.message);
+        }
+    }
+
+    // ==========================================
     // DASHBOARD SUMMARY METRICS
+    // ==========================================
     getSummary() {
         return {
             totalRequests: this.requests.length,
             pendingMaintenance: this.requests.filter(r => r.status === 'Pending').length,
             highPriority: this.requests.filter(r => r.priority === 'High' || r.priority === 'Critical').length,
+            scheduledTasks: this.requests.filter(r => r.status === 'Scheduled' || r.status === 'Planned').length,
             availableBlocks: this.windows.filter(w => w.status === 'Available').length,
-            activeConflicts: 2 // calculated dynamically in conflictEngine
+            activeConflicts: this.conflicts.filter(c => c.status === 'Active').length
         };
     }
 }

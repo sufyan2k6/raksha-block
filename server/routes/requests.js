@@ -82,7 +82,7 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/maintenance-requests - Create Request
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const authUser = getAuthContext(req);
         const body = req.body;
@@ -140,7 +140,7 @@ router.post('/', (req, res) => {
             reason: priorityResult.priority_reason
         };
 
-        const createdRecord = db.createRequest(payload);
+        const createdRecord = await db.createRequest(payload);
         res.status(201).json({
             message: 'Maintenance request created successfully.',
             request: createdRecord
@@ -152,7 +152,7 @@ router.post('/', (req, res) => {
 });
 
 // PUT /api/maintenance-requests/:id - Edit Request
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const reqId = req.params.id;
         const existing = db.getRequestById(reqId);
@@ -190,7 +190,7 @@ router.put('/:id', (req, res) => {
             priority_reason: priorityResult.priority_reason
         };
 
-        const updated = db.updateRequest(reqId, updatePayload);
+        const updated = await db.updateRequest(reqId, updatePayload);
         res.json({
             message: 'Maintenance request updated successfully.',
             request: updated
@@ -202,7 +202,7 @@ router.put('/:id', (req, res) => {
 });
 
 // PATCH /api/maintenance-requests/:id/status - Update Status
-router.patch('/:id/status', (req, res) => {
+router.patch('/:id/status', async (req, res) => {
     try {
         const { status } = req.body;
         const validStatuses = ['Pending', 'Planned', 'In Progress', 'Completed', 'Rejected'];
@@ -211,7 +211,7 @@ router.patch('/:id/status', (req, res) => {
             return res.status(400).json({ error: `Invalid status. Must be one of: ${validStatuses.join(', ')}` });
         }
 
-        const updated = db.updateStatus(req.params.id, status);
+        const updated = await db.updateStatus(req.params.id, status);
         if (!updated) {
             return res.status(404).json({ error: 'Maintenance request not found.' });
         }
@@ -226,10 +226,10 @@ router.patch('/:id/status', (req, res) => {
 });
 
 // DELETE /api/maintenance-requests/:id - Delete Request
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const reqId = req.params.id;
-        const success = db.deleteRequest(reqId);
+        const success = await db.deleteRequest(reqId);
         if (!success) {
             return res.status(404).json({ error: 'Maintenance request not found.' });
         }

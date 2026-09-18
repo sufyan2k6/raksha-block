@@ -377,7 +377,7 @@ function findSuitableBlocks(requestId) {
         // Check 4: Maintenance / spatial conflicts
         const directClashes = allConflicts.filter(c => 
             c.status !== 'Resolved' && 
-            (c.entity_1?.includes(requestId) || c.entity_2?.includes(requestId) || (c.corridor === winCorridor && c.conflict_type === 'TRAIN'))
+            (c.entity_1?.includes(requestId) || c.entity_2?.includes(requestId) || c.request_id === req.id || c.request_id === req.request_id)
         );
         directClashes.forEach(c => {
             if (!conflicts.some(ex => ex.includes(c.entity_1 || 'conflict'))) {
