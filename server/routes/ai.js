@@ -15,7 +15,10 @@ router.post(['/chat', '/query'], async (req, res) => {
         }
 
         const response = await answerQuery(message.trim());
-        res.json(response);
+        res.json({
+            ...response,
+            reply: response.answer
+        });
     } catch (err) {
         console.error('AI Service Error:', err);
         res.status(500).json({

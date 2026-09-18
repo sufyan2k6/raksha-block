@@ -80,25 +80,24 @@
                             <i class="bi bi-star-fill text-warning fs-5"></i>
                             <h5 class="fw-bold mb-0">RECOMMENDED BLOCK</h5>
                         </div>
-                        <span class="badge bg-white text-primary fw-bold" id="heroStatusBadge">Plan Ready</span>
+                        <span class="badge bg-white text-primary fw-bold" id="heroStatusBadge">Awaiting Plan</span>
                     </div>
                     <div class="card-body p-4">
                         <div class="row align-items-center g-4">
                             <div class="col-lg-4 border-end">
-                                <div class="badge bg-light text-dark font-mono mb-2 fs-6 px-3 py-1" id="heroBlockId">B-102</div>
+                                <div class="badge bg-light text-dark font-mono mb-2 fs-6 px-3 py-1" id="heroBlockId">NO BLOCK</div>
                                 <h3 class="fw-bold text-dark mb-1" id="heroCorridor">Corridor C2</h3>
-                                <div class="fs-5 text-primary font-mono fw-semibold mb-2" id="heroTimeSlot">14:00 – 16:30</div>
-                                <div class="text-secondary small" id="heroDate">Target Date: 2026-09-21</div>
+                                <div class="fs-5 text-primary font-mono fw-semibold mb-2" id="heroTimeSlot">No Active Window</div>
+                                <div class="text-secondary small" id="heroDate">Target Date: Today</div>
                             </div>
 
                             <div class="col-lg-5">
                                 <div class="fw-semibold text-secondary small text-uppercase mb-2">Combined Tasks in Block:</div>
                                 <ul class="list-unstyled mb-3" id="heroTaskList">
-                                    <li class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-check-circle-fill text-success"></i> Track Tamping & Rail Maintenance</li>
-                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> Signal Interlocking & Point Inspection</li>
+                                    <li class="text-muted small">No scheduled tasks currently allocated. Create requests and block windows to generate schedules.</li>
                                 </ul>
                                 <div class="d-flex gap-3">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-layers-fill me-1"></i> <span id="heroTaskCount">2</span> Tasks Combined</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-layers-fill me-1"></i> <span id="heroTaskCount">0</span> Tasks Combined</span>
                                     <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1"><i class="bi bi-shield-check me-1"></i> 0 Unresolved Conflicts</span>
                                 </div>
                             </div>
@@ -126,22 +125,7 @@
                             </div>
                             <div class="card-body p-0">
                                 <div class="list-group list-group-flush" id="attentionList">
-                                    <div class="list-group-item p-3">
-                                        <div class="d-flex w-100 justify-content-between align-items-center mb-1">
-                                            <span class="badge bg-danger-subtle text-danger">High Priority Request</span>
-                                            <small class="text-muted">REQ-001</small>
-                                        </div>
-                                        <div class="fw-semibold text-dark">Track Tamping on Corridor C2 (Howrah-Bardhaman)</div>
-                                        <small class="text-secondary">Degradation score reached 95/100 threshold.</small>
-                                    </div>
-                                    <div class="list-group-item p-3">
-                                        <div class="d-flex w-100 justify-content-between align-items-center mb-1">
-                                            <span class="badge bg-warning-subtle text-warning">Train Clash Warning</span>
-                                            <small class="text-muted">CLASH-01</small>
-                                        </div>
-                                        <div class="fw-semibold text-dark">Freight T310 overlap at Junction J4</div>
-                                        <small class="text-secondary">Recommended: Shift block start to 18:30 off-peak window.</small>
-                                    </div>
+                                    <div class="p-4 text-center text-muted small"><i class="bi bi-check2-circle text-success fs-4 d-block mb-2"></i>No active operational alerts or train clashes.</div>
                                 </div>
                             </div>
                         </div>

@@ -118,19 +118,20 @@ async function loadRecommendedHero() {
             const dateEl = document.getElementById('heroDate');
             const statusEl = document.getElementById('heroStatusBadge');
             const countEl = document.getElementById('heroTaskCount');
-
-            if (blockIdEl) blockIdEl.textContent = plan.block_id || 'B-102';
-            if (corridorEl) corridorEl.textContent = plan.corridor || 'Corridor C2';
-            if (timeSlotEl) timeSlotEl.textContent = `${plan.start_time} – ${plan.end_time}`;
-            if (dateEl) dateEl.textContent = `Target Date: ${plan.date || '2026-09-21'}`;
-            if (statusEl) statusEl.textContent = plan.status === 'Approved' ? 'Authorized Plan' : 'Plan Ready';
+            const taskListEl = document.getElementById('heroTaskList');
 
             const tasks = plan.scheduled_tasks || [];
-            if (countEl) countEl.textContent = tasks.length;
+            const hasValidBlock = plan.block_id && plan.block_id !== 'NONE' && plan.block_id !== 'null';
 
-            const taskListEl = document.getElementById('heroTaskList');
-            if (taskListEl) {
-                if (tasks.length > 0) {
+            if (hasValidBlock && tasks.length > 0) {
+                if (blockIdEl) blockIdEl.textContent = plan.block_id;
+                if (corridorEl) corridorEl.textContent = plan.corridor || 'Corridor C2';
+                if (timeSlotEl) timeSlotEl.textContent = `${plan.start_time} – ${plan.end_time}`;
+                if (dateEl) dateEl.textContent = `Target Date: ${plan.date || 'Today'}`;
+                if (statusEl) statusEl.textContent = plan.status === 'Approved' ? 'Authorized Plan' : 'Plan Ready';
+                if (countEl) countEl.textContent = tasks.length;
+
+                if (taskListEl) {
                     taskListEl.innerHTML = tasks.slice(0, 3).map(t => {
                         const desc = t.work_description || t.description || t.asset || 'Maintenance Work';
                         return `
@@ -141,8 +142,16 @@ async function loadRecommendedHero() {
                             </li>
                         `;
                     }).join('');
-                } else {
-                    taskListEl.innerHTML = `<li class="text-muted small">No scheduled tasks currently allocated.</li>`;
+                }
+            } else {
+                if (blockIdEl) blockIdEl.textContent = 'NO BLOCK';
+                if (corridorEl) corridorEl.textContent = plan.corridor || 'Corridor C2';
+                if (timeSlotEl) timeSlotEl.textContent = 'No Active Window';
+                if (dateEl) dateEl.textContent = `Target Date: Today`;
+                if (statusEl) statusEl.textContent = 'Awaiting Plan';
+                if (countEl) countEl.textContent = '0';
+                if (taskListEl) {
+                    taskListEl.innerHTML = `<li class="text-muted small">No scheduled tasks currently allocated. Create requests and block windows to generate schedules.</li>`;
                 }
             }
         }

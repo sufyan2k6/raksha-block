@@ -177,12 +177,19 @@ function renderPlan(plan) {
     const approvedByEl = document.getElementById('approvedByText');
     const approvedAtEl = document.getElementById('approvedAtText');
 
-    if (planIdEl) planIdEl.textContent = `Plan ${plan.plan_id || 'PLAN-2026-C2'}`;
+    const hasTasks = plan.scheduled_tasks && plan.scheduled_tasks.length > 0;
+    const hasValidBlock = plan.block_id && plan.block_id !== 'NONE';
+
+    if (planIdEl) planIdEl.textContent = plan.plan_id ? `Plan ${plan.plan_id}` : 'No Active Plan';
     if (planDetailsEl) {
-        const timeSlot = (plan.start_time && plan.end_time) ? `(${plan.start_time} – ${plan.end_time})` : '';
-        planDetailsEl.textContent = `Target Corridor: ${plan.corridor || 'Corridor C2'} • Date: ${plan.date || '2026-09-21'} • Window: ${plan.block_id || 'B-102'} ${timeSlot}`;
+        if (hasValidBlock && hasTasks) {
+            const timeSlot = (plan.start_time && plan.end_time) ? `(${plan.start_time} – ${plan.end_time})` : '';
+            planDetailsEl.textContent = `Target Corridor: ${plan.corridor || 'Corridor C2'} • Date: ${plan.date || 'Today'} • Window: ${plan.block_id} ${timeSlot}`;
+        } else {
+            planDetailsEl.textContent = plan.recommendation_reason || `Target Corridor: ${plan.corridor || 'Corridor C2'} • Date: ${plan.date || 'Today'} • No active block window open.`;
+        }
     }
-    if (planScoreEl) planScoreEl.textContent = plan.satisfaction_score || '96.8%';
+    if (planScoreEl) planScoreEl.textContent = plan.satisfaction_score || '0.0%';
 
     // Check if URL specifies proposed simulated scenario modification
     const urlParams = new URLSearchParams(window.location.search);
