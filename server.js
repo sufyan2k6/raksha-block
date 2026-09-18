@@ -47,6 +47,15 @@ app.get('/api/notifications', (req, res) => {
     res.json({ count: db.getNotifications().length, notifications: db.getNotifications() });
 });
 
+app.post('/api/sync', async (req, res) => {
+    try {
+        await db.reloadFromSupabase();
+        res.json({ success: true, message: 'Synchronized with Supabase PostgreSQL.' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.get('/api/status', (req, res) => {
     res.json({
         status: 'ONLINE',

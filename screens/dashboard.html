@@ -74,41 +74,68 @@
                 </div>
 
                 <!-- RECOMMENDED BLOCK (HERO CARD) -->
-                <div class="card border-primary shadow-sm mb-4">
+                <div class="card border-primary shadow-sm mb-4" id="heroCard">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
                         <div class="d-flex align-items-center gap-2">
                             <i class="bi bi-star-fill text-warning fs-5"></i>
                             <h5 class="fw-bold mb-0">RECOMMENDED BLOCK</h5>
                         </div>
-                        <span class="badge bg-white text-primary fw-bold" id="heroStatusBadge">Awaiting Plan</span>
+                        <span class="badge bg-white text-primary fw-bold" id="heroStatusBadge">No Recommendation</span>
                     </div>
-                    <div class="card-body p-4">
-                        <div class="row align-items-center g-4">
-                            <div class="col-lg-4 border-end">
-                                <div class="badge bg-light text-dark font-mono mb-2 fs-6 px-3 py-1" id="heroBlockId">NO BLOCK</div>
-                                <h3 class="fw-bold text-dark mb-1" id="heroCorridor">Corridor C2</h3>
-                                <div class="fs-5 text-primary font-mono fw-semibold mb-2" id="heroTimeSlot">No Active Window</div>
-                                <div class="text-secondary small" id="heroDate">Target Date: Today</div>
-                            </div>
-
-                            <div class="col-lg-5">
-                                <div class="fw-semibold text-secondary small text-uppercase mb-2">Combined Tasks in Block:</div>
-                                <ul class="list-unstyled mb-3" id="heroTaskList">
-                                    <li class="text-muted small">No scheduled tasks currently allocated. Create requests and block windows to generate schedules.</li>
-                                </ul>
-                                <div class="d-flex gap-3">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-layers-fill me-1"></i> <span id="heroTaskCount">0</span> Tasks Combined</span>
-                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1"><i class="bi bi-shield-check me-1"></i> 0 Unresolved Conflicts</span>
+                    <div class="card-body p-4" id="heroCardBody">
+                        <!-- True Data-Driven Empty State Container -->
+                        <div id="heroEmptyState" class="py-2">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-8">
+                                    <div class="d-flex align-items-start gap-3">
+                                        <div class="rounded-circle bg-primary-subtle p-3 text-primary d-none d-md-flex align-items-center justify-content-center" style="width: 52px; height: 52px; min-width: 52px;">
+                                            <i class="bi bi-calendar2-range fs-3"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="fw-bold text-dark mb-2" id="heroEmptyTitle">No recommendation available yet</h4>
+                                            <p class="text-secondary mb-2" id="heroEmptyMessage">Create maintenance requests and block windows to generate a block recommendation.</p>
+                                            <div class="text-muted small" id="heroEmptyHint"><i class="bi bi-info-circle me-1"></i>There is currently no planning data available.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 d-flex flex-column gap-2" id="heroEmptyActions">
+                                    <a href="/planning" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                        <i class="bi bi-cpu"></i> <span>Open Planning Engine</span>
+                                    </a>
+                                    <a href="/trains" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                        <i class="bi bi-clock-history"></i> <span>Train Timetable</span>
+                                    </a>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-lg-3 d-flex flex-column gap-2">
-                                <a href="/planning" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
-                                    <span>View Plan</span> <i class="bi bi-arrow-right"></i>
-                                </a>
-                                <a href="/simulator" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
-                                    <i class="bi bi-shuffle"></i> <span>What-If</span>
-                                </a>
+                        <!-- Active Recommendation Container (Shown ONLY when actual data recommendation exists) -->
+                        <div id="heroActiveState" style="display: none;">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-4 border-end">
+                                    <div class="badge bg-success-subtle text-success border border-success-subtle font-mono mb-2 fs-6 px-3 py-1" id="heroBlockId">--</div>
+                                    <h3 class="fw-bold text-dark mb-1" id="heroCorridor">--</h3>
+                                    <div class="fs-5 text-primary font-mono fw-semibold mb-2" id="heroTimeSlot">--</div>
+                                    <div class="text-secondary small" id="heroDate">--</div>
+                                </div>
+
+                                <div class="col-lg-5">
+                                    <div class="fw-semibold text-secondary small text-uppercase mb-2">Combined Tasks in Block:</div>
+                                    <ul class="list-unstyled mb-3" id="heroTaskList"></ul>
+                                    <div class="d-flex gap-3">
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-layers-fill me-1"></i> <span id="heroTaskCount">0</span> Tasks Combined</span>
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1"><i class="bi bi-shield-check me-1"></i> <span id="heroConflictCount">0</span> Unresolved Conflicts</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 d-flex flex-column gap-2" id="heroActiveActions">
+                                    <a href="/planning" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                        <span>View Plan</span> <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                    <a href="/simulator" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                        <i class="bi bi-shuffle"></i> <span>What-If</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,22 +163,22 @@
                         <div class="card mb-4">
                             <div class="card-header bg-white fw-bold text-dark"><i class="bi bi-lightning-charge text-primary me-2"></i>Quick Actions</div>
                             <div class="card-body p-3">
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <a href="/requests" class="btn btn-outline-primary w-100 text-start p-3 d-flex align-items-center gap-2">
-                                            <i class="bi bi-plus-circle fs-5"></i>
-                                            <div>
-                                                <div class="fw-bold small">Add Request</div>
-                                                <div class="text-muted" style="font-size:0.75rem;">New Work Order</div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                <div class="row g-2" id="quickActionsRow">
                                     <div class="col-6">
                                         <a href="/trains" class="btn btn-outline-secondary w-100 text-start p-3 d-flex align-items-center gap-2">
                                             <i class="bi bi-clock-history fs-5"></i>
                                             <div>
                                                 <div class="fw-bold small">Train Timetable</div>
                                                 <div class="text-muted" style="font-size:0.75rem;">View Section Movements</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="/block-windows" class="btn btn-outline-primary w-100 text-start p-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-calendar2-week fs-5"></i>
+                                            <div>
+                                                <div class="fw-bold small">Block Windows</div>
+                                                <div class="text-muted" style="font-size:0.75rem;">Available Windows</div>
                                             </div>
                                         </a>
                                     </div>

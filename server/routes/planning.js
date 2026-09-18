@@ -11,27 +11,140 @@ const { requirePlanner } = require('../middleware/auth');
 
 // In-memory active plan reference backed by db
 let activePlan = null;
-
 // GET /api/block-plans/recommended
 router.get('/recommended', (req, res) => {
     try {
-        const corridor = req.query.corridor || 'Corridor C2';
-        const date = req.query.date || '2026-09-21';
-        
-        // Find if active plan or db plan matches this corridor and date
-        let plan = null;
-        if (activePlan && activePlan.corridor === corridor && activePlan.date === date) {
-            plan = activePlan;
-        } else if (db.blockPlans && db.blockPlans.length > 0) {
-            plan = db.blockPlans.find(p => p.corridor === corridor && p.date === date && p.status === 'Approved');
+        const explicitCorridor = req.query.corridor || null;
+        const explicitDate = req.query.date || null;
+
+        const allRequests = (db.getAllRequests() || []).filter(r => r.status === 'Pending' || r.status === 'Planned');
+        const allWindows = (db.getAllWindows() || []).filter(w => w.status === 'Available');
+
+        // Check if active approved plan exists in db
+        if (db.blockPlans && db.blockPlans.length > 0) {
+            const approvedPlan = db.blockPlans.find(p => {
+                if (p.status !== 'Approved') return false;
+                if (explicitCorridor && p.corridor !== explicitCorridor) return false;
+                if (explicitDate && p.date !== explicitDate) return false;
+                return true;
+            });
+            if (approvedPlan && approvedPlan.scheduled_tasks && approvedPlan.scheduled_tasks.length > 0) {
+                return res.json({
+                    ...approvedPlan,
+                    hasRecommendation: true,
+                    state: 'RECOMMENDED',
+                    title: 'Authorized Block Plan',
+                    task_count: approvedPlan.scheduled_tasks.length,
+                    conflict_count: 0
+                });
+            }
         }
 
-        if (!plan) {
-            plan = generateRecommendedPlan(corridor, date);
-            activePlan = plan;
+        // TEST A: 0 requests AND 0 block windows -> True clean empty state
+        if (allRequests.length === 0 && allWindows.length === 0) {
+            return res.json({
+                hasRecommendation: false,
+                state: 'NO_DATA',
+                title: 'No recommendation available yet',
+                message: 'Create maintenance requests and block windows to generate a block recommendation. There is currently no planning data available.',
+                corridor: null,
+                block_id: null,
+                date: null,
+                start_time: null,
+                end_time: null,
+                scheduled_tasks: [],
+                unscheduled_tasks: [],
+                task_count: 0,
+                conflict_count: 0
+            });
         }
 
-        res.json(plan);
+        // TEST B: Requests exist, but 0 block windows
+        if (allRequests.length > 0 && allWindows.length === 0) {
+            const reqCorridor = explicitCorridor || allRequests[0].corridor || null;
+            return res.json({
+                hasRecommendation: false,
+                state: 'NO_WINDOWS',
+                title: 'No block recommendation available yet',
+                message: 'Maintenance requests are pending, but no block window is available. Create a suitable block window first.',
+                corridor: reqCorridor,
+                date: null,
+                block_id: null,
+                start_time: null,
+                end_time: null,
+                scheduled_tasks: [],
+                unscheduled_tasks: allRequests,
+                task_count: 0,
+                conflict_count: 0
+            });
+        }
+
+        // Windows exist, but 0 requests
+        if (allRequests.length === 0 && allWindows.length > 0) {
+            const winCorridor = explicitCorridor || allWindows[0].corridor || null;
+            return res.json({
+                hasRecommendation: false,
+                state: 'NO_REQUESTS',
+                title: 'No recommendation available yet',
+                message: 'Block windows are configured, but no maintenance requests are pending. Create maintenance requests to generate a block recommendation.',
+                corridor: winCorridor,
+                date: null,
+                block_id: null,
+                start_time: null,
+                end_time: null,
+                scheduled_tasks: [],
+                unscheduled_tasks: [],
+                task_count: 0,
+                conflict_count: 0
+            });
+        }
+
+        // TEST C & D: Both requests and windows exist!
+        // Find which corridor to plan for
+        let targetCorridor = explicitCorridor;
+        if (!targetCorridor) {
+            const reqCorrs = [...new Set(allRequests.map(r => r.corridor).filter(Boolean))];
+            const winCorrs = [...new Set(allWindows.map(w => w.corridor).filter(Boolean))];
+            const common = reqCorrs.filter(c => winCorrs.includes(c));
+            targetCorridor = common[0] || reqCorrs[0] || winCorrs[0] || null;
+        }
+
+        const targetDate = explicitDate || null;
+
+        // Generate data-driven recommendation directly from live operational state
+        const plan = generateRecommendedPlan(targetCorridor, targetDate || '2026-09-21');
+        activePlan = plan;
+
+        const hasTasks = plan && plan.scheduled_tasks && plan.scheduled_tasks.length > 0;
+        const hasValidBlock = plan && plan.block_id && plan.block_id !== 'NONE' && plan.block_id !== 'null';
+
+        if (hasTasks && hasValidBlock) {
+            return res.json({
+                ...plan,
+                hasRecommendation: true,
+                state: 'RECOMMENDED',
+                title: 'Recommended Block Plan Ready',
+                task_count: plan.scheduled_tasks.length,
+                conflict_count: (plan.detected_conflicts || []).length
+            });
+        } else {
+            // TEST D: Requests and blocks exist, but no feasible recommendation
+            return res.json({
+                hasRecommendation: false,
+                state: 'NO_FEASIBLE',
+                title: 'No suitable block found',
+                message: plan.recommendation_reason || (plan.reasons && plan.reasons[0] && plan.reasons[0].description) || 'None of the available block windows can accommodate the pending maintenance requests without critical conflicts.',
+                corridor: targetCorridor,
+                date: targetDate,
+                block_id: null,
+                start_time: null,
+                end_time: null,
+                scheduled_tasks: [],
+                unscheduled_tasks: plan ? (plan.unscheduled_tasks || []) : [],
+                task_count: 0,
+                conflict_count: (plan && plan.detected_conflicts || []).length
+            });
+        }
     } catch (err) {
         console.error('Error fetching recommended plan:', err);
         res.status(500).json({ error: 'Failed to generate recommended plan.' });
@@ -42,12 +155,23 @@ router.get('/recommended', (req, res) => {
 router.post('/generate', requirePlanner, (req, res) => {
     try {
         const { corridor, date } = req.body;
-        activePlan = generateRecommendedPlan(corridor || 'Corridor C2', date || '2026-09-21');
+        const allRequests = (db.getAllRequests() || []).filter(r => r.status === 'Pending' || r.status === 'Planned');
+        const allWindows = (db.getAllWindows() || []).filter(w => w.status === 'Available');
+        const reqCorrs = [...new Set(allRequests.map(r => r.corridor).filter(Boolean))];
+        const winCorrs = [...new Set(allWindows.map(w => w.corridor).filter(Boolean))];
+        const common = reqCorrs.filter(c => winCorrs.includes(c));
+        const targetCorridor = corridor || common[0] || reqCorrs[0] || winCorrs[0] || null;
+
+        if (!targetCorridor) {
+            return res.status(400).json({ error: 'No operational corridor data available to plan.' });
+        }
+
+        activePlan = generateRecommendedPlan(targetCorridor, date || '2026-09-21');
         activePlan.status = 'Draft Recommended Plan';
         activePlan.approved_by = null;
         activePlan.approved_at = null;
 
-        db.addNotification('Recommended Block Plan Generated', `Generated plan ${activePlan.plan_id} for ${activePlan.corridor} with ${activePlan.scheduled_tasks.length} scheduled tasks.`);
+        db.addNotification('Recommended Block Plan Generated', `Generated plan ${activePlan.plan_id || 'Draft'} for ${activePlan.corridor} with ${activePlan.scheduled_tasks ? activePlan.scheduled_tasks.length : 0} scheduled tasks.`);
         res.json({ message: 'Block plan generated successfully.', plan: activePlan });
     } catch (err) {
         console.error('Error generating plan:', err);
@@ -58,8 +182,8 @@ router.post('/generate', requirePlanner, (req, res) => {
 // POST /api/block-plans/approve (Planner only)
 router.post('/approve', requirePlanner, (req, res) => {
     try {
-        if (!activePlan) {
-            activePlan = generateRecommendedPlan('Corridor C2', '2026-09-21');
+        if (!activePlan || !activePlan.scheduled_tasks || activePlan.scheduled_tasks.length === 0) {
+            return res.status(400).json({ error: 'No active recommended plan with scheduled tasks to approve.' });
         }
 
         const empName = req.headers['x-user-name'] || 'Rohan Gupta (Railway Planner)';
@@ -102,10 +226,10 @@ router.post('/approve', requirePlanner, (req, res) => {
             db.blockPlans.push(activePlan);
         }
 
-        db.addNotification('Block Plan Approved', `Plan ${activePlan.plan_id} authorized & signed by ${empName}. Timetable published.`);
+        db.addNotification('Block Plan Approved & Authorized', `Plan ${activePlan.plan_id} for ${activePlan.corridor} authorized by ${empName}.`);
 
         res.json({
-            message: 'Block plan approved and signed successfully.',
+            message: 'Block plan authorized and saved successfully.',
             plan: activePlan
         });
     } catch (err) {
@@ -118,7 +242,7 @@ router.post('/approve', requirePlanner, (req, res) => {
 router.post('/reject', requirePlanner, (req, res) => {
     try {
         if (!activePlan) {
-            activePlan = generateRecommendedPlan('Corridor C2', '2026-09-21');
+            return res.status(400).json({ error: 'No active recommended plan to reject.' });
         }
 
         const empName = req.headers['x-user-name'] || 'Rohan Gupta (Railway Planner)';

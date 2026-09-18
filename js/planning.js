@@ -184,9 +184,9 @@ function renderPlan(plan) {
     if (planDetailsEl) {
         if (hasValidBlock && hasTasks) {
             const timeSlot = (plan.start_time && plan.end_time) ? `(${plan.start_time} – ${plan.end_time})` : '';
-            planDetailsEl.textContent = `Target Corridor: ${plan.corridor || 'Corridor C2'} • Date: ${plan.date || 'Today'} • Window: ${plan.block_id} ${timeSlot}`;
+            planDetailsEl.textContent = `Target Corridor: ${plan.corridor || 'Unassigned'} • Date: ${plan.date || 'Today'} • Window: ${plan.block_id} ${timeSlot}`;
         } else {
-            planDetailsEl.textContent = plan.recommendation_reason || `Target Corridor: ${plan.corridor || 'Corridor C2'} • Date: ${plan.date || 'Today'} • No active block window open.`;
+            planDetailsEl.textContent = plan.recommendation_reason || (plan.corridor ? `Target Corridor: ${plan.corridor} • No active block window open.` : 'No operational planning data available.');
         }
     }
     if (planScoreEl) planScoreEl.textContent = plan.satisfaction_score || '0.0%';

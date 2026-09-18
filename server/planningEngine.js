@@ -26,7 +26,42 @@ function formatMinutes(minutes) {
  * @param {string} date Target planning date (e.g. '2026-09-21')
  * @param {string} preferredWindowId Optional explicit block window ID
  */
-function generateRecommendedPlan(corridor = 'Corridor C2', date = '2026-09-21', preferredWindowId = null) {
+function generateRecommendedPlan(corridor = null, date = null, preferredWindowId = null) {
+    // If corridor is not explicitly specified, derive it from active requests or available windows
+    if (!corridor) {
+        const allPending = (db.getAllRequests() || []).filter(r => r.status === 'Pending' || r.status === 'Planned');
+        const allAvailWindows = (db.getAllWindows() || []).filter(w => w.status === 'Available');
+        const reqCorrs = [...new Set(allPending.map(r => r.corridor).filter(Boolean))];
+        const winCorrs = [...new Set(allAvailWindows.map(w => w.corridor).filter(Boolean))];
+        const common = reqCorrs.filter(c => winCorrs.includes(c));
+        corridor = common[0] || reqCorrs[0] || winCorrs[0] || null;
+    }
+
+    if (!corridor) {
+        return {
+            plan_id: null,
+            block_id: null,
+            corridor: null,
+            date: date || null,
+            start_time: null,
+            end_time: null,
+            total_window_minutes: 0,
+            used_minutes: 0,
+            remaining_buffer_minutes: 0,
+            satisfaction_score: '0.0%',
+            scheduled_tasks: [],
+            unscheduled_tasks: [],
+            detected_conflicts: [],
+            coordination_opportunities: [],
+            reasons: [{ title: 'No Operational Data', description: 'No maintenance requests or block windows exist in the system.' }],
+            why_this_plan: [{ title: 'No Operational Data', description: 'No maintenance requests or block windows exist in the system.' }],
+            recommendation_reason: 'No maintenance requests or block windows are currently available. Create operational data to generate a recommendation.',
+            status: 'No Plan',
+            approved_by: null,
+            approved_at: null
+        };
+    }
+
     // 1. Retrieve all candidate requests for this corridor
     // Every valid request with status 'Pending' or 'Planned' is eligible!
     const allCorridorRequests = db.getAllRequests({ corridor });
@@ -58,17 +93,17 @@ function generateRecommendedPlan(corridor = 'Corridor C2', date = '2026-09-21', 
             work_description: r.work_description || r.description || r.asset || 'Maintenance Task',
             duration_minutes: r.duration_minutes || 60,
             priority: r.priority || 'Medium',
-            reason: `No feasible block window available for ${corridor} on ${date}.`,
+            reason: `No feasible block window available for ${corridor}.`,
             status: 'Pending'
         }));
 
         return {
-            plan_id: `PLAN-${Date.now().toString().slice(-4)}`,
-            block_id: 'NONE',
+            plan_id: null,
+            block_id: null,
             corridor,
-            date,
-            start_time: 'N/A',
-            end_time: 'N/A',
+            date: date || null,
+            start_time: null,
+            end_time: null,
             total_window_minutes: 0,
             used_minutes: 0,
             remaining_buffer_minutes: 0,
@@ -276,17 +311,19 @@ function generateRecommendedPlan(corridor = 'Corridor C2', date = '2026-09-21', 
         }
     ];
 
-    const satisfactionScore = scheduledTasks.length > 0 
+    const hasScheduled = scheduledTasks.length > 0;
+
+    const satisfactionScore = hasScheduled 
         ? `${Math.min(99, Math.round((currentUsed / windowCapacity) * 100))}%`
         : '0.0%';
 
     const plan = {
-        plan_id: `PLAN-2026-${selectedWindow.window_id}`,
-        block_id: selectedWindow.window_id,
+        plan_id: hasScheduled ? `PLAN-2026-${selectedWindow.window_id}` : null,
+        block_id: hasScheduled ? selectedWindow.window_id : null,
         corridor: selectedWindow.corridor,
-        date: selectedWindow.date || date,
-        start_time: selectedWindow.start_time,
-        end_time: selectedWindow.end_time,
+        date: hasScheduled ? (selectedWindow.date || date) : null,
+        start_time: hasScheduled ? selectedWindow.start_time : null,
+        end_time: hasScheduled ? selectedWindow.end_time : null,
         total_window_minutes: windowCapacity,
         used_minutes: currentUsed,
         remaining_buffer_minutes: remainingBuffer,
@@ -297,8 +334,10 @@ function generateRecommendedPlan(corridor = 'Corridor C2', date = '2026-09-21', 
         coordination_opportunities: coordinations,
         reasons,
         why_this_plan: reasons,
-        recommendation_reason: `Recommended Plan for ${corridor}: Window ${selectedWindow.window_id} (${selectedWindow.start_time} – ${selectedWindow.end_time}) schedules ${scheduledTasks.length} tasks with ${remainingBuffer} mins safety buffer.`,
-        status: 'Draft Recommended Plan',
+        recommendation_reason: hasScheduled
+            ? `Recommended possession of block ${selectedWindow.window_id} (${selectedWindow.start_time}–${selectedWindow.end_time}) on ${corridor}. Accommodates ${scheduledTasks.length} tasks.`
+            : `None of the available block windows can accommodate the pending maintenance requests due to duration or constraint limits.`,
+        status: hasScheduled ? 'Draft Recommended Plan' : 'No Feasible Plan',
         approved_by: null,
         approved_at: null
     };
@@ -323,7 +362,7 @@ function findSuitableBlocks(requestId) {
     const allAssignments = db.getAllBlockAssignments();
 
     const reqDur = parseInt(req.duration_minutes, 10) || 60;
-    const reqCorridor = req.corridor || 'Corridor C2';
+    const reqCorridor = req.corridor || null;
 
     const candidates = [];
 

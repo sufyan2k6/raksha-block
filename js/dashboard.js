@@ -16,11 +16,15 @@ function adaptDashboardForRole() {
     const dept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
     const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
 
+    const qaContainer = document.getElementById('quickActionsRow');
+    const heroActiveActions = document.getElementById('heroActiveActions');
+    const heroEmptyActions = document.getElementById('heroEmptyActions');
+    const attentionLink = document.querySelector('a[href="/conflicts"], a[href="/requests"]');
+
     if (!isPlanner) {
-        // Adjust Hero Card Action Buttons
-        const heroActions = document.querySelector('.card.border-primary .col-lg-3');
-        if (heroActions) {
-            heroActions.innerHTML = `
+        // Department Engineer Role: P-Way, S&T, TRD
+        if (heroActiveActions) {
+            heroActiveActions.innerHTML = `
                 <a href="/requests" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
                     <i class="bi bi-tools"></i> <span>My Requests</span>
                 </a>
@@ -29,9 +33,18 @@ function adaptDashboardForRole() {
                 </a>
             `;
         }
+        if (heroEmptyActions) {
+            heroEmptyActions.innerHTML = `
+                <a href="/requests" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-plus-circle"></i> <span>New Maintenance Request</span>
+                </a>
+                <a href="/trains" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-clock-history"></i> <span>Train Movements</span>
+                </a>
+            `;
+        }
 
-        // Adjust Quick Actions: strictly remove planner links (/conflicts, /planning)
-        const qaContainer = document.querySelector('.card .card-body .row.g-2');
+        // Adjust Quick Actions: strictly for department field engineers (New Request, My Work Orders, Train Movements, Settings)
         if (qaContainer) {
             qaContainer.innerHTML = `
                 <div class="col-6">
@@ -73,11 +86,56 @@ function adaptDashboardForRole() {
             `;
         }
 
-        // Adjust attention required link
-        const attentionLink = document.querySelector('a[href="/conflicts"]');
         if (attentionLink) {
             attentionLink.href = '/requests';
             attentionLink.textContent = 'View Requests';
+        }
+    } else {
+        // Railway Planner Role: Strictly NO "Add Request", NO "New Work Order"
+        if (qaContainer) {
+            qaContainer.innerHTML = `
+                <div class="col-6">
+                    <a href="/trains" class="btn btn-outline-secondary w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-history fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Train Timetable</div>
+                            <div class="text-muted" style="font-size:0.75rem;">View Section Movements</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/block-windows" class="btn btn-outline-primary w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-calendar2-week fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Block Windows</div>
+                            <div class="text-muted" style="font-size:0.75rem;">Available Windows</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/conflicts" class="btn btn-outline-danger w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-shield-exclamation fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Check Conflicts</div>
+                            <div class="text-muted" style="font-size:0.75rem;">Audit Clashes</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/planning" class="btn btn-outline-success w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-cpu fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Block Plan</div>
+                            <div class="text-muted" style="font-size:0.75rem;">Generate & Approve</div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        }
+
+        if (attentionLink) {
+            attentionLink.href = '/conflicts';
+            attentionLink.textContent = 'View All';
         }
     }
 }
@@ -106,32 +164,84 @@ async function loadDashboardMetrics() {
 
 async function loadRecommendedHero() {
     try {
-        const response = await fetch('/api/block-plans/recommended?corridor=Corridor%20C2&date=2026-09-21');
-        if (!response.ok) throw new Error('Failed to fetch plan');
+        const fetchFn = window.rakshaApiFetch || fetch;
+        const response = await fetchFn('/api/block-plans/recommended');
+        if (!response.ok) throw new Error('Failed to fetch recommended plan');
 
         const plan = await response.json();
 
-        if (plan) {
+        const emptyContainer = document.getElementById('heroEmptyState');
+        const activeContainer = document.getElementById('heroActiveState');
+        const statusBadge = document.getElementById('heroStatusBadge');
+
+        if (!plan || !plan.hasRecommendation) {
+            // True Data-Driven Empty / Infeasible State
+            if (activeContainer) activeContainer.style.display = 'none';
+            if (emptyContainer) emptyContainer.style.display = 'block';
+
+            const titleEl = document.getElementById('heroEmptyTitle');
+            const msgEl = document.getElementById('heroEmptyMessage');
+            const hintEl = document.getElementById('heroEmptyHint');
+
+            if (plan && plan.state === 'NO_WINDOWS') {
+                if (statusBadge) statusBadge.textContent = 'Window Required';
+                if (titleEl) titleEl.textContent = plan.title || 'No block recommendation available yet';
+                if (msgEl) msgEl.textContent = plan.message || 'Maintenance requests are pending, but no block window is available. Create a suitable block window first.';
+                if (hintEl) {
+                    hintEl.innerHTML = plan.corridor 
+                        ? `<i class="bi bi-geo-alt me-1"></i>Corridor: ${escapeHtml(plan.corridor)} (Pending work orders require block possession)`
+                        : `<i class="bi bi-info-circle me-1"></i>Pending work orders require a matching block window.`;
+                }
+            } else if (plan && plan.state === 'NO_REQUESTS') {
+                if (statusBadge) statusBadge.textContent = 'No Requests';
+                if (titleEl) titleEl.textContent = plan.title || 'No recommendation available yet';
+                if (msgEl) msgEl.textContent = plan.message || 'Block windows are configured, but no maintenance requests are pending. Create maintenance requests to generate a block recommendation.';
+                if (hintEl) {
+                    hintEl.innerHTML = plan.corridor 
+                        ? `<i class="bi bi-geo-alt me-1"></i>Corridor: ${escapeHtml(plan.corridor)}`
+                        : `<i class="bi bi-info-circle me-1"></i>No work orders pending.`;
+                }
+            } else if (plan && plan.state === 'NO_FEASIBLE') {
+                if (statusBadge) statusBadge.textContent = 'No Fit Found';
+                if (titleEl) titleEl.textContent = plan.title || 'No suitable block found';
+                if (msgEl) msgEl.textContent = plan.message || 'None of the available block windows can accommodate the pending maintenance requests.';
+                if (hintEl) {
+                    hintEl.innerHTML = plan.corridor 
+                        ? `<i class="bi bi-geo-alt me-1"></i>Corridor: ${escapeHtml(plan.corridor)} (Unresolved constraints or duration overflow)`
+                        : `<i class="bi bi-exclamation-triangle me-1"></i>Unresolved constraints prevent block recommendation.`;
+                }
+            } else {
+                // Completely empty database state (TEST A: 0 requests, 0 blocks)
+                if (statusBadge) statusBadge.textContent = 'No Recommendation';
+                if (titleEl) titleEl.textContent = 'No recommendation available yet';
+                if (msgEl) msgEl.textContent = 'Create maintenance requests and block windows to generate a block recommendation.';
+                if (hintEl) hintEl.innerHTML = '<i class="bi bi-info-circle me-1"></i>There is currently no planning data available.';
+            }
+        } else {
+            // Actual recommendation generated and available!
+            if (emptyContainer) emptyContainer.style.display = 'none';
+            if (activeContainer) activeContainer.style.display = 'block';
+
             const blockIdEl = document.getElementById('heroBlockId');
             const corridorEl = document.getElementById('heroCorridor');
             const timeSlotEl = document.getElementById('heroTimeSlot');
             const dateEl = document.getElementById('heroDate');
-            const statusEl = document.getElementById('heroStatusBadge');
             const countEl = document.getElementById('heroTaskCount');
+            const conflictEl = document.getElementById('heroConflictCount');
             const taskListEl = document.getElementById('heroTaskList');
 
             const tasks = plan.scheduled_tasks || [];
-            const hasValidBlock = plan.block_id && plan.block_id !== 'NONE' && plan.block_id !== 'null';
 
-            if (hasValidBlock && tasks.length > 0) {
-                if (blockIdEl) blockIdEl.textContent = plan.block_id;
-                if (corridorEl) corridorEl.textContent = plan.corridor || 'Corridor C2';
-                if (timeSlotEl) timeSlotEl.textContent = `${plan.start_time} – ${plan.end_time}`;
-                if (dateEl) dateEl.textContent = `Target Date: ${plan.date || 'Today'}`;
-                if (statusEl) statusEl.textContent = plan.status === 'Approved' ? 'Authorized Plan' : 'Plan Ready';
-                if (countEl) countEl.textContent = tasks.length;
+            if (blockIdEl) blockIdEl.textContent = plan.block_id || '--';
+            if (corridorEl) corridorEl.textContent = plan.corridor || '--';
+            if (timeSlotEl) timeSlotEl.textContent = `${plan.start_time} – ${plan.end_time}`;
+            if (dateEl) dateEl.textContent = plan.date ? `Target Date: ${plan.date}` : 'Target Date: Today';
+            if (statusBadge) statusBadge.textContent = plan.status === 'Approved' ? 'Authorized Plan' : 'Plan Ready';
+            if (countEl) countEl.textContent = tasks.length;
+            if (conflictEl) conflictEl.textContent = plan.conflict_count || (plan.detected_conflicts || []).length || 0;
 
-                if (taskListEl) {
+            if (taskListEl) {
+                if (tasks.length > 0) {
                     taskListEl.innerHTML = tasks.slice(0, 3).map(t => {
                         const desc = t.work_description || t.description || t.asset || 'Maintenance Work';
                         return `
@@ -142,16 +252,8 @@ async function loadRecommendedHero() {
                             </li>
                         `;
                     }).join('');
-                }
-            } else {
-                if (blockIdEl) blockIdEl.textContent = 'NO BLOCK';
-                if (corridorEl) corridorEl.textContent = plan.corridor || 'Corridor C2';
-                if (timeSlotEl) timeSlotEl.textContent = 'No Active Window';
-                if (dateEl) dateEl.textContent = `Target Date: Today`;
-                if (statusEl) statusEl.textContent = 'Awaiting Plan';
-                if (countEl) countEl.textContent = '0';
-                if (taskListEl) {
-                    taskListEl.innerHTML = `<li class="text-muted small">No scheduled tasks currently allocated. Create requests and block windows to generate schedules.</li>`;
+                } else {
+                    taskListEl.innerHTML = `<li class="text-muted small">No scheduled tasks currently allocated.</li>`;
                 }
             }
         }
