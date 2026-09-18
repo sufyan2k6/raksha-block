@@ -10,11 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAttentionFeed();
 });
 
+function isPlannerUser() {
+    const empId = (sessionStorage.getItem('raksha_emp_id') || '').trim().toUpperCase();
+    const role = (sessionStorage.getItem('raksha_user_role') || '').trim().toLowerCase();
+    const dept = (sessionStorage.getItem('raksha_user_department') || '').trim().toLowerCase();
+    return empId === 'EMP001' || role.includes('planner') || (dept === 'operations' && !role.includes('controller'));
+}
+
 function adaptDashboardForRole() {
-    const empId = sessionStorage.getItem('raksha_emp_id');
-    const role = sessionStorage.getItem('raksha_user_role');
     const dept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
-    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+    const isPlanner = isPlannerUser();
 
     const qaContainer = document.getElementById('quickActionsRow');
     const heroActiveActions = document.getElementById('heroActiveActions');
@@ -195,7 +200,11 @@ async function loadRecommendedHero() {
             } else if (plan && plan.state === 'NO_REQUESTS') {
                 if (statusBadge) statusBadge.textContent = 'No Requests';
                 if (titleEl) titleEl.textContent = plan.title || 'No recommendation available yet';
-                if (msgEl) msgEl.textContent = plan.message || 'Block windows are configured, but no maintenance requests are pending. Create maintenance requests to generate a block recommendation.';
+                if (msgEl) {
+                    msgEl.textContent = isPlannerUser()
+                        ? 'Block windows are configured, but no maintenance requests are pending from engineering departments.'
+                        : (plan.message || 'Block windows are configured, but no maintenance requests are pending.');
+                }
                 if (hintEl) {
                     hintEl.innerHTML = plan.corridor 
                         ? `<i class="bi bi-geo-alt me-1"></i>Corridor: ${escapeHtml(plan.corridor)}`
@@ -214,7 +223,11 @@ async function loadRecommendedHero() {
                 // Completely empty database state (TEST A: 0 requests, 0 blocks)
                 if (statusBadge) statusBadge.textContent = 'No Recommendation';
                 if (titleEl) titleEl.textContent = 'No recommendation available yet';
-                if (msgEl) msgEl.textContent = 'Create maintenance requests and block windows to generate a block recommendation.';
+                if (msgEl) {
+                    msgEl.textContent = isPlannerUser()
+                        ? 'Configure corridor block windows and review maintenance requests once submitted by engineering departments.'
+                        : 'Submit maintenance requests and view block windows to generate a block recommendation.';
+                }
                 if (hintEl) hintEl.innerHTML = '<i class="bi bi-info-circle me-1"></i>There is currently no planning data available.';
             }
         } else {

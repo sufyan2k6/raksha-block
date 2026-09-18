@@ -14,22 +14,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let allRequests = [];
 
+function isPlannerUser() {
+    const empId = (sessionStorage.getItem('raksha_emp_id') || '').trim().toUpperCase();
+    const role = (sessionStorage.getItem('raksha_user_role') || '').trim().toLowerCase();
+    const dept = (sessionStorage.getItem('raksha_user_department') || '').trim().toLowerCase();
+    return empId === 'EMP001' || role.includes('planner') || (dept === 'operations' && !role.includes('controller'));
+}
+
 function initRequestsScreen() {
-    const empId = sessionStorage.getItem('raksha_emp_id');
-    const role = sessionStorage.getItem('raksha_user_role');
+    const isPlanner = isPlannerUser();
     const userDept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
-    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
-
-    // RBAC: + New Request button only visible to Department Engineers (EMP002, EMP003, EMP004)
     const newReqBtn = document.getElementById('btnNewRequest');
-    if (newReqBtn) {
-        newReqBtn.style.display = isPlanner ? 'none' : 'flex';
-    }
+    const subtitleEl = document.getElementById('requestsPageSubtitle');
+    const modalEl = document.getElementById('newRequestModal');
 
-    // Set form department strictly from authenticated session context
-    const formDeptEl = document.getElementById('formDeptInput');
-    if (formDeptEl) {
-        formDeptEl.value = userDept === 'ALL' ? 'P-Way' : userDept;
+    if (isPlanner) {
+        // Operations / Railway Planner: Strictly remove request creation UI
+        if (newReqBtn) {
+            newReqBtn.style.setProperty('display', 'none', 'important');
+            newReqBtn.classList.remove('d-flex');
+            newReqBtn.classList.add('d-none');
+            newReqBtn.remove();
+        }
+        if (modalEl) {
+            modalEl.remove();
+        }
+        if (subtitleEl) {
+            subtitleEl.textContent = 'Review, audit, and coordinate departmental engineering maintenance work orders across railway corridor assets.';
+        }
+    } else {
+        // Department Engineers (P-Way, S&T, TRD): Request submission allowed
+        if (newReqBtn) {
+            newReqBtn.classList.remove('d-none');
+            newReqBtn.classList.add('d-flex');
+            newReqBtn.style.setProperty('display', 'inline-flex', 'important');
+        }
+        if (subtitleEl) {
+            subtitleEl.textContent = `Submit and track ${userDept} engineering maintenance work orders for railway corridor assets.`;
+        }
+        // Set form department strictly from authenticated session context
+        const formDeptEl = document.getElementById('formDeptInput');
+        if (formDeptEl) {
+            formDeptEl.value = userDept === 'ALL' ? 'P-Way' : userDept;
+        }
     }
 
     loadRequests();
@@ -86,10 +113,7 @@ function renderRequestsTable(requests) {
                               req.priority === 'Medium' ? 'badge-priority-medium' : 'badge-priority-low';
 
         const statusClass = req.status === 'Scheduled' || req.status === 'Planned' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning';
-
-        const empId = sessionStorage.getItem('raksha_emp_id');
-        const role = sessionStorage.getItem('raksha_user_role');
-        const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+        const isPlanner = isPlannerUser();
 
         return `
             <tr>
@@ -169,9 +193,9 @@ function updateKPICards(requests) {
 }
 
 function filterRequests() {
-    const search = document.getElementById('searchInput').value.toLowerCase().trim();
-    const dept = document.getElementById('deptFilter').value;
-    const priority = document.getElementById('priorityFilter').value;
+    const search = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+    const dept = document.getElementById('deptFilter')?.value || '';
+    const priority = document.getElementById('priorityFilter')?.value || '';
 
     const filtered = allRequests.filter(r => {
         const matchesSearch = !search || 
@@ -196,6 +220,11 @@ function resetFilters() {
 
 async function handleCreateRequest(e) {
     e.preventDefault();
+    if (isPlannerUser()) {
+        alert('Access Forbidden: Operations / Railway Planners cannot create or submit maintenance requests.');
+        return;
+    }
+
     const form = e.target;
     const formData = new FormData(form);
 
@@ -208,15 +237,24 @@ async function handleCreateRequest(e) {
     };
 
     try {
+        const empId = sessionStorage.getItem('raksha_emp_id') || 'EMP002';
+        const userName = sessionStorage.getItem('raksha_user_name') || 'Department Engineer';
+        const userDept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
+        const userRole = sessionStorage.getItem('raksha_user_role') || 'Senior Section Engineer';
+        const token = sessionStorage.getItem('raksha_token');
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'x-user-id': empId,
+            'x-user-name': userName,
+            'x-user-department': userDept,
+            'x-user-role': userRole
+        };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
         const response = await fetch('/api/maintenance-requests', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-user-id': sessionStorage.getItem('raksha_emp_id') || 'EMP001',
-                'x-user-name': sessionStorage.getItem('raksha_user_name') || 'Railway Planner',
-                'x-user-department': sessionStorage.getItem('raksha_user_department') || 'P-Way',
-                'x-user-role': sessionStorage.getItem('raksha_user_role') || 'Railway Planner'
-            },
+            headers,
             body: JSON.stringify(reqObj)
         });
 
@@ -255,9 +293,7 @@ function viewDetails(reqId) {
 window.openFindBlockModal = async function(requestId) {
     console.log('[BLOCK ASSIGNMENT] Request:', requestId);
 
-    const empId = sessionStorage.getItem('raksha_emp_id');
-    const role = sessionStorage.getItem('raksha_user_role');
-    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+    const isPlanner = isPlannerUser();
 
     if (!isPlanner) {
         showToast('Access Forbidden', 'Only Railway Planners are authorized to search and assign block windows.', 'danger');

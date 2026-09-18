@@ -81,7 +81,8 @@ router.post('/login', (req, res) => {
             name: user.name,
             role: user.role,
             department: user.department,
-            email: user.email
+            email: user.email,
+            isPlanner: user.role === 'Railway Planner' || user.employeeId === 'EMP001'
         }
     });
 });

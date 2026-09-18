@@ -23,9 +23,10 @@ function initAppShell() {
         return;
     }
 
-    const empId = sessionStorage.getItem('raksha_emp_id');
-    const role = sessionStorage.getItem('raksha_user_role');
-    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+    const empId = (sessionStorage.getItem('raksha_emp_id') || '').trim().toUpperCase();
+    const role = (sessionStorage.getItem('raksha_user_role') || '').trim().toLowerCase();
+    const dept = (sessionStorage.getItem('raksha_user_department') || '').trim().toLowerCase();
+    const isPlanner = empId === 'EMP001' || role.includes('planner') || (dept === 'operations' && !role.includes('controller'));
 
     // RBAC ROUTE GUARD: Prevent Department Engineers from directly entering planner URLs
     const plannerOnlyPaths = [
