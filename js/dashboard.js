@@ -4,14 +4,88 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    adaptDashboardForRole();
     loadDashboardMetrics();
     loadRecommendedHero();
     loadAttentionFeed();
 });
 
+function adaptDashboardForRole() {
+    const empId = sessionStorage.getItem('raksha_emp_id');
+    const role = sessionStorage.getItem('raksha_user_role');
+    const dept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
+    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+
+    if (!isPlanner) {
+        // Adjust Hero Card Action Buttons
+        const heroActions = document.querySelector('.card.border-primary .col-lg-3');
+        if (heroActions) {
+            heroActions.innerHTML = `
+                <a href="/requests" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-tools"></i> <span>My Requests</span>
+                </a>
+                <a href="/trains" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-clock-history"></i> <span>Train Movements</span>
+                </a>
+            `;
+        }
+
+        // Adjust Quick Actions: strictly remove planner links (/conflicts, /planning)
+        const qaContainer = document.querySelector('.card .card-body .row.g-2');
+        if (qaContainer) {
+            qaContainer.innerHTML = `
+                <div class="col-6">
+                    <a href="/requests" class="btn btn-outline-primary w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-plus-circle fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">New Request</div>
+                            <div class="text-muted" style="font-size:0.75rem;">Create ${escapeHtml(dept)} Order</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/requests" class="btn btn-outline-secondary w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-card-checklist fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">My Work Orders</div>
+                            <div class="text-muted" style="font-size:0.75rem;">View Department Status</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/trains" class="btn btn-outline-info w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-clock-history fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Train Movements</div>
+                            <div class="text-muted" style="font-size:0.75rem;">Live Section Schedule</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/settings" class="btn btn-outline-secondary w-100 text-start p-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-gear fs-5"></i>
+                        <div>
+                            <div class="fw-bold small">Settings</div>
+                            <div class="text-muted" style="font-size:0.75rem;">User Preferences</div>
+                        </div>
+                    </a>
+                </div>
+            `;
+        }
+
+        // Adjust attention required link
+        const attentionLink = document.querySelector('a[href="/conflicts"]');
+        if (attentionLink) {
+            attentionLink.href = '/requests';
+            attentionLink.textContent = 'View Requests';
+        }
+    }
+}
+
 async function loadDashboardMetrics() {
     try {
-        const response = await fetch('/api/reports');
+        const fetchFn = window.rakshaApiFetch || fetch;
+        const response = await fetchFn('/api/reports');
         if (!response.ok) throw new Error('Failed to fetch metrics');
 
         const data = await response.json();

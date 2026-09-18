@@ -5,6 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const { requirePlanner } = require('../middleware/auth');
 
 // GET /api/block-windows
 router.get('/', (req, res) => {
@@ -34,8 +35,8 @@ router.get('/', (req, res) => {
     res.json({ count: enriched.length, windows: enriched });
 });
 
-// POST /api/block-windows
-router.post('/', async (req, res) => {
+// POST /api/block-windows (Planner only)
+router.post('/', requirePlanner, async (req, res) => {
     const { corridor, start_time, end_time } = req.body;
     const date = req.body.date || new Date().toISOString().split('T')[0];
 
@@ -72,8 +73,8 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT /api/block-windows/:id
-router.put('/:id', async (req, res) => {
+// PUT /api/block-windows/:id (Planner only)
+router.put('/:id', requirePlanner, async (req, res) => {
     const updated = await db.updateWindow(req.params.id, req.body);
     if (!updated) {
         return res.status(404).json({ error: 'Block window not found.' });
@@ -81,8 +82,8 @@ router.put('/:id', async (req, res) => {
     res.json({ message: 'Block window updated successfully.', window: updated });
 });
 
-// DELETE /api/block-windows/:id
-router.delete('/:id', async (req, res) => {
+// DELETE /api/block-windows/:id (Planner only)
+router.delete('/:id', requirePlanner, async (req, res) => {
     const success = await db.deleteWindow(req.params.id);
     if (!success) {
         return res.status(404).json({ error: 'Block window not found.' });

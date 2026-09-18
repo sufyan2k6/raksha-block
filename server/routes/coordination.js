@@ -6,6 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { findCoordinationOpportunities, bundleOpportunityById } = require('../coordinationEngine');
+const { requirePlanner } = require('../middleware/auth');
 
 // GET /api/coordination
 router.get('/', (req, res) => {
@@ -21,8 +22,8 @@ router.get('/', (req, res) => {
     }
 });
 
-// POST /api/coordination/:id/bundle
-router.post('/:id/bundle', (req, res) => {
+// POST /api/coordination/:id/bundle (Planner only)
+router.post('/:id/bundle', requirePlanner, (req, res) => {
     try {
         const oppId = req.params.id;
         bundleOpportunityById(oppId);

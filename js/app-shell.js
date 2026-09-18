@@ -23,41 +23,89 @@ function initAppShell() {
         return;
     }
 
-    renderSidebar(currentPath);
+    const empId = sessionStorage.getItem('raksha_emp_id');
+    const role = sessionStorage.getItem('raksha_user_role');
+    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+
+    // RBAC ROUTE GUARD: Prevent Department Engineers from directly entering planner URLs
+    const plannerOnlyPaths = [
+        '/planning', '/block-planning',
+        '/block-windows', '/windows',
+        '/conflicts', '/conflict-detection',
+        '/coordination', '/task-coordination',
+        '/priority-analysis', '/priority',
+        '/simulator', '/what-if'
+    ];
+
+    if (!isPlanner && plannerOnlyPaths.some(p => currentPath === p || currentPath.startsWith(p + '/') || currentPath.endsWith(p + '.html'))) {
+        sessionStorage.setItem('raksha_access_denied_msg', `Access Denied: Operational planning and scheduling tools are reserved for Railway Planners. Department users (${role || 'Engineer'}) are limited to maintenance request management.`);
+        window.location.href = '/dashboard';
+        return;
+    }
+
+    renderSidebar(currentPath, isPlanner);
     renderHeader();
     initSessionUser();
+
+    // Flash any pending access denied toast
+    const deniedMsg = sessionStorage.getItem('raksha_access_denied_msg');
+    if (deniedMsg) {
+        sessionStorage.removeItem('raksha_access_denied_msg');
+        setTimeout(() => {
+            showToast('Access Restricted', deniedMsg, 'danger');
+        }, 300);
+    }
 }
 
-function renderSidebar(currentPath) {
+function renderSidebar(currentPath, isPlanner) {
     const sidebarEl = document.getElementById('appSidebar');
     if (!sidebarEl) return;
 
-    const navItems = [
-        { group: 'MAIN', items: [{ name: 'Dashboard', icon: 'bi-grid-1x2-fill', path: '/dashboard' }] },
-        { group: 'PLANNING', items: [
-            { name: 'Maintenance Requests', icon: 'bi-tools', path: '/requests' },
-            { name: 'Train Schedule', icon: 'bi-clock-history', path: '/trains' },
-            { name: 'Block Windows', icon: 'bi-calendar3-range', path: '/block-windows' },
-            { name: 'Block Planning', icon: 'bi-cpu-fill', path: '/planning' }
-        ]},
-        { group: 'INTELLIGENCE', items: [
-            { name: 'Priority Analysis', icon: 'bi-bar-chart-line-fill', path: '/priority-analysis' },
-            { name: 'Conflict Detection', icon: 'bi-exclamation-triangle-fill', path: '/conflicts' },
-            { name: 'Task Coordination', icon: 'bi-diagram-3-fill', path: '/coordination' }
-        ]},
-        { group: 'SIMULATION', items: [
-            { name: 'What-If Simulator', icon: 'bi-shuffle', path: '/simulator' }
-        ]},
-        { group: 'AI ASSISTANT', items: [
-            { name: 'Raksha AI', icon: 'bi-robot', path: '/ai' }
-        ]},
-        { group: 'ANALYTICS', items: [
-            { name: 'Reports & Analytics', icon: 'bi-file-earmark-bar-graph-fill', path: '/reports' }
-        ]},
-        { group: 'SYSTEM', items: [
-            { name: 'Settings', icon: 'bi-gear-fill', path: '/settings' }
-        ]}
-    ];
+    let navItems = [];
+    if (isPlanner) {
+        navItems = [
+            { group: 'MAIN', items: [{ name: 'Dashboard', icon: 'bi-grid-1x2-fill', path: '/dashboard' }] },
+            { group: 'PLANNING', items: [
+                { name: 'Maintenance Requests', icon: 'bi-tools', path: '/requests' },
+                { name: 'Train Schedule', icon: 'bi-clock-history', path: '/trains' },
+                { name: 'Block Windows', icon: 'bi-calendar3-range', path: '/block-windows' },
+                { name: 'Block Planning', icon: 'bi-cpu-fill', path: '/planning' }
+            ]},
+            { group: 'INTELLIGENCE', items: [
+                { name: 'Priority Analysis', icon: 'bi-bar-chart-line-fill', path: '/priority-analysis' },
+                { name: 'Conflict Detection', icon: 'bi-exclamation-triangle-fill', path: '/conflicts' },
+                { name: 'Task Coordination', icon: 'bi-diagram-3-fill', path: '/coordination' }
+            ]},
+            { group: 'SIMULATION', items: [
+                { name: 'What-If Simulator', icon: 'bi-shuffle', path: '/simulator' }
+            ]},
+            { group: 'AI ASSISTANT', items: [
+                { name: 'Raksha AI', icon: 'bi-robot', path: '/ai' }
+            ]},
+            { group: 'ANALYTICS', items: [
+                { name: 'Reports & Analytics', icon: 'bi-file-earmark-bar-graph-fill', path: '/reports' }
+            ]},
+            { group: 'SYSTEM', items: [
+                { name: 'Settings', icon: 'bi-gear-fill', path: '/settings' }
+            ]}
+        ];
+    } else {
+        // Department Field Engineer (P-Way, S&T, TRD)
+        const userDept = sessionStorage.getItem('raksha_user_department') || 'Engineering';
+        navItems = [
+            { group: 'MAIN', items: [{ name: 'Dashboard', icon: 'bi-grid-1x2-fill', path: '/dashboard' }] },
+            { group: `${userDept.toUpperCase()} OPERATIONS`, items: [
+                { name: 'My Requests', icon: 'bi-tools', path: '/requests' },
+                { name: 'Train Schedule', icon: 'bi-clock-history', path: '/trains' }
+            ]},
+            { group: 'ASSISTANCE', items: [
+                { name: 'Raksha AI', icon: 'bi-robot', path: '/ai' }
+            ]},
+            { group: 'SYSTEM', items: [
+                { name: 'Settings', icon: 'bi-gear-fill', path: '/settings' }
+            ]}
+        ];
+    }
 
     let html = `
         <div class="sidebar-brand">
@@ -241,3 +289,48 @@ function showToast(title, message, type = 'success') {
         toast.show();
     }
 }
+
+// Global API Helper guaranteeing auth context injection and structured [API ERROR] logging
+window.rakshaApiFetch = async function(url, options = {}) {
+    options = options || {};
+    options.headers = options.headers || {};
+
+    const empId = sessionStorage.getItem('raksha_emp_id');
+    const role = sessionStorage.getItem('raksha_user_role');
+    const name = sessionStorage.getItem('raksha_user_name');
+    const dept = sessionStorage.getItem('raksha_user_department');
+    const token = sessionStorage.getItem('raksha_token');
+
+    if (empId && !options.headers['x-user-id']) options.headers['x-user-id'] = empId;
+    if (role && !options.headers['x-user-role']) options.headers['x-user-role'] = role;
+    if (name && !options.headers['x-user-name']) options.headers['x-user-name'] = name;
+    if (dept && !options.headers['x-user-department']) options.headers['x-user-department'] = dept;
+    if (token && !options.headers['Authorization']) options.headers['Authorization'] = `Bearer ${token}`;
+
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            let errorText = '';
+            try {
+                const clone = response.clone();
+                const json = await clone.json();
+                errorText = json.error || JSON.stringify(json);
+            } catch (e) {
+                try {
+                    errorText = await response.clone().text();
+                } catch (e2) {
+                    errorText = response.statusText;
+                }
+            }
+
+            console.error(`[API ERROR]\nEndpoint: ${url}\nStatus: ${response.status} ${response.statusText}\nResponse:`, errorText);
+            showToast('API Error', errorText || `HTTP ${response.status} from ${url}`, 'danger');
+        }
+        return response;
+    } catch (networkErr) {
+        console.error(`[API ERROR]\nEndpoint: ${url}\nStatus: NETWORK_FAILED\nResponse:`, networkErr.message);
+        showToast('Connection Error', `Failed to reach backend at ${url}`, 'danger');
+        throw networkErr;
+    }
+};
+

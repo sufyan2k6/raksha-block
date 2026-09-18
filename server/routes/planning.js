@@ -7,6 +7,7 @@ const express = require('express');
 const router = express.Router();
 const { generateRecommendedPlan, findSuitableBlocks, parseMinutes, formatMinutes } = require('../planningEngine');
 const db = require('../db');
+const { requirePlanner } = require('../middleware/auth');
 
 // In-memory active plan reference backed by db
 let activePlan = null;
@@ -37,8 +38,8 @@ router.get('/recommended', (req, res) => {
     }
 });
 
-// POST /api/block-plans/generate
-router.post('/generate', (req, res) => {
+// POST /api/block-plans/generate (Planner only)
+router.post('/generate', requirePlanner, (req, res) => {
     try {
         const { corridor, date } = req.body;
         activePlan = generateRecommendedPlan(corridor || 'Corridor C2', date || '2026-09-21');
@@ -54,8 +55,8 @@ router.post('/generate', (req, res) => {
     }
 });
 
-// POST /api/block-plans/approve
-router.post('/approve', (req, res) => {
+// POST /api/block-plans/approve (Planner only)
+router.post('/approve', requirePlanner, (req, res) => {
     try {
         if (!activePlan) {
             activePlan = generateRecommendedPlan('Corridor C2', '2026-09-21');
@@ -113,8 +114,8 @@ router.post('/approve', (req, res) => {
     }
 });
 
-// POST /api/block-plans/reject
-router.post('/reject', (req, res) => {
+// POST /api/block-plans/reject (Planner only)
+router.post('/reject', requirePlanner, (req, res) => {
     try {
         if (!activePlan) {
             activePlan = generateRecommendedPlan('Corridor C2', '2026-09-21');
@@ -156,8 +157,8 @@ router.post('/reject', (req, res) => {
     }
 });
 
-// GET /api/block-plans/suitable-blocks/:requestId
-router.get('/suitable-blocks/:requestId', (req, res) => {
+// GET /api/block-plans/suitable-blocks/:requestId (Planner only)
+router.get('/suitable-blocks/:requestId', requirePlanner, (req, res) => {
     try {
         const { requestId } = req.params;
         const result = findSuitableBlocks(requestId);
@@ -169,8 +170,8 @@ router.get('/suitable-blocks/:requestId', (req, res) => {
     }
 });
 
-// POST /api/block-plans/assign
-router.post('/assign', async (req, res) => {
+// POST /api/block-plans/assign (Planner only)
+router.post('/assign', requirePlanner, async (req, res) => {
     try {
         const { requestId, blockId } = req.body;
         if (!requestId || !blockId) {
@@ -305,8 +306,8 @@ router.post('/assign', async (req, res) => {
     }
 });
 
-// DELETE /api/block-plans/assign/:requestId
-router.delete('/assign/:requestId', async (req, res) => {
+// DELETE /api/block-plans/assign/:requestId (Planner only)
+router.delete('/assign/:requestId', requirePlanner, async (req, res) => {
     try {
         const { requestId } = req.params;
         const assignment = db.getBlockAssignmentByRequestId(requestId);

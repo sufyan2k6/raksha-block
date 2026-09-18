@@ -15,11 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
 let allRequests = [];
 
 function initRequestsScreen() {
+    const empId = sessionStorage.getItem('raksha_emp_id');
+    const role = sessionStorage.getItem('raksha_user_role');
+    const userDept = sessionStorage.getItem('raksha_user_department') || 'P-Way';
+    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+
+    // RBAC: + New Request button only visible to Department Engineers (EMP002, EMP003, EMP004)
+    const newReqBtn = document.getElementById('btnNewRequest');
+    if (newReqBtn) {
+        newReqBtn.style.display = isPlanner ? 'none' : 'flex';
+    }
+
     // Set form department strictly from authenticated session context
-    const userDept = sessionStorage.getItem('raksha_user_department') || (window.currentUser && window.currentUser.department) || 'P-Way';
     const formDeptEl = document.getElementById('formDeptInput');
     if (formDeptEl) {
-        formDeptEl.value = userDept === 'ALL' ? 'Operations' : userDept;
+        formDeptEl.value = userDept === 'ALL' ? 'P-Way' : userDept;
     }
 
     loadRequests();
@@ -28,14 +38,8 @@ function initRequestsScreen() {
 async function loadRequests() {
     const tbody = document.getElementById('requestsTableBody');
     try {
-        const token = sessionStorage.getItem('raksha_token');
-        const headers = {
-            'x-user-department': sessionStorage.getItem('raksha_user_department') || 'ALL',
-            'x-user-role': sessionStorage.getItem('raksha_user_role') || 'Railway Planner'
-        };
-        if (token) headers['Authorization'] = `Bearer ${token}`;
-
-        const response = await fetch('/api/maintenance-requests', { headers });
+        const fetchFn = window.rakshaApiFetch || fetch;
+        const response = await fetchFn('/api/maintenance-requests');
 
         if (!response.ok) throw new Error('Failed to fetch requests');
 
@@ -83,6 +87,10 @@ function renderRequestsTable(requests) {
 
         const statusClass = req.status === 'Scheduled' || req.status === 'Planned' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning';
 
+        const empId = sessionStorage.getItem('raksha_emp_id');
+        const role = sessionStorage.getItem('raksha_user_role');
+        const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+
         return `
             <tr>
                 <td class="font-mono fw-bold">${escapeHtml(req.request_id)}</td>
@@ -96,11 +104,17 @@ function renderRequestsTable(requests) {
                     ${req.unscheduled_reason ? `<div class="text-danger small mt-1" style="font-size:0.75rem;"><i class="bi bi-info-circle me-1"></i>${escapeHtml(req.unscheduled_reason)}</div>` : ''}
                 </td>
                 <td class="text-end text-nowrap">
-                    ${(req.status === 'Pending' || !req.status) ? `
-                        <button class="btn btn-primary btn-sm me-1 py-1 px-2 fw-semibold d-inline-flex align-items-center gap-1" onclick="openFindBlockModal('${req.request_id}')" title="Find Suitable Block Windows">
-                            <i class="bi bi-calendar-plus"></i> Find Block
-                        </button>
-                    ` : `
+                    ${(req.status === 'Pending' || !req.status) ? (
+                        isPlanner ? `
+                            <button class="btn btn-primary btn-sm me-1 py-1 px-2 fw-semibold d-inline-flex align-items-center gap-1" onclick="openFindBlockModal('${req.request_id}')" title="Find Suitable Block Windows">
+                                <i class="bi bi-calendar-plus"></i> Find Block
+                            </button>
+                        ` : `
+                            <span class="badge bg-warning-subtle text-warning border me-1 font-mono">
+                                <i class="bi bi-clock me-1"></i>Awaiting Block
+                            </span>
+                        `
+                    ) : `
                         <span class="badge bg-success-subtle text-success border me-1 font-mono">
                             <i class="bi bi-check-circle me-1"></i>${escapeHtml(req.block_id || req.assigned_block_id || 'Scheduled')}
                         </span>
@@ -108,9 +122,11 @@ function renderRequestsTable(requests) {
                     <button class="btn btn-light btn-sm me-1 py-1 px-2" onclick="viewDetails('${req.request_id}')" title="Inspect Priority Factors">
                         <i class="bi bi-eye"></i>
                     </button>
+                    ${!isPlanner ? `
                     <button class="btn btn-outline-danger btn-sm py-1 px-2" onclick="deleteRequest('${req.request_id}')" title="Delete Work Order">
                         <i class="bi bi-trash"></i>
                     </button>
+                    ` : ''}
                 </td>
             </tr>
         `;
@@ -238,6 +254,15 @@ function viewDetails(reqId) {
 
 window.openFindBlockModal = async function(requestId) {
     console.log('[BLOCK ASSIGNMENT] Request:', requestId);
+
+    const empId = sessionStorage.getItem('raksha_emp_id');
+    const role = sessionStorage.getItem('raksha_user_role');
+    const isPlanner = role === 'Railway Planner' || empId === 'EMP001';
+
+    if (!isPlanner) {
+        showToast('Access Forbidden', 'Only Railway Planners are authorized to search and assign block windows.', 'danger');
+        return;
+    }
 
     const modalEl = document.getElementById('blockAssignmentModal') || document.getElementById('assignBlockModal');
     if (!modalEl) {

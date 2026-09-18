@@ -7,6 +7,7 @@ const express = require('express');
 const router = express.Router();
 const { generateRecommendedPlan } = require('../planningEngine');
 const db = require('../db');
+const { requirePlanner } = require('../middleware/auth');
 
 function parseMinutes(timeStr) {
     if (!timeStr) return 0;
@@ -20,8 +21,8 @@ function formatMinutes(minutes) {
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
 }
 
-// POST /api/what-if and /api/what-if/run
-router.post(['/', '/run'], (req, res) => {
+// POST /api/what-if and /api/what-if/run (Planner only)
+router.post(['/', '/run'], requirePlanner, (req, res) => {
     try {
         const corridor = req.body.corridor || req.body.targetCorridor || 'Corridor C2';
         const startTime = req.body.startTime || req.body.startTimeShift || req.body.targetStartTime || '18:30';

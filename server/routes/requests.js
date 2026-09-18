@@ -7,42 +7,19 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const { calculatePriority } = require('../priorityEngine');
-
-// Helper to determine authenticated user context from request headers
-function getAuthContext(req) {
-    const empId = req.headers['x-user-id'] || req.headers['x-emp-id'] || 'EMP001';
-    let user = db.getUserById(empId);
-    
-    // Map of standard demo departments if not found in db.users
-    const DEPT_MAP = {
-        'EMP001': { name: 'Rohan Gupta', department: 'Operations' },
-        'EMP002': { name: 'Amit Sharma', department: 'P-Way' },
-        'EMP003': { name: 'Priya Verma', department: 'S&T' },
-        'EMP004': { name: 'Suresh Kumar', department: 'TRD' },
-        'EMP005': { name: 'Ananya Roy', department: 'Operations' }
-    };
-
-    const mapped = DEPT_MAP[empId] || { name: req.headers['x-user-name'] || 'Railway Planner', department: 'P-Way' };
-    const name = user ? user.name : (req.headers['x-user-name'] || mapped.name);
-    let dept = user ? user.department : mapped.department;
-
-    // If Planner/Operations submits a request and department header is provided, use it if specific (e.g. P-Way)
-    if (dept === 'Operations' || dept === 'ALL') {
-        const clientDept = req.headers['x-user-department'];
-        if (clientDept && clientDept !== 'ALL' && clientDept !== 'Operations') {
-            dept = clientDept;
-        } else {
-            dept = 'P-Way';
-        }
-    }
-
-    return { employeeId: empId, name, department: dept };
-}
+const { getAuthUser, requireDepartmentEngineer } = require('../middleware/auth');
 
 // GET /api/maintenance-requests - List & Filter
 router.get('/', (req, res) => {
     try {
-        const { department, priority, status, search } = req.query;
+        const authUser = getAuthUser(req);
+        let { department, priority, status, search } = req.query;
+
+        // Non-planner department engineers automatically view their own department's requests if department filter is unspecified
+        if (!authUser.isPlanner && !department) {
+            department = authUser.department;
+        }
+
         const requests = db.getAllRequests({ department, priority, status, search });
 
         const normalized = requests.map(r => ({
@@ -81,10 +58,10 @@ router.get('/:id', (req, res) => {
     }
 });
 
-// POST /api/maintenance-requests - Create Request
-router.post('/', async (req, res) => {
+// POST /api/maintenance-requests - Create Request (Department Engineers only, Planners return 403)
+router.post('/', requireDepartmentEngineer, async (req, res) => {
     try {
-        const authUser = getAuthContext(req);
+        const authUser = req.user || getAuthUser(req);
         const body = req.body;
 
         const workDesc = (body.work_description || body.description || body.asset || '').trim();

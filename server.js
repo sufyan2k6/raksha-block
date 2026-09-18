@@ -41,6 +41,7 @@ app.use('/api/block-plans', planningRoutes);
 app.use('/api/what-if', simulatorRoutes);
 app.use('/api/ai', aiRoutes);
 app.use(['/api/reports', '/api/dashboard/summary'], reportRoutes);
+app.use('/api/priority', requestRoutes);
 
 app.get('/api/notifications', (req, res) => {
     res.json({ count: db.getNotifications().length, notifications: db.getNotifications() });

@@ -7,6 +7,7 @@ const express = require('express');
 const router = express.Router();
 const { detectConflicts } = require('../conflictEngine');
 const db = require('../db');
+const { requirePlanner } = require('../middleware/auth');
 
 // GET /api/conflicts
 router.get('/', (req, res) => {
@@ -23,8 +24,8 @@ router.get('/', (req, res) => {
     }
 });
 
-// PATCH /api/conflicts/:id/resolve
-router.patch('/:id/resolve', (req, res) => {
+// PATCH /api/conflicts/:id/resolve (Planner only)
+router.patch('/:id/resolve', requirePlanner, (req, res) => {
     try {
         const conflictId = req.params.id;
         const conflicts = detectConflicts();
