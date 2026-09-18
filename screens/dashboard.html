@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raksha Block - Operational Dashboard</title>
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Custom Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation Shell -->
+        <aside id="appSidebar" class="app-sidebar"></aside>
+
+        <!-- Main Content Area -->
+        <div class="app-main">
+            <!-- Header Bar -->
+            <header id="appHeader" class="app-header"></header>
+
+            <!-- Dashboard Body -->
+            <div class="container-fluid p-4">
+                
+                <!-- Subtitle Banner -->
+                <div class="mb-4">
+                    <p class="text-secondary mb-0">Plan maintenance work around train movements and available block windows.</p>
+                </div>
+
+                <!-- 4 Key Performance Indicators (KPI Cards) -->
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Pending Maintenance</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill"><i class="bi bi-tools"></i></span>
+                            </div>
+                            <div class="kpi-value text-primary" id="kpiPendingReqs">--</div>
+                            <div class="kpi-subtext">Active engineering work orders</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">High Priority</span>
+                                <span class="badge bg-warning-subtle text-warning rounded-pill"><i class="bi bi-exclamation-triangle"></i></span>
+                            </div>
+                            <div class="kpi-value text-warning" id="kpiHighPriority">--</div>
+                            <div class="kpi-subtext">Critical & high urgency tasks</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Available Blocks</span>
+                                <span class="badge bg-success-subtle text-success rounded-pill"><i class="bi bi-calendar-check"></i></span>
+                            </div>
+                            <div class="kpi-value text-success" id="kpiAvailableBlocks">--</div>
+                            <div class="kpi-subtext">Corridor track windows open</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Active Conflicts</span>
+                                <span class="badge bg-danger-subtle text-danger rounded-pill"><i class="bi bi-shield-slash"></i></span>
+                            </div>
+                            <div class="kpi-value text-danger" id="kpiActiveConflicts">--</div>
+                            <div class="kpi-subtext">Timetable & section overlaps</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECOMMENDED BLOCK (HERO CARD) -->
+                <div class="card border-primary shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-star-fill text-warning fs-5"></i>
+                            <h5 class="fw-bold mb-0">RECOMMENDED BLOCK</h5>
+                        </div>
+                        <span class="badge bg-white text-primary fw-bold" id="heroStatusBadge">Plan Ready</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4 border-end">
+                                <div class="badge bg-light text-dark font-mono mb-2 fs-6 px-3 py-1" id="heroBlockId">B-102</div>
+                                <h3 class="fw-bold text-dark mb-1" id="heroCorridor">Corridor C2</h3>
+                                <div class="fs-5 text-primary font-mono fw-semibold mb-2" id="heroTimeSlot">14:00 – 16:30</div>
+                                <div class="text-secondary small" id="heroDate">Target Date: 2026-09-21</div>
+                            </div>
+
+                            <div class="col-lg-5">
+                                <div class="fw-semibold text-secondary small text-uppercase mb-2">Combined Tasks in Block:</div>
+                                <ul class="list-unstyled mb-3" id="heroTaskList">
+                                    <li class="d-flex align-items-center gap-2 mb-1"><i class="bi bi-check-circle-fill text-success"></i> Track Tamping & Rail Maintenance</li>
+                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-check-circle-fill text-success"></i> Signal Interlocking & Point Inspection</li>
+                                </ul>
+                                <div class="d-flex gap-3">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-layers-fill me-1"></i> <span id="heroTaskCount">2</span> Tasks Combined</span>
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1"><i class="bi bi-shield-check me-1"></i> 0 Unresolved Conflicts</span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 d-flex flex-column gap-2">
+                                <a href="/planning" class="btn btn-primary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                    <span>View Plan</span> <i class="bi bi-arrow-right"></i>
+                                </a>
+                                <a href="/simulator" class="btn btn-outline-secondary fw-semibold py-2 w-100 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-shuffle"></i> <span>What-If</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lower Section Grid: Attention Required, Quick Actions, Activity Feed -->
+                <div class="row g-4">
+                    <!-- Attention Required -->
+                    <div class="col-lg-6">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-dark"><i class="bi bi-exclamation-octagon text-danger me-2"></i>Attention Required</span>
+                                <a href="/conflicts" class="small text-decoration-none">View All</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush" id="attentionList">
+                                    <div class="list-group-item p-3">
+                                        <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                                            <span class="badge bg-danger-subtle text-danger">High Priority Request</span>
+                                            <small class="text-muted">REQ-001</small>
+                                        </div>
+                                        <div class="fw-semibold text-dark">Track Tamping on Corridor C2 (Howrah-Bardhaman)</div>
+                                        <small class="text-secondary">Degradation score reached 95/100 threshold.</small>
+                                    </div>
+                                    <div class="list-group-item p-3">
+                                        <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                                            <span class="badge bg-warning-subtle text-warning">Train Clash Warning</span>
+                                            <small class="text-muted">CLASH-01</small>
+                                        </div>
+                                        <div class="fw-semibold text-dark">Freight T310 overlap at Junction J4</div>
+                                        <small class="text-secondary">Recommended: Shift block start to 18:30 off-peak window.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions & Activity Feed -->
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white fw-bold text-dark"><i class="bi bi-lightning-charge text-primary me-2"></i>Quick Actions</div>
+                            <div class="card-body p-3">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <a href="/requests" class="btn btn-outline-primary w-100 text-start p-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-plus-circle fs-5"></i>
+                                            <div>
+                                                <div class="fw-bold small">Add Request</div>
+                                                <div class="text-muted" style="font-size:0.75rem;">New Work Order</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="/trains" class="btn btn-outline-secondary w-100 text-start p-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-clock-history fs-5"></i>
+                                            <div>
+                                                <div class="fw-bold small">Train Timetable</div>
+                                                <div class="text-muted" style="font-size:0.75rem;">View Section Movements</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="/conflicts" class="btn btn-outline-danger w-100 text-start p-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-shield-exclamation fs-5"></i>
+                                            <div>
+                                                <div class="fw-bold small">Check Conflicts</div>
+                                                <div class="text-muted" style="font-size:0.75rem;">Audit Clashes</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="/planning" class="btn btn-outline-success w-100 text-start p-3 d-flex align-items-center gap-2">
+                                            <i class="bi bi-cpu fs-5"></i>
+                                            <div>
+                                                <div class="fw-bold small">Block Plan</div>
+                                                <div class="text-muted" style="font-size:0.75rem;">Generate & Approve</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- App Shell & Module Script -->
+    <script src="../js/app-shell.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

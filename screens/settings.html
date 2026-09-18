@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raksha Block - Settings</title>
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Custom Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Sidebar Shell -->
+        <aside id="appSidebar" class="app-sidebar"></aside>
+
+        <!-- Main Content Area -->
+        <div class="app-main">
+            <!-- Header Bar -->
+            <header id="appHeader" class="app-header"></header>
+
+            <!-- Content Container -->
+            <div class="container-fluid p-4" style="max-width: 840px;">
+                
+                <!-- Page Banner -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <p class="text-secondary mb-0">Personnel credentials, active division assignment, and preference configurations.</p>
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm fw-semibold d-flex align-items-center gap-1" id="btnSettingsSignOut">
+                        <i class="bi bi-box-arrow-right"></i> <span>Sign Out</span>
+                    </button>
+                </div>
+
+                <!-- Profile Credentials Card -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h6 class="fw-bold text-dark mb-0"><i class="bi bi-person-badge text-primary me-2"></i>Personnel Credentials & Scope</h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-secondary">Employee ID</label>
+                                <input type="text" id="setEmpId" class="form-control bg-light" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-secondary">Personnel Name</label>
+                                <input type="text" id="setEmpName" class="form-control bg-light" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-secondary">Designation / Role</label>
+                                <input type="text" id="setEmpRole" class="form-control bg-light" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-secondary">Authorized Department Scope</label>
+                                <input type="text" id="setEmpDept" class="form-control bg-light" readonly>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-secondary">Assigned Railway Division</label>
+                                <select class="form-select">
+                                    <option selected>Howrah Division — Eastern Railway</option>
+                                    <option>Sealdah Division — Eastern Railway</option>
+                                    <option>Asansol Division — Eastern Railway</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Preferences Card -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h6 class="fw-bold text-dark mb-0"><i class="bi bi-sliders text-primary me-2"></i>Application Preferences</h6>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column gap-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-semibold text-dark">Schedule Clash Alerts</div>
+                                <small class="text-secondary">Show toast notifications when new conflicts are audited</small>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-semibold text-dark">Automated Shadow Block Bundling</div>
+                                <small class="text-secondary">Auto-suggest joint blocks for adjacent section works</small>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="pt-2 border-top text-end">
+                            <button class="btn btn-primary btn-sm fw-semibold" id="btnSavePreferences">
+                                <i class="bi bi-save me-1"></i> Save Preferences
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="../js/settings.js"></script>
+</body>
+</html>

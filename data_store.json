@@ -1,0 +1,2505 @@
+{
+  "requests": [
+    {
+      "id": 24,
+      "request_id": "M-130",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Signal issue",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM",
+      "corridor": "Corridor C2",
+      "duration_minutes": 150,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-23",
+      "traffic_impact": "Medium",
+      "description": "Signal issue",
+      "work_description": "Signal issue",
+      "priority": "Critical",
+      "priority_reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "status": "Pending",
+      "created_at": "2026-09-18T03:22:16.949Z"
+    },
+    {
+      "id": 23,
+      "request_id": "M-129",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Signal issue",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM",
+      "corridor": "Corridor C1",
+      "duration_minutes": 120,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Signal issue",
+      "work_description": "Signal issue",
+      "priority": "Critical",
+      "priority_reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "status": "Scheduled",
+      "created_at": "2026-09-17T18:36:47.798Z",
+      "block_id": "B-102",
+      "assigned_block_id": "B-102",
+      "start_time": "15:00",
+      "end_time": "17:00",
+      "scheduled_slot": "15:00 – 17:00",
+      "selection_reason": "Manual planner assignment to B-102 (15:00–17:00) with zero train conflicts.",
+      "unscheduled_reason": null,
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:45:34.553Z",
+      "updated_at": "2026-09-17T18:45:34.553Z"
+    },
+    {
+      "id": 22,
+      "request_id": "M-128",
+      "employee_id": "EMP001",
+      "department": "TRD",
+      "work_description": "Test OHE",
+      "corridor": "Corridor C9",
+      "duration_minutes": 60,
+      "priority": "High",
+      "status": "Pending",
+      "created_at": "2026-09-17T18:16:45.755Z",
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "unscheduled_reason": null
+    },
+    {
+      "id": 21,
+      "request_id": "M-127",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Track Dislocated",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM",
+      "corridor": "Corridor C3",
+      "duration_minutes": 100,
+      "urgency": "Medium",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Track Dislocated",
+      "work_description": "Track Dislocated",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "status": "Scheduled",
+      "created_at": "2026-09-17T18:11:22.458Z",
+      "block_id": "B-106",
+      "assigned_block_id": "B-106",
+      "scheduled_slot": "11:00 – 12:40",
+      "updated_at": "2026-09-17T18:47:10.238Z",
+      "start_time": "11:00",
+      "end_time": "12:40",
+      "selection_reason": "Manual planner assignment to B-106 (11:00–12:40) with zero train conflicts.",
+      "unscheduled_reason": null,
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:47:10.238Z"
+    },
+    {
+      "id": 20,
+      "request_id": "M-126",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Joint Ultrasonic Inspection",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 45/10 to 46/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-24",
+      "traffic_impact": "Medium",
+      "description": "Rail Joint Ultrasonic Inspection",
+      "work_description": "Rail Joint Ultrasonic Inspection",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "status": "Scheduled",
+      "created_at": "2026-09-17T18:07:03.173Z",
+      "updated_at": "2026-09-17T18:47:16.210Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": "01:00 – 02:00",
+      "block_id": "B-105",
+      "assigned_block_id": "B-105",
+      "start_time": "01:00",
+      "end_time": "02:00",
+      "selection_reason": "Manual planner assignment to B-105 (01:00–02:00) with zero train conflicts.",
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:47:16.210Z"
+    },
+    {
+      "id": 19,
+      "request_id": "M-125",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Joint Ultrasonic Inspection",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 45/10 to 46/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-24",
+      "traffic_impact": "Medium",
+      "description": "Rail Joint Ultrasonic Inspection",
+      "work_description": "Rail Joint Ultrasonic Inspection",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "status": "Pending",
+      "created_at": "2026-09-17T18:06:35.445Z",
+      "updated_at": "2026-09-17T18:20:16.017Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "02:00",
+      "end_time": "03:00",
+      "selection_reason": "Bundled cross-department possession (P-Way) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 18,
+      "request_id": "M-124",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Joint Ultrasonic Inspection",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 45/10 to 46/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-24",
+      "traffic_impact": "Medium",
+      "description": "Rail Joint Ultrasonic Inspection",
+      "work_description": "Rail Joint Ultrasonic Inspection",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "status": "Scheduled",
+      "created_at": "2026-09-17T17:53:22.314Z",
+      "updated_at": "2026-09-17T18:47:26.699Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": "03:00 – 04:00",
+      "block_id": "B-105",
+      "assigned_block_id": "B-105",
+      "start_time": "03:00",
+      "end_time": "04:00",
+      "selection_reason": "Manual planner assignment to B-105 (03:00–04:00) with zero train conflicts.",
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:47:26.699Z"
+    },
+    {
+      "id": 17,
+      "request_id": "M-123",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Joint Ultrasonic Inspection",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 45/10 to 46/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-24",
+      "traffic_impact": "Medium",
+      "description": "Rail Joint Ultrasonic Inspection",
+      "work_description": "Rail Joint Ultrasonic Inspection",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "status": "Scheduled",
+      "created_at": "2026-09-17T17:52:15.783Z",
+      "updated_at": "2026-09-17T18:47:22.097Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": "02:00 – 03:00",
+      "block_id": "B-105",
+      "assigned_block_id": "B-105",
+      "start_time": "02:00",
+      "end_time": "03:00",
+      "selection_reason": "Manual planner assignment to B-105 (02:00–03:00) with zero train conflicts.",
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:47:22.097Z"
+    },
+    {
+      "id": 16,
+      "request_id": "M-122",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Joint Ultrasonic Inspection",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 45/10 to 46/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-24",
+      "traffic_impact": "Medium",
+      "description": "Rail Joint Ultrasonic Inspection",
+      "work_description": "Rail Joint Ultrasonic Inspection",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk.",
+      "status": "Pending",
+      "created_at": "2026-09-17T17:51:52.287Z",
+      "updated_at": "2026-09-17T18:20:27.051Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "02:00",
+      "end_time": "03:00",
+      "selection_reason": "Bundled cross-department possession (P-Way) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 15,
+      "request_id": "M-121",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Rail Tapping",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM",
+      "corridor": "Corridor C2",
+      "duration_minutes": 120,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Rail Tapping",
+      "work_description": "Rail Tapping",
+      "priority": "Critical",
+      "priority_reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "reason": "Assigned Critical priority due to elevated urgency, high asset risk, approaching due date.",
+      "status": "Pending",
+      "created_at": "2026-09-17T17:08:49.959Z",
+      "scheduled_slot": null,
+      "block_id": null,
+      "updated_at": "2026-09-17T18:18:23.276Z",
+      "assigned_block_id": null,
+      "start_time": "14:00",
+      "end_time": "16:00",
+      "unscheduled_reason": null
+    },
+    {
+      "id": 14,
+      "request_id": "M-120",
+      "employee_id": "EMP002",
+      "submitted_by": "Amit Sharma",
+      "department": "P-Way",
+      "asset": "Emergency Track Geometry Realignment",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 102/00 to 104/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "Medium",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Emergency Track Geometry Realignment",
+      "work_description": "Emergency Track Geometry Realignment",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "status": "Pending",
+      "created_at": "2026-09-17T17:02:00.789Z",
+      "scheduled_slot": null,
+      "block_id": null,
+      "updated_at": "2026-09-17T18:20:27.052Z",
+      "unscheduled_reason": null,
+      "assigned_block_id": null,
+      "start_time": "03:00",
+      "end_time": "04:00",
+      "selection_reason": "Bundled cross-department possession (P-Way) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 13,
+      "request_id": "M-119",
+      "employee_id": "EMP002",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Emergency Track Geometry Realignment",
+      "maintenance_type": "Track Alignment & Inspection",
+      "location": "KM 102/00 to 104/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "Medium",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Emergency Track Geometry Realignment",
+      "work_description": "Emergency Track Geometry Realignment",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "reason": "Assigned High priority due to high asset risk, approaching due date.",
+      "status": "Pending",
+      "created_at": "2026-09-17T17:01:22.940Z",
+      "scheduled_slot": null,
+      "block_id": null,
+      "updated_at": "2026-09-17T18:23:30.949Z",
+      "unscheduled_reason": null,
+      "assigned_block_id": null,
+      "start_time": "01:00",
+      "end_time": "02:00",
+      "selection_reason": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 1,
+      "request_id": "M-101",
+      "employee_id": "EMP001",
+      "submitted_by": "Rohan Gupta",
+      "department": "P-Way",
+      "asset": "Track Rail",
+      "maintenance_type": "Rail Replacement",
+      "location": "KM 142/12 to 148/04",
+      "corridor": "Corridor C2",
+      "duration_minutes": 150,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "High",
+      "description": "Urgent rail replacement required on Down Main line to address wear telemetry.",
+      "work_description": "Rail Replacement on Down Main Line",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency, high asset risk, and significant traffic impact.",
+      "reason": "Assigned High priority due to elevated urgency, high asset risk, and significant traffic impact.",
+      "status": "Pending",
+      "created_at": "2026-09-15T15:17:30.030Z",
+      "updated_at": "2026-09-17T18:33:56.168Z",
+      "unscheduled_reason": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "18:30",
+      "end_time": "21:00",
+      "scheduled_slot": null,
+      "selection_reason": "Manual planner assignment to B-104 (18:30–21:00) with zero train conflicts.",
+      "assigned_by": "Rohan Gupta (Railway Planner)",
+      "scheduled_at": "2026-09-17T18:33:56.168Z"
+    },
+    {
+      "id": 2,
+      "request_id": "M-102",
+      "employee_id": "EMP003",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Axle Counter",
+      "maintenance_type": "Calibration & Test",
+      "location": "Junction Section A2",
+      "corridor": "Corridor C1",
+      "duration_minutes": 90,
+      "urgency": "Medium",
+      "asset_risk": "Medium",
+      "due_date": "2026-09-25",
+      "traffic_impact": "Medium",
+      "description": "Routine quarterly calibration of digital axle counters at section entry.",
+      "work_description": "Digital Axle Counter Recalibration",
+      "priority": "Medium",
+      "priority_reason": "Assigned Medium priority based on moderate operational risk parameters.",
+      "reason": "Assigned Medium priority based on moderate operational risk parameters.",
+      "status": "Scheduled",
+      "created_at": "2026-09-16T03:17:30.031Z",
+      "updated_at": "2026-09-17T18:47:52.073Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": "09:30 – 11:00",
+      "block_id": "B-101",
+      "assigned_block_id": "B-101",
+      "start_time": "09:30",
+      "end_time": "11:00",
+      "selection_reason": "Manual planner assignment to B-101 (09:30–11:00) with zero train conflicts.",
+      "assigned_by": "Rohan Gupta",
+      "scheduled_at": "2026-09-17T18:47:52.073Z"
+    },
+    {
+      "id": 3,
+      "request_id": "M-103",
+      "employee_id": "EMP004",
+      "submitted_by": "Suresh Kumar",
+      "department": "TRD",
+      "asset": "OHE Cable",
+      "maintenance_type": "Cantilever Inspection",
+      "location": "Line 2 Chord Line",
+      "corridor": "Corridor C3",
+      "duration_minutes": 120,
+      "urgency": "Low",
+      "asset_risk": "Low",
+      "due_date": "2026-09-30",
+      "traffic_impact": "Low",
+      "description": "Visual inspection of overhead contact wire tensioners on Chord Line.",
+      "work_description": "Overhead Contact Wire Tensioner Inspection",
+      "priority": "Low",
+      "priority_reason": "Standard low priority based on routine maintenance risk parameters.",
+      "reason": "Standard low priority based on routine maintenance risk parameters.",
+      "status": "Pending",
+      "created_at": "2026-09-16T15:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.286Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    },
+    {
+      "id": 4,
+      "request_id": "M-104",
+      "employee_id": "EMP002",
+      "submitted_by": "Amit Sharma",
+      "department": "P-Way",
+      "asset": "Track Bed & Ballast",
+      "maintenance_type": "Deep Screening & Tamping",
+      "location": "KM 88/04 to 92/10",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "Critical",
+      "asset_risk": "Critical",
+      "due_date": "2026-09-20",
+      "traffic_impact": "High",
+      "description": "Critical track geometry correction to remove temporary speed restriction.",
+      "work_description": "Track Tamping & Geometry Realignment",
+      "priority": "Critical",
+      "priority_reason": "Assigned Critical priority due to elevated urgency, high asset risk, and approaching due date.",
+      "reason": "Assigned Critical priority due to elevated urgency, high asset risk, and approaching due date.",
+      "status": "Pending",
+      "created_at": "2026-09-17T11:17:30.031Z",
+      "updated_at": "2026-09-17T18:19:09.977Z",
+      "scheduled_slot": null,
+      "block_id": null,
+      "unscheduled_reason": null,
+      "assigned_block_id": null,
+      "start_time": "01:00",
+      "end_time": "02:00",
+      "selection_reason": "Bundled cross-department possession (P-Way) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 5,
+      "request_id": "M-105",
+      "employee_id": "EMP003",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Interlocking Panel",
+      "maintenance_type": "Relay Integrity Audit",
+      "location": "Junction Cabin Block A",
+      "corridor": "Corridor C2",
+      "duration_minutes": 45,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-21",
+      "traffic_impact": "Medium",
+      "description": "Joint testing of electronic interlocking panel communication lines.",
+      "work_description": "Electronic Interlocking Panel Audit",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency and high asset risk.",
+      "reason": "Assigned High priority due to elevated urgency and high asset risk.",
+      "status": "Pending",
+      "created_at": "2026-09-17T12:17:30.031Z",
+      "updated_at": "2026-09-17T18:19:09.978Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "02:00",
+      "end_time": "02:45",
+      "selection_reason": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 6,
+      "request_id": "M-118",
+      "employee_id": "EMP003",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Signal Lamp Assembly",
+      "maintenance_type": "LED Aspect Replacement",
+      "location": "KM 90/02 Down Signal",
+      "corridor": "Corridor C2",
+      "duration_minutes": 45,
+      "urgency": "High",
+      "asset_risk": "Medium",
+      "due_date": "2026-09-21",
+      "traffic_impact": "Low",
+      "description": "Replacing LED signal aspect bulb on Down Main line.",
+      "work_description": "LED Signal Aspect Replacement",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to elevated urgency and signal reliability.",
+      "reason": "Assigned High priority due to elevated urgency and signal reliability.",
+      "status": "Pending",
+      "created_at": "2026-09-17T13:17:30.031Z",
+      "updated_at": "2026-09-17T18:19:09.978Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "02:45",
+      "end_time": "03:30",
+      "selection_reason": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 7,
+      "request_id": "M-106",
+      "employee_id": "EMP004",
+      "submitted_by": "Suresh Kumar",
+      "department": "TRD",
+      "asset": "OHE Cantilever",
+      "maintenance_type": "Cantilever Height Adjustment",
+      "location": "KM 91/10 to 93/00",
+      "corridor": "Corridor C2",
+      "duration_minutes": 60,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Traction overhead line dropper adjustment and cantilever realignment.",
+      "work_description": "OHE Dropper & Cantilever Realignment",
+      "priority": "High",
+      "priority_reason": "Assigned High priority due to contact wire wear and speed restriction mitigation.",
+      "reason": "Assigned High priority due to contact wire wear and speed restriction mitigation.",
+      "status": "Pending",
+      "created_at": "2026-09-17T10:17:30.031Z",
+      "updated_at": "2026-09-17T18:23:30.952Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null,
+      "start_time": "02:00",
+      "end_time": "03:00",
+      "selection_reason": "Bundled cross-department possession (TRD) sharing corridor window with zero train conflict."
+    },
+    {
+      "id": 8,
+      "request_id": "M-107",
+      "employee_id": "EMP002",
+      "submitted_by": "Amit Sharma",
+      "department": "P-Way",
+      "asset": "Fishplates & Joints",
+      "maintenance_type": "Joint Bolt Tightening & Greasing",
+      "location": "Section Yard KM 34/10",
+      "corridor": "Corridor C1",
+      "duration_minutes": 60,
+      "urgency": "Medium",
+      "asset_risk": "Medium",
+      "due_date": "2026-09-26",
+      "traffic_impact": "Low",
+      "description": "Tightening and lubrication of insulated rail joints.",
+      "work_description": "Insulated Rail Joint Lubrication",
+      "priority": "Medium",
+      "priority_reason": "Assigned Medium priority based on preventive maintenance scheduling.",
+      "reason": "Assigned Medium priority based on preventive maintenance scheduling.",
+      "status": "Pending",
+      "created_at": "2026-09-14T15:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.285Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    },
+    {
+      "id": 9,
+      "request_id": "M-108",
+      "employee_id": "EMP003",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Point Machine",
+      "maintenance_type": "Obstruction Test & Motor Service",
+      "location": "Yard Crossover 14B",
+      "corridor": "Corridor C1",
+      "duration_minutes": 45,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-22",
+      "traffic_impact": "Medium",
+      "description": "Point machine motor cleaning, friction clutch testing and obstruction test.",
+      "work_description": "Crossover Point Machine Overhaul",
+      "priority": "High",
+      "priority_reason": "Assigned High priority to prevent switch failure on passenger loop.",
+      "reason": "Assigned High priority to prevent switch failure on passenger loop.",
+      "status": "Pending",
+      "created_at": "2026-09-17T09:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.283Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    },
+    {
+      "id": 10,
+      "request_id": "M-109",
+      "employee_id": "EMP002",
+      "submitted_by": "Amit Sharma",
+      "department": "P-Way",
+      "asset": "Rail Welds",
+      "maintenance_type": "Ultrasonic Flaw Detection (USFD)",
+      "location": "KM 110/00 to 116/00",
+      "corridor": "Corridor C3",
+      "duration_minutes": 90,
+      "urgency": "High",
+      "asset_risk": "High",
+      "due_date": "2026-09-23",
+      "traffic_impact": "High",
+      "description": "USFD testing of thermit rail weld seams on UP Freight line.",
+      "work_description": "USFD Testing of Thermit Welds",
+      "priority": "High",
+      "priority_reason": "Assigned High priority to detect internal rail micro-fractures.",
+      "reason": "Assigned High priority to detect internal rail micro-fractures.",
+      "status": "Pending",
+      "created_at": "2026-09-16T10:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.284Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    },
+    {
+      "id": 11,
+      "request_id": "M-110",
+      "employee_id": "EMP003",
+      "submitted_by": "Priya Verma",
+      "department": "S&T",
+      "asset": "Track Circuit",
+      "maintenance_type": "Shunt Sensitivity Test",
+      "location": "Section TC 45",
+      "corridor": "Corridor C3",
+      "duration_minutes": 45,
+      "urgency": "Medium",
+      "asset_risk": "Medium",
+      "due_date": "2026-09-28",
+      "traffic_impact": "Low",
+      "description": "Verify drop shunt resistance and battery bank charge for DC track circuits.",
+      "work_description": "DC Track Circuit Shunt Sensitivity Test",
+      "priority": "Medium",
+      "priority_reason": "Assigned Medium priority for quarterly signal compliance.",
+      "reason": "Assigned Medium priority for quarterly signal compliance.",
+      "status": "Pending",
+      "created_at": "2026-09-15T11:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.285Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    },
+    {
+      "id": 12,
+      "request_id": "M-111",
+      "employee_id": "EMP004",
+      "submitted_by": "Suresh Kumar",
+      "department": "TRD",
+      "asset": "Traction Substation",
+      "maintenance_type": "Transformer Oil Filtration",
+      "location": "Substation TSS-02",
+      "corridor": "Corridor C1",
+      "duration_minutes": 60,
+      "urgency": "Low",
+      "asset_risk": "Low",
+      "due_date": "2026-10-02",
+      "traffic_impact": "Low",
+      "description": "Dielectric breakdown testing of 25kV traction transformer oil.",
+      "work_description": "Traction Transformer Oil Filtration",
+      "priority": "Low",
+      "priority_reason": "Assigned Low priority for planned scheduled maintenance.",
+      "reason": "Assigned Low priority for planned scheduled maintenance.",
+      "status": "Pending",
+      "created_at": "2026-09-13T15:17:30.031Z",
+      "updated_at": "2026-09-17T18:18:23.286Z",
+      "unscheduled_reason": null,
+      "scheduled_slot": null,
+      "block_id": null,
+      "assigned_block_id": null
+    }
+  ],
+  "trains": [
+    {
+      "id": 7,
+      "train_number": "123",
+      "train_name": "howrah",
+      "train_type": "Superfast Express",
+      "corridor": "Corridor C2",
+      "origin": "Section Entry",
+      "destination": "Section Exit",
+      "start_time": "13:02",
+      "end_time": "02:24",
+      "status": "Scheduled"
+    },
+    {
+      "id": 6,
+      "train_number": "12345",
+      "train_name": "Saraighat Express",
+      "train_type": "Express",
+      "corridor": "Corridor C2",
+      "origin": "Section Entry",
+      "destination": "Section Exit",
+      "start_time": "21:30",
+      "end_time": "23:00",
+      "status": "Scheduled"
+    },
+    {
+      "id": 6,
+      "train_number": "12345",
+      "train_name": "Saraighat Express",
+      "train_type": "Express",
+      "corridor": "Corridor C2",
+      "origin": "Section Entry",
+      "destination": "Section Exit",
+      "start_time": "21:30",
+      "end_time": "23:00",
+      "status": "Scheduled"
+    },
+    {
+      "id": 1,
+      "train_number": "12301",
+      "train_name": "Howrah Rajdhani Express",
+      "train_type": "Superfast Express",
+      "corridor": "Corridor C2",
+      "origin": "New Delhi",
+      "destination": "Howrah",
+      "start_time": "06:30",
+      "end_time": "08:45",
+      "status": "Running On Time"
+    },
+    {
+      "id": 2,
+      "train_number": "12019",
+      "train_name": "Shatabdi Express",
+      "train_type": "Express",
+      "corridor": "Corridor C2",
+      "origin": "Howrah",
+      "destination": "Ranchi",
+      "start_time": "11:15",
+      "end_time": "13:00",
+      "status": "Running On Time"
+    },
+    {
+      "id": 3,
+      "train_number": "T310",
+      "train_name": "BOXN Freight Rake",
+      "train_type": "Freight",
+      "corridor": "Corridor C2",
+      "origin": "Andal Yard",
+      "destination": "Howrah Goods",
+      "start_time": "14:30",
+      "end_time": "17:15",
+      "status": "Scheduled"
+    },
+    {
+      "id": 4,
+      "train_number": "22302",
+      "train_name": "Vande Bharat Express",
+      "train_type": "Superfast Express",
+      "corridor": "Corridor C1",
+      "origin": "Howrah",
+      "destination": "New Jalpaiguri",
+      "start_time": "17:30",
+      "end_time": "20:15",
+      "status": "Scheduled"
+    },
+    {
+      "id": 5,
+      "train_number": "T508",
+      "train_name": "Coal Container Special",
+      "train_type": "Freight",
+      "corridor": "Corridor C3",
+      "origin": "Dankuni DFC",
+      "destination": "Haldia Port",
+      "start_time": "18:45",
+      "end_time": "22:00",
+      "status": "Scheduled"
+    },
+    {
+      "id": 6,
+      "train_number": "37211",
+      "train_name": "Bandel Local EMU",
+      "train_type": "Local EMU",
+      "corridor": "Corridor C1",
+      "origin": "Howrah",
+      "destination": "Bandel",
+      "start_time": "07:00",
+      "end_time": "08:30",
+      "status": "Running On Time"
+    },
+    {
+      "id": 7,
+      "train_number": "T703",
+      "train_name": "Steel Coil Freight",
+      "train_type": "Freight",
+      "corridor": "Corridor C1",
+      "origin": "Tata Yard",
+      "destination": "Shalimar",
+      "start_time": "12:00",
+      "end_time": "14:30",
+      "status": "Scheduled"
+    },
+    {
+      "id": 8,
+      "train_number": "13105",
+      "train_name": "Sealdah Express",
+      "train_type": "Express",
+      "corridor": "Corridor C3",
+      "origin": "Sealdah",
+      "destination": "Ballia",
+      "start_time": "08:00",
+      "end_time": "10:30",
+      "status": "Running On Time"
+    }
+  ],
+  "windows": [
+    {
+      "id": 1,
+      "window_id": "B-101",
+      "corridor": "Corridor C1",
+      "date": "2026-09-21",
+      "start_time": "09:30",
+      "end_time": "11:00",
+      "duration_minutes": 90,
+      "status": "Available"
+    },
+    {
+      "id": 2,
+      "window_id": "B-102",
+      "corridor": "Corridor C1",
+      "date": "2026-09-21",
+      "start_time": "15:00",
+      "end_time": "17:00",
+      "duration_minutes": 120,
+      "status": "Available"
+    },
+    {
+      "id": 3,
+      "window_id": "B-103",
+      "corridor": "Corridor C3",
+      "date": "2026-09-21",
+      "start_time": "19:00",
+      "end_time": "21:30",
+      "duration_minutes": 150,
+      "status": "Available"
+    },
+    {
+      "id": 4,
+      "window_id": "B-104",
+      "corridor": "Corridor C2",
+      "date": "2026-09-21",
+      "start_time": "18:30",
+      "end_time": "21:00",
+      "duration_minutes": 150,
+      "status": "Available"
+    },
+    {
+      "id": 5,
+      "window_id": "B-105",
+      "corridor": "Corridor C2",
+      "date": "2026-09-22",
+      "start_time": "01:00",
+      "end_time": "04:00",
+      "duration_minutes": 180,
+      "status": "Available"
+    },
+    {
+      "id": 6,
+      "window_id": "B-106",
+      "corridor": "Corridor C3",
+      "date": "2026-09-21",
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "duration_minutes": 120,
+      "status": "Available"
+    },
+    {
+      "id": 7,
+      "window_id": "B-107",
+      "corridor": "Corridor C2",
+      "date": "2026-09-21",
+      "start_time": "14:00",
+      "end_time": "16:30",
+      "duration_minutes": 150,
+      "status": "Available"
+    }
+  ],
+  "conflicts": [
+    {
+      "id": 1,
+      "conflict_id": "CONF-01",
+      "type": "Maintenance vs Train Conflict",
+      "conflict_type": "Maintenance vs Train Conflict",
+      "severity": "High",
+      "corridor": "Corridor C3",
+      "location": "Corridor C3 Main Line",
+      "time_slot": "19:00 – 21:30",
+      "overlap_window": "19:00 – 21:30",
+      "primary_task": "Window B-103 (19:00 – 21:30)",
+      "entity_1": "Window B-103",
+      "conflicting_entity": "Train T508 (Coal Container Special)",
+      "entity_2": "Train T508 (Coal Container Special)",
+      "description": "Freight Train T508 (18:45–22:00) overlaps with proposed window B-103.",
+      "recommendation": "Shift block start to 22:00 or regulate Train T508 via alternate loop line.",
+      "status": "Resolved"
+    },
+    {
+      "id": 2,
+      "conflict_id": "CONF-02",
+      "type": "Maintenance vs Train Conflict",
+      "conflict_type": "Maintenance vs Train Conflict",
+      "severity": "High",
+      "corridor": "Corridor C2",
+      "location": "Corridor C2 Main Line",
+      "time_slot": "14:30 – 16:30",
+      "overlap_window": "14:30 – 16:30",
+      "primary_task": "Window B-107 (14:00 – 16:30)",
+      "entity_1": "Window B-107",
+      "conflicting_entity": "Train T310 (BOXN Freight Rake)",
+      "entity_2": "Train T310 (BOXN Freight Rake)",
+      "description": "Freight Train T310 (14:30–17:15) overlaps with proposed window B-107.",
+      "recommendation": "Shift block start to 17:15 or regulate Train T310 via alternate loop line.",
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "conflict_id": "CONF-03",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C1",
+      "location": "Section Yard KM 34/10",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-107 (P-Way)",
+      "entity_1": "M-107 (P-Way)",
+      "conflicting_entity": "M-108 (S&T)",
+      "entity_2": "M-108 (S&T)",
+      "description": "Independent requests on Corridor C1 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C1 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 4,
+      "conflict_id": "CONF-04",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C1",
+      "location": "Yard Crossover 14B",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-108 (S&T)",
+      "entity_1": "M-108 (S&T)",
+      "conflicting_entity": "M-111 (TRD)",
+      "entity_2": "M-111 (TRD)",
+      "description": "Independent requests on Corridor C1 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C1 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 5,
+      "conflict_id": "CONF-05",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C3",
+      "location": "Line 2 Chord Line",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-103 (TRD)",
+      "entity_1": "M-103 (TRD)",
+      "conflicting_entity": "M-109 (P-Way)",
+      "entity_2": "M-109 (P-Way)",
+      "description": "Independent requests on Corridor C3 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C3 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 6,
+      "conflict_id": "CONF-06",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C3",
+      "location": "KM 110/00 to 116/00",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-109 (P-Way)",
+      "entity_1": "M-109 (P-Way)",
+      "conflicting_entity": "M-110 (S&T)",
+      "entity_2": "M-110 (S&T)",
+      "description": "Independent requests on Corridor C3 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C3 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 7,
+      "conflict_id": "CONF-07",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 45/10 to 46/00",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-125 (P-Way)",
+      "entity_1": "M-125 (P-Way)",
+      "conflicting_entity": "M-119 (S&T)",
+      "entity_2": "M-119 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 8,
+      "conflict_id": "CONF-08",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 45/10 to 46/00",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-122 (P-Way)",
+      "entity_1": "M-122 (P-Way)",
+      "conflicting_entity": "M-119 (S&T)",
+      "entity_2": "M-119 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 9,
+      "conflict_id": "CONF-09",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-121 (P-Way)",
+      "entity_1": "M-121 (P-Way)",
+      "conflicting_entity": "M-119 (S&T)",
+      "entity_2": "M-119 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 10,
+      "conflict_id": "CONF-010",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 102/00 to 104/00",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-120 (P-Way)",
+      "entity_1": "M-120 (P-Way)",
+      "conflicting_entity": "M-119 (S&T)",
+      "entity_2": "M-119 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 11,
+      "conflict_id": "CONF-011",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 102/00 to 104/00",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-119 (S&T)",
+      "entity_1": "M-119 (S&T)",
+      "conflicting_entity": "M-101 (P-Way)",
+      "entity_2": "M-101 (P-Way)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 12,
+      "conflict_id": "CONF-012",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 142/12 to 148/04",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-101 (P-Way)",
+      "entity_1": "M-101 (P-Way)",
+      "conflicting_entity": "M-105 (S&T)",
+      "entity_2": "M-105 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 13,
+      "conflict_id": "CONF-013",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 88/04 to 92/10",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-104 (P-Way)",
+      "entity_1": "M-104 (P-Way)",
+      "conflicting_entity": "M-105 (S&T)",
+      "entity_2": "M-105 (S&T)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 14,
+      "conflict_id": "CONF-014",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "Junction Cabin Block A",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-105 (S&T)",
+      "entity_1": "M-105 (S&T)",
+      "conflicting_entity": "M-106 (TRD)",
+      "entity_2": "M-106 (TRD)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    },
+    {
+      "id": 15,
+      "conflict_id": "CONF-015",
+      "type": "Concurrent Work Clash",
+      "conflict_type": "Concurrent Work Clash",
+      "severity": "Medium",
+      "corridor": "Corridor C2",
+      "location": "KM 90/02 Down Signal",
+      "time_slot": "14:30 – 15:30",
+      "overlap_window": "14:30 – 15:30",
+      "primary_task": "M-118 (S&T)",
+      "entity_1": "M-118 (S&T)",
+      "conflicting_entity": "M-106 (TRD)",
+      "entity_2": "M-106 (TRD)",
+      "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+      "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+      "status": "Active"
+    }
+  ],
+  "blockPlans": [
+    {
+      "plan_id": "PLAN-2026-B-105",
+      "block_id": "B-105",
+      "corridor": "Corridor C2",
+      "date": "2026-09-22",
+      "start_time": "01:00",
+      "end_time": "04:00",
+      "total_window_minutes": 180,
+      "used_minutes": 120,
+      "remaining_buffer_minutes": 60,
+      "satisfaction_score": "67%",
+      "scheduled_tasks": [
+        {
+          "request_id": "M-119",
+          "department": "S&T",
+          "corridor": "Corridor C2",
+          "location": "KM 102/00 to 104/00",
+          "work_description": "Emergency Track Geometry Realignment",
+          "description": "Emergency Track Geometry Realignment",
+          "duration_minutes": 60,
+          "priority": "High",
+          "assigned_block_id": "B-105",
+          "block_id": "B-105",
+          "start_time": "01:00",
+          "end_time": "02:00",
+          "scheduled_slot": "01:00 – 02:00",
+          "selection_reason": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict.",
+          "reason_for_selection": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict.",
+          "reason": "Bundled cross-department possession (S&T) sharing corridor window with zero train conflict.",
+          "status": "Draft Scheduled"
+        },
+        {
+          "request_id": "M-106",
+          "department": "TRD",
+          "corridor": "Corridor C2",
+          "location": "KM 91/10 to 93/00",
+          "work_description": "OHE Dropper & Cantilever Realignment",
+          "description": "OHE Dropper & Cantilever Realignment",
+          "duration_minutes": 60,
+          "priority": "High",
+          "assigned_block_id": "B-105",
+          "block_id": "B-105",
+          "start_time": "02:00",
+          "end_time": "03:00",
+          "scheduled_slot": "02:00 – 03:00",
+          "selection_reason": "Bundled cross-department possession (TRD) sharing corridor window with zero train conflict.",
+          "reason_for_selection": "Bundled cross-department possession (TRD) sharing corridor window with zero train conflict.",
+          "reason": "Bundled cross-department possession (TRD) sharing corridor window with zero train conflict.",
+          "status": "Draft Scheduled"
+        }
+      ],
+      "unscheduled_tasks": [
+        {
+          "request_id": "M-101",
+          "department": "P-Way",
+          "corridor": "Corridor C2",
+          "location": "KM 142/12 to 148/04",
+          "work_description": "Rail Replacement on Down Main Line",
+          "duration_minutes": 150,
+          "priority": "High",
+          "reason": "Exceeds remaining window capacity (60 mins available, requires 150 mins). Deferred to next window cycle.",
+          "status": "Pending"
+        }
+      ],
+      "detected_conflicts": [
+        {
+          "id": 1,
+          "conflict_id": "CONF-01",
+          "type": "Maintenance vs Train Conflict",
+          "conflict_type": "Maintenance vs Train Conflict",
+          "severity": "High",
+          "corridor": "Corridor C2",
+          "location": "Corridor C2 Main Line",
+          "time_slot": "14:30 – 16:30",
+          "overlap_window": "14:30 – 16:30",
+          "primary_task": "Window B-106 (14:00 – 16:30)",
+          "entity_1": "Window B-106",
+          "conflicting_entity": "Train T310 (BOXN Freight Rake)",
+          "entity_2": "Train T310 (BOXN Freight Rake)",
+          "description": "Freight Train T310 (14:30–17:15) overlaps with proposed window B-106.",
+          "recommendation": "Shift block start to 17:15 or regulate Train T310 via alternate loop line.",
+          "status": "Resolved"
+        },
+        {
+          "id": 6,
+          "conflict_id": "CONF-06",
+          "type": "Concurrent Work Clash",
+          "conflict_type": "Concurrent Work Clash",
+          "severity": "Medium",
+          "corridor": "Corridor C2",
+          "location": "KM 102/00 to 104/00",
+          "time_slot": "14:30 – 15:30",
+          "overlap_window": "14:30 – 15:30",
+          "primary_task": "M-119 (S&T)",
+          "entity_1": "M-119 (S&T)",
+          "conflicting_entity": "M-101 (P-Way)",
+          "entity_2": "M-101 (P-Way)",
+          "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+          "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+          "status": "Active"
+        },
+        {
+          "id": 7,
+          "conflict_id": "CONF-07",
+          "type": "Concurrent Work Clash",
+          "conflict_type": "Concurrent Work Clash",
+          "severity": "Medium",
+          "corridor": "Corridor C2",
+          "location": "KM 142/12 to 148/04",
+          "time_slot": "14:30 – 15:30",
+          "overlap_window": "14:30 – 15:30",
+          "primary_task": "M-101 (P-Way)",
+          "entity_1": "M-101 (P-Way)",
+          "conflicting_entity": "M-106 (TRD)",
+          "entity_2": "M-106 (TRD)",
+          "description": "Independent requests on Corridor C2 require synchronized power and signaling isolation.",
+          "recommendation": "Execute under joint shadow block coordination on Corridor C2 to share single track possession.",
+          "status": "Active"
+        }
+      ],
+      "coordination_opportunities": [
+        {
+          "id": 5,
+          "opportunity_id": "CORD-05",
+          "coordination_id": "CORD-05",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-126",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-126",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-126",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 6,
+          "opportunity_id": "CORD-06",
+          "coordination_id": "CORD-06",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-126",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-105",
+            "department": "S&T",
+            "work_description": "Electronic Interlocking Panel Audit",
+            "duration_minutes": 45,
+            "location": "Junction Cabin Block A"
+          },
+          "tasks": [
+            "M-126",
+            "M-105"
+          ],
+          "task_details": [
+            {
+              "id": "M-126",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-105",
+              "dept": "S&T",
+              "asset": "Electronic Interlocking Panel Audit",
+              "dur": 45
+            }
+          ],
+          "time_saved_minutes": 45,
+          "time_saved_hours": "0.8",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 45 mins of separate line block downtime."
+        },
+        {
+          "id": 7,
+          "opportunity_id": "CORD-07",
+          "coordination_id": "CORD-07",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-125",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-125",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-125",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 8,
+          "opportunity_id": "CORD-08",
+          "coordination_id": "CORD-08",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-124",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-124",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-124",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 9,
+          "opportunity_id": "CORD-09",
+          "coordination_id": "CORD-09",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-123",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-123",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-123",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 10,
+          "opportunity_id": "CORD-010",
+          "coordination_id": "CORD-010",
+          "corridor": "Corridor C2",
+          "location": "KM 45/10 to 46/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-122",
+            "department": "P-Way",
+            "work_description": "Rail Joint Ultrasonic Inspection",
+            "duration_minutes": 60,
+            "location": "KM 45/10 to 46/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-122",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-122",
+              "dept": "P-Way",
+              "asset": "Rail Joint Ultrasonic Inspection",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 11,
+          "opportunity_id": "CORD-011",
+          "coordination_id": "CORD-011",
+          "corridor": "Corridor C2",
+          "location": "KM",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-121",
+            "department": "P-Way",
+            "work_description": "Rail Tapping",
+            "duration_minutes": 120,
+            "location": "KM"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-121",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-121",
+              "dept": "P-Way",
+              "asset": "Rail Tapping",
+              "dur": 120
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 120,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 12,
+          "opportunity_id": "CORD-012",
+          "coordination_id": "CORD-012",
+          "corridor": "Corridor C2",
+          "location": "KM 102/00 to 104/00",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-120",
+            "department": "P-Way",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "shadow_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "tasks": [
+            "M-120",
+            "M-119"
+          ],
+          "task_details": [
+            {
+              "id": "M-120",
+              "dept": "P-Way",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            },
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 13,
+          "opportunity_id": "CORD-013",
+          "coordination_id": "CORD-013",
+          "corridor": "Corridor C2",
+          "location": "KM 102/00 to 104/00",
+          "title": "S&T + P-Way Joint Block",
+          "primary_request": {
+            "request_id": "M-119",
+            "department": "S&T",
+            "work_description": "Emergency Track Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 102/00 to 104/00"
+          },
+          "shadow_request": {
+            "request_id": "M-101",
+            "department": "P-Way",
+            "work_description": "Rail Replacement on Down Main Line",
+            "duration_minutes": 150,
+            "location": "KM 142/12 to 148/04"
+          },
+          "tasks": [
+            "M-119",
+            "M-101"
+          ],
+          "task_details": [
+            {
+              "id": "M-119",
+              "dept": "S&T",
+              "asset": "Emergency Track Geometry Realignment",
+              "dur": 60
+            },
+            {
+              "id": "M-101",
+              "dept": "P-Way",
+              "asset": "Rail Replacement on Down Main Line",
+              "dur": 150
+            }
+          ],
+          "time_saved_minutes": 60,
+          "time_saved_hours": "1.0",
+          "combined_duration": 150,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 60 mins of separate line block downtime."
+        },
+        {
+          "id": 14,
+          "opportunity_id": "CORD-014",
+          "coordination_id": "CORD-014",
+          "corridor": "Corridor C2",
+          "location": "KM 142/12 to 148/04",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-101",
+            "department": "P-Way",
+            "work_description": "Rail Replacement on Down Main Line",
+            "duration_minutes": 150,
+            "location": "KM 142/12 to 148/04"
+          },
+          "shadow_request": {
+            "request_id": "M-105",
+            "department": "S&T",
+            "work_description": "Electronic Interlocking Panel Audit",
+            "duration_minutes": 45,
+            "location": "Junction Cabin Block A"
+          },
+          "tasks": [
+            "M-101",
+            "M-105"
+          ],
+          "task_details": [
+            {
+              "id": "M-101",
+              "dept": "P-Way",
+              "asset": "Rail Replacement on Down Main Line",
+              "dur": 150
+            },
+            {
+              "id": "M-105",
+              "dept": "S&T",
+              "asset": "Electronic Interlocking Panel Audit",
+              "dur": 45
+            }
+          ],
+          "time_saved_minutes": 45,
+          "time_saved_hours": "0.8",
+          "combined_duration": 150,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 45 mins of separate line block downtime."
+        },
+        {
+          "id": 15,
+          "opportunity_id": "CORD-015",
+          "coordination_id": "CORD-015",
+          "corridor": "Corridor C2",
+          "location": "KM 88/04 to 92/10",
+          "title": "P-Way + S&T Joint Block",
+          "primary_request": {
+            "request_id": "M-104",
+            "department": "P-Way",
+            "work_description": "Track Tamping & Geometry Realignment",
+            "duration_minutes": 60,
+            "location": "KM 88/04 to 92/10"
+          },
+          "shadow_request": {
+            "request_id": "M-105",
+            "department": "S&T",
+            "work_description": "Electronic Interlocking Panel Audit",
+            "duration_minutes": 45,
+            "location": "Junction Cabin Block A"
+          },
+          "tasks": [
+            "M-104",
+            "M-105"
+          ],
+          "task_details": [
+            {
+              "id": "M-104",
+              "dept": "P-Way",
+              "asset": "Track Tamping & Geometry Realignment",
+              "dur": 60
+            },
+            {
+              "id": "M-105",
+              "dept": "S&T",
+              "asset": "Electronic Interlocking Panel Audit",
+              "dur": 45
+            }
+          ],
+          "time_saved_minutes": 45,
+          "time_saved_hours": "0.8",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 45 mins of separate line block downtime."
+        },
+        {
+          "id": 16,
+          "opportunity_id": "CORD-016",
+          "coordination_id": "CORD-016",
+          "corridor": "Corridor C2",
+          "location": "Junction Cabin Block A",
+          "title": "S&T + TRD Joint Block",
+          "primary_request": {
+            "request_id": "M-105",
+            "department": "S&T",
+            "work_description": "Electronic Interlocking Panel Audit",
+            "duration_minutes": 45,
+            "location": "Junction Cabin Block A"
+          },
+          "shadow_request": {
+            "request_id": "M-106",
+            "department": "TRD",
+            "work_description": "OHE Dropper & Cantilever Realignment",
+            "duration_minutes": 60,
+            "location": "KM 91/10 to 93/00"
+          },
+          "tasks": [
+            "M-105",
+            "M-106"
+          ],
+          "task_details": [
+            {
+              "id": "M-105",
+              "dept": "S&T",
+              "asset": "Electronic Interlocking Panel Audit",
+              "dur": 45
+            },
+            {
+              "id": "M-106",
+              "dept": "TRD",
+              "asset": "OHE Dropper & Cantilever Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 45,
+          "time_saved_hours": "0.8",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 45 mins of separate line block downtime."
+        },
+        {
+          "id": 17,
+          "opportunity_id": "CORD-017",
+          "coordination_id": "CORD-017",
+          "corridor": "Corridor C2",
+          "location": "KM 90/02 Down Signal",
+          "title": "S&T + TRD Joint Block",
+          "primary_request": {
+            "request_id": "M-118",
+            "department": "S&T",
+            "work_description": "LED Signal Aspect Replacement",
+            "duration_minutes": 45,
+            "location": "KM 90/02 Down Signal"
+          },
+          "shadow_request": {
+            "request_id": "M-106",
+            "department": "TRD",
+            "work_description": "OHE Dropper & Cantilever Realignment",
+            "duration_minutes": 60,
+            "location": "KM 91/10 to 93/00"
+          },
+          "tasks": [
+            "M-118",
+            "M-106"
+          ],
+          "task_details": [
+            {
+              "id": "M-118",
+              "dept": "S&T",
+              "asset": "LED Signal Aspect Replacement",
+              "dur": 45
+            },
+            {
+              "id": "M-106",
+              "dept": "TRD",
+              "asset": "OHE Dropper & Cantilever Realignment",
+              "dur": 60
+            }
+          ],
+          "time_saved_minutes": 45,
+          "time_saved_hours": "0.8",
+          "combined_duration": 60,
+          "status": "Available",
+          "is_bundled": false,
+          "reason": "Both requests operate on Corridor C2. Running in a synchronized shadow possession saves 45 mins of separate line block downtime."
+        }
+      ],
+      "reasons": [
+        {
+          "title": "Dynamic Block Window Fit",
+          "description": "Matched window B-105 (01:00 – 04:00, 180 mins) on Corridor C2. Accommodates 2 work orders totaling 120 mins."
+        },
+        {
+          "title": "Train Headway & Timetable Clearance",
+          "description": "Zero mainline train clashes. Preserves a 60-minute buffer before adjacent train movements."
+        },
+        {
+          "title": "Priority-Driven Work Allocation",
+          "description": "Prioritized 2 High/Critical work orders across departments (S&T, TRD)."
+        },
+        {
+          "title": "Unscheduled Work Preservation",
+          "description": "1 pending requests retained with explicit deferral reasons for subsequent window cycles."
+        }
+      ],
+      "why_this_plan": [
+        {
+          "title": "Dynamic Block Window Fit",
+          "description": "Matched window B-105 (01:00 – 04:00, 180 mins) on Corridor C2. Accommodates 2 work orders totaling 120 mins."
+        },
+        {
+          "title": "Train Headway & Timetable Clearance",
+          "description": "Zero mainline train clashes. Preserves a 60-minute buffer before adjacent train movements."
+        },
+        {
+          "title": "Priority-Driven Work Allocation",
+          "description": "Prioritized 2 High/Critical work orders across departments (S&T, TRD)."
+        },
+        {
+          "title": "Unscheduled Work Preservation",
+          "description": "1 pending requests retained with explicit deferral reasons for subsequent window cycles."
+        }
+      ],
+      "recommendation_reason": "Recommended Plan for Corridor C2: Window B-105 (01:00 – 04:00) schedules 2 tasks with 60 mins safety buffer.",
+      "status": "Approved",
+      "approved_by": "Rohan Gupta (Railway Planner)",
+      "approved_at": "2026-09-17T18:23:30.949Z"
+    }
+  ],
+  "blockAssignments": [
+    {
+      "id": 2,
+      "request_id": "M-101",
+      "block_id": "B-104",
+      "assigned_start_time": "18:30",
+      "assigned_end_time": "21:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta (Railway Planner)",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:33:56.168Z"
+    },
+    {
+      "id": 3,
+      "request_id": "M-129",
+      "block_id": "B-102",
+      "assigned_start_time": "15:00",
+      "assigned_end_time": "17:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:45:34.549Z"
+    },
+    {
+      "id": 4,
+      "request_id": "M-127",
+      "block_id": "B-106",
+      "assigned_start_time": "11:00",
+      "assigned_end_time": "12:40",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:47:10.237Z"
+    },
+    {
+      "id": 5,
+      "request_id": "M-126",
+      "block_id": "B-105",
+      "assigned_start_time": "01:00",
+      "assigned_end_time": "02:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:47:16.208Z"
+    },
+    {
+      "id": 6,
+      "request_id": "M-123",
+      "block_id": "B-105",
+      "assigned_start_time": "02:00",
+      "assigned_end_time": "03:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:47:22.095Z"
+    },
+    {
+      "id": 7,
+      "request_id": "M-124",
+      "block_id": "B-105",
+      "assigned_start_time": "03:00",
+      "assigned_end_time": "04:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:47:26.696Z"
+    },
+    {
+      "id": 8,
+      "request_id": "M-102",
+      "block_id": "B-101",
+      "assigned_start_time": "09:30",
+      "assigned_end_time": "11:00",
+      "status": "Confirmed",
+      "assigned_by": "Rohan Gupta",
+      "employee_id": "EMP001",
+      "created_at": "2026-09-17T18:47:52.066Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 77,
+      "title": "New Maintenance Request",
+      "message": "M-130 (Signal issue) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 76,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-102 (S&T) successfully scheduled in block B-101 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 75,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-124 (P-Way) successfully scheduled in block B-105 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 74,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-123 (P-Way) successfully scheduled in block B-105 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 73,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-126 (P-Way) successfully scheduled in block B-105 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 72,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 71,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-129 (P-Way) successfully scheduled in block B-102 by Rohan Gupta.",
+      "time": "Just now"
+    },
+    {
+      "id": 70,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-B-105 for Corridor C2 with 2 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 69,
+      "title": "New Maintenance Request",
+      "message": "M-130 (Major Track Renewal) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 68,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 67,
+      "title": "New Maintenance Request",
+      "message": "M-129 (Signal issue) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 66,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-B-105 for Corridor C2 with 2 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 65,
+      "title": "New Maintenance Request",
+      "message": "M-129 (Major Track Renewal) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 64,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 63,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-B-104 for Corridor C2 with 0 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 62,
+      "title": "New Maintenance Request",
+      "message": "M-129 (Major Track Renewal) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 61,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-101 (P-Way) successfully scheduled in block B-104 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 60,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 59,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 58,
+      "title": "Work Order Assigned to Block",
+      "message": "Request M-127 (P-Way) successfully scheduled in block B-106 by Rohan Gupta (Railway Planner).",
+      "time": "Just now"
+    },
+    {
+      "id": 57,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-B-105 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 56,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-B-105 authorized & signed by Chief Controller (Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 55,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-B-105 for Corridor C2 with 3 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 54,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-B-105 authorized & signed by Chief Controller (Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 53,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-B-105 for Corridor C2 with 3 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 52,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-B-105 authorized & signed by Rohan Gupta (Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 51,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 50,
+      "title": "New Maintenance Request",
+      "message": "M-128 (Test OHE) submitted by TRD.",
+      "time": "Just now"
+    },
+    {
+      "id": 49,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 48,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 47,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 46,
+      "title": "New Maintenance Request",
+      "message": "M-127 (Track Dislocated) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 45,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 44,
+      "title": "Block Plan Rejected",
+      "message": "Plan PLAN-2026-C2 was rejected by Rohan Gupta (Railway Planner). Re-planning required.",
+      "time": "Just now"
+    },
+    {
+      "id": 43,
+      "title": "Block Plan Rejected",
+      "message": "Plan PLAN-2026-C2 was rejected by Rohan Gupta (Railway Planner). Re-planning required.",
+      "time": "Just now"
+    },
+    {
+      "id": 42,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 41,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 40,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity 1 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 39,
+      "title": "Conflict Resolved",
+      "message": "Conflict 1 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 38,
+      "title": "New Maintenance Request",
+      "message": "M-126 (Rail Joint Ultrasonic Inspection) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 37,
+      "title": "Block Plan Rejected",
+      "message": "Plan PLAN-2026-C2 was rejected by Rohan Gupta (Railway Planner). Re-planning required.",
+      "time": "Just now"
+    },
+    {
+      "id": 36,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 35,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 34,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity 1 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 33,
+      "title": "Conflict Resolved",
+      "message": "Conflict 1 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 32,
+      "title": "New Maintenance Request",
+      "message": "M-125 (Rail Joint Ultrasonic Inspection) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 31,
+      "title": "Block Plan Rejected",
+      "message": "Plan PLAN-2026-C2 was rejected by Rohan Gupta (Railway Planner). Re-planning required.",
+      "time": "Just now"
+    },
+    {
+      "id": 30,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 29,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 28,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity 1 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 27,
+      "title": "Conflict Resolved",
+      "message": "Conflict 1 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 26,
+      "title": "New Maintenance Request",
+      "message": "M-124 (Rail Joint Ultrasonic Inspection) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 25,
+      "title": "Block Plan Rejected",
+      "message": "Plan PLAN-2026-C2 was rejected by Rohan Gupta (Railway Planner). Re-planning required.",
+      "time": "Just now"
+    },
+    {
+      "id": 24,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 23,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 22,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity 1 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 21,
+      "title": "Conflict Resolved",
+      "message": "Conflict 1 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 20,
+      "title": "New Maintenance Request",
+      "message": "M-123 (Rail Joint Ultrasonic Inspection) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 19,
+      "title": "Conflict Resolved",
+      "message": "Conflict 1 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 18,
+      "title": "New Maintenance Request",
+      "message": "M-122 (Rail Joint Ultrasonic Inspection) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 17,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 16,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 15,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 1 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 14,
+      "title": "New Maintenance Request",
+      "message": "M-121 (Rail Tapping) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 13,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 12,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 2 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 11,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity CORD-01 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 10,
+      "title": "Conflict Resolved",
+      "message": "Conflict CONF-01 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 9,
+      "title": "New Maintenance Request",
+      "message": "M-120 (Emergency Track Geometry Realignment) submitted by P-Way.",
+      "time": "Just now"
+    },
+    {
+      "id": 8,
+      "title": "Block Plan Approved",
+      "message": "Plan PLAN-2026-C2 authorized & signed by Rohan Gupta (Railway Planner). Timetable published.",
+      "time": "Just now"
+    },
+    {
+      "id": 7,
+      "title": "Recommended Block Plan Generated",
+      "message": "Generated plan PLAN-2026-C2 for Corridor C2 with 2 scheduled tasks.",
+      "time": "Just now"
+    },
+    {
+      "id": 6,
+      "title": "Joint Block Bundled",
+      "message": "Opportunity CORD-01 bundled for coordinated execution.",
+      "time": "Just now"
+    },
+    {
+      "id": 5,
+      "title": "Conflict Resolved",
+      "message": "Conflict CONF-01 marked as resolved by railway planner.",
+      "time": "Just now"
+    },
+    {
+      "id": 4,
+      "title": "New Maintenance Request",
+      "message": "M-119 (Emergency Track Geometry Realignment) submitted by S&T.",
+      "time": "Just now"
+    },
+    {
+      "id": 1,
+      "title": "System Initialized",
+      "message": "Raksha Block operational database connected.",
+      "time": "Just now"
+    },
+    {
+      "id": 2,
+      "title": "New Conflict Detected",
+      "message": "Train T310 overlaps with proposed window B-102.",
+      "time": "10 min ago"
+    },
+    {
+      "id": 3,
+      "title": "High Priority Work Order",
+      "message": "M-104 track maintenance pending review.",
+      "time": "25 min ago"
+    }
+  ],
+  "nextReqId": 125
+}

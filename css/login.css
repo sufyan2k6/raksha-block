@@ -1,0 +1,289 @@
+/* ==========================================================================
+   RAKSHA BLOCK — MINIMAL SAAS LOGIN STYLES
+   Ultra-clean, modern, centered enterprise login interface
+   ========================================================================== */
+
+.login-viewport {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    background-color: var(--color-bg-main);
+}
+
+.login-content-box {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Brand Header Lockup */
+.brand-lockup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.brand-icon-box {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-primary-navy);
+    color: white;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+.brand-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--color-primary-navy);
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+/* Login Card Container */
+.login-card {
+    width: 100%;
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--space-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    margin-bottom: var(--space-lg);
+    text-align: left;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+}
+
+.card-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-top: 4px;
+}
+
+/* Form Styling */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px 10px 38px;
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-card);
+    color: var(--color-text-main);
+    font-size: 0.9rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: var(--focus-ring);
+    outline: none;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password-btn:hover {
+    color: var(--color-text-main);
+}
+
+/* Form Options (Checkbox & Forgot Link) */
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-sm);
+    accent-color: var(--color-railway-blue);
+    cursor: pointer;
+}
+
+.forgot-link {
+    color: var(--color-railway-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Action Button */
+.btn-submit {
+    width: 100%;
+    padding: 11px var(--space-md);
+    background-color: var(--color-railway-blue);
+    color: var(--color-text-inverse);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    transition: background-color 0.15s, transform 0.1s;
+    box-shadow: var(--shadow-sm);
+    margin-top: 4px;
+}
+
+.btn-submit:hover {
+    background-color: var(--color-primary-navy);
+}
+
+.btn-submit:active {
+    transform: translateY(1px);
+}
+
+/* Error Banner */
+.alert-error {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background-color: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    border-radius: var(--radius-md);
+    color: var(--color-error-text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: var(--space-md);
+}
+
+.alert-error.visible {
+    display: flex;
+}
+
+/* Demo Quickfill Button */
+.demo-quickfill {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+}
+
+.btn-demo-fill {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--color-surface-subtle);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.btn-demo-fill:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-main);
+}
+
+/* Authorized Personnel Text Below Button */
+.authorized-text {
+    margin-top: var(--space-lg);
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .login-viewport {
+        padding: var(--space-md);
+    }
+    .login-card {
+        padding: var(--space-lg) var(--space-md);
+    }
+}

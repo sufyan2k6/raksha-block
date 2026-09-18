@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raksha Block - Personnel Authentication</title>
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Master Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-4">
+
+    <div class="container" style="max-width: 440px;">
+        <!-- Brand Title -->
+        <div class="text-center mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-3 p-3 mb-2 shadow-sm">
+                <i class="bi bi-train-front-fill fs-2"></i>
+            </div>
+            <h2 class="fw-bold text-dark mb-0">RAKSHA BLOCK</h2>
+            <p class="text-muted small uppercase tracking-wide">Railway Maintenance Planning System</p>
+        </div>
+
+        <!-- Login Form Card -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4 class="fw-bold text-dark mb-1">Welcome Back</h4>
+                <div class="alert alert-danger d-none py-2 px-3 mb-3 small" id="loginAlert" role="alert"></div>
+
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="empIdInput" class="form-label small fw-semibold text-secondary">Employee ID / Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                            <input type="text" id="empIdInput" class="form-control border-start-0" placeholder="e.g. EMP001" value="EMP001" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="passwordInput" class="form-label small fw-semibold text-secondary mb-0">Password</label>
+                            <a href="#" onclick="alert('Demo Mode: Use prefilled demo credentials.'); return false;" class="small text-decoration-none text-primary">Forgot?</a>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                            <input type="password" id="passwordInput" class="form-control border-start-0" value="planner123" required>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="rememberCheck" checked>
+                        <label class="form-check-label small text-secondary" for="rememberCheck">
+                            Remember session on this station
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <span>Sign In</span> <i class="bi bi-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            <!-- Demo Credentials Quick Pill Footer -->
+            <div class="card-footer bg-light p-3 border-top">
+                <div class="small fw-semibold text-secondary mb-2">Demo Quick Sign-In:</div>
+                <div class="d-flex flex-wrap gap-1">
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="quickFill('EMP001', 'planner123')">EMP001 (Planner)</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="quickFill('EMP002', 'pway123')">EMP002 (P-Way)</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="quickFill('EMP003', 'st123')">EMP003 (S&T)</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="quickFill('EMP004', 'trd123')">EMP004 (TRD)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

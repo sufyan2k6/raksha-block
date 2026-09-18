@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raksha Block - Task Coordination</title>
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Shared Custom Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Sidebar Shell -->
+        <aside id="appSidebar" class="app-sidebar"></aside>
+
+        <!-- Main Content Area -->
+        <div class="app-main">
+            <!-- Header Bar -->
+            <header id="appHeader" class="app-header"></header>
+
+            <!-- Content Container -->
+            <div class="container-fluid p-4">
+                
+                <!-- Page Banner -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <p class="text-secondary mb-0">Identify maintenance tasks that can be coordinated into joint shadow block windows.</p>
+                    </div>
+                </div>
+
+                <!-- 4 KPI Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Joint Opportunities</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill"><i class="bi bi-diagram-3"></i></span>
+                            </div>
+                            <div class="kpi-value text-primary" id="kpiOppTotal">0</div>
+                            <div class="kpi-subtext">Bundling opportunities</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Track Time Saved</span>
+                                <span class="badge bg-success-subtle text-success rounded-pill"><i class="bi bi-hourglass-bottom"></i></span>
+                            </div>
+                            <div class="kpi-value text-success" id="kpiTimeSaved">0.0 hrs</div>
+                            <div class="kpi-subtext">By bundling requests</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Departments Involved</span>
+                                <span class="badge bg-info-subtle text-info rounded-pill"><i class="bi bi-building"></i></span>
+                            </div>
+                            <div class="kpi-value text-info" id="kpiDeptsInvolved">--</div>
+                            <div class="kpi-subtext">Cross-department reach</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <div class="kpi-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="kpi-title">Synergy Index</span>
+                                <span class="badge bg-warning-subtle text-warning rounded-pill"><i class="bi bi-lightning-charge"></i></span>
+                            </div>
+                            <div class="kpi-value text-warning" id="kpiSynergyIndex">--</div>
+                            <div class="kpi-subtext">Resource alignment score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coordination Matrix Table -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold text-dark mb-0">Cross-Department Shadow Bundling Matrix</h6>
+                        <span class="badge bg-light text-secondary border" id="oppRecordCount">Loading...</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Opportunity ID</th>
+                                        <th>Corridor & Location</th>
+                                        <th>Primary Request</th>
+                                        <th>Shadow Work Order</th>
+                                        <th>Departments</th>
+                                        <th>Estimated Savings</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coordinationTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-5 text-muted">
+                                            <div class="spinner-border spinner-border-sm text-primary mb-2" role="status"></div>
+                                            <div>Analyzing bundling opportunities...</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="../js/coordination.js"></script>
+</body>
+</html>
